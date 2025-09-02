@@ -1,0 +1,1574 @@
+{
+  "type": "workflow_collections",
+  "data": [
+    {
+      "@type": "WorkflowCollection",
+      "name": "Sample - Cyware CTIX - 1.1.0",
+      "description": "Sample playbooks for \"Cyware CTIX\" connector. If you are planning to use any of the sample playbooks in your environment, ensure that you clone those playbooks and move them to a different collection, since the sample playbook collection gets deleted during connector upgrade and delete.",
+      "visible": true,
+      "image": null,
+      "uuid": "95ed288e-1618-47c0-a78f-dc8dc2f3bf2d",
+      "id": 296,
+      "deletedAt": null,
+      "importedBy": [],
+      "recordTags": [
+        "Cyware",
+        "cyware-ctix"
+      ],
+      "workflows": [
+        {
+          "@type": "Workflow",
+          "triggerLimit": null,
+          "name": "FileHash > Cyware CTIX > Enrichment",
+          "aliasName": null,
+          "tag": "#Cyware CTIX",
+          "description": "Retrieve the reputation of indicator of type ‘FileHash’ using Cyware CTIX",
+          "isActive": true,
+          "debug": false,
+          "singleRecordExecution": false,
+          "remoteExecutableFlag": false,
+          "parameters": [
+            "indicator_value",
+            "style_colors"
+          ],
+          "synchronous": false,
+          "lastModifyDate": 1684227623,
+          "collection": "/api/3/workflow_collections/95ed288e-1618-47c0-a78f-dc8dc2f3bf2d",
+          "versions": [],
+          "triggerStep": "/api/3/workflow_steps/9ddf2208-ce2f-466b-bcfb-cbdde2851747",
+          "steps": [
+            {
+              "@type": "WorkflowStep",
+              "name": "Get Reputation",
+              "description": null,
+              "arguments": {
+                "name": "Cyware CTIX",
+                "config": "31319c16-be23-43d3-9e71-6d4abbbbf644",
+                "params": {
+                  "hash": "{{vars.indicator_value}}",
+                  "page_size": ""
+                },
+                "version": "1.1.0",
+                "connector": "cyware-ctix",
+                "operation": "search_hash",
+                "mock_result": "{\n  \"data\":{\n    \"page_limit\":\"\",\n    \"results\":[\n      {\n        \"first_seen\":\"\",\n        \"last_seen\":\"\",\n        \"stix_object_id\":\"\",\n        \"deprecated\":\"\",\n        \"intel_grading\":\"\",\n        \"indicator_type\":\"\",\n        \"package_id\":[\n          \n        ],\n        \"source\":[\n          \n        ],\n        \"labels\":[\n          \n        ],\n        \"source_grading\":\"\",\n        \"score\":82,\n        \"blocked_time\":\"\",\n        \"blocked\":\"\",\n        \"name2\":\"\",\n        \"deprecated_time\":\"\"\n      }\n    ],\n    \"total\":\"\"\n  }\n}",
+                "operationTitle": "Search Hash",
+                "pickFromTenant": false,
+                "step_variables": []
+              },
+              "status": null,
+              "top": "300",
+              "left": "300",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
+              "group": null,
+              "uuid": "034cb284-84e7-4946-8153-a44200d13284"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Configuration",
+              "description": null,
+              "arguments": {
+                "good_score": "33-0",
+                "useMockOutput": "{{globalVars.Demo_mode}}",
+                "indicator_value": "{{vars.input.params['indicator_value']}}",
+                "malicious_score": "100-67",
+                "suspicious_score": "66-34"
+              },
+              "status": null,
+              "top": "160",
+              "left": "300",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "group": null,
+              "uuid": "0d6e08c5-6a41-445e-8cbf-0a5d6d014eb4"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Is Reputation Found",
+              "description": null,
+              "arguments": {
+                "conditions": [
+                  {
+                    "option": "Yes",
+                    "step_iri": "/api/3/workflow_steps/f5ff3c32-df71-4e70-a7de-31110e8164e6",
+                    "condition": "{{ (vars.steps.Get_Reputation.data.results | length > 0) and (vars.steps.Get_Reputation.data.results[0].score != null) }}",
+                    "step_name": "Compute Enrichment Summary"
+                  },
+                  {
+                    "option": "No",
+                    "default": true,
+                    "step_iri": "/api/3/workflow_steps/f592bdc6-c846-4029-95ac-5d8558f13c00",
+                    "step_name": "No Operation"
+                  }
+                ]
+              },
+              "status": null,
+              "top": "440",
+              "left": "300",
+              "stepType": "/api/3/workflow_step_types/12254cf5-5db7-4b1a-8cb1-3af081924b28",
+              "group": null,
+              "uuid": "9015263f-fd19-4b27-a8b3-06eccb7d2e2e"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Return Output Data",
+              "description": null,
+              "arguments": {
+                "verdict": "{% if vars.steps.Get_Reputation.data.results[0].score > (vars.malicious_score.split('-')[1] | int) %}{{\"Malicious\"}}{% elif vars.steps.Get_Reputation.data.results[0].score > (vars.suspicious_score.split('-')[1] | int) %}{{\"Suspicious\"}}{% elif vars.steps.Get_Reputation.data.results[0].score > (vars.good_score.split('-')[1] | int) %}{{\"Good\"}}{% else %}{{\"No Reputation Available\"}}{% endif %}",
+                "cti_name": "CywareCTIX",
+                "cti_score": "{{vars.steps.Get_Reputation.data.results[0].score}}",
+                "source_data": "{\"CywareCTIX\": {{vars.steps.Get_Reputation.data}} }",
+                "enrichment_summary": "{{vars.steps.Compute_Enrichment_Summary.data['formatted_string']}}"
+              },
+              "status": null,
+              "top": "700",
+              "left": "480",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "group": null,
+              "uuid": "964b9651-4c36-4f30-8832-bd65f0b168ad"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "arguments": {
+                "step_variables": {
+                  "input": {
+                    "params": []
+                  }
+                }
+              },
+              "status": null,
+              "top": "30",
+              "left": "300",
+              "stepType": "/api/3/workflow_step_types/b348f017-9a94-471f-87f8-ce88b6a7ad62",
+              "group": null,
+              "uuid": "9ddf2208-ce2f-466b-bcfb-cbdde2851747"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "No Operation",
+              "description": null,
+              "arguments": {
+                "params": [],
+                "version": "3.2.3",
+                "connector": "cyops_utilities",
+                "operation": "no_op",
+                "operationTitle": "Utils: No Operation",
+                "step_variables": []
+              },
+              "status": null,
+              "top": "570",
+              "left": "125",
+              "stepType": "/api/3/workflow_step_types/0109f35d-090b-4a2b-bd8a-94cbc3508562",
+              "group": null,
+              "uuid": "f592bdc6-c846-4029-95ac-5d8558f13c00"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Compute Enrichment Summary",
+              "description": null,
+              "arguments": {
+                "params": {
+                  "value": "<table class=\"no-border\">\n    <tr>\n        <th colspan=\"5\" class=\"no-background padding-0\">\n            <div class=\"font-size-11 ng-binding padding-bottom-sm\">\n                <h4 style=\"color: orange;\"\n                    class=\"body-default-bgcolor margin-bottom-0 padding-bottom-md padding-left-md padding-top-md text-align-left\">\n                    Cyware CTIX Detection Summary</h4>\n            </div>\n        </th>\n    </tr>\n    <tr class=\"solid-border\">\n        <td>\n            <div small class=\"control-label\">Score</div>\n            <div class=\"card-container-body margin-left-0\" style=\"width: 100px;\">\n                <div>{% if vars.steps.Get_Reputation.data.results[0].score > (vars.malicious_score.split('-')[1] | int) %}</div>\n                <div class=\"body-default-bgcolor card-number padding-left-md\"\n                    style=\"border-left: 5px solid {{vars.input.params.style_colors.Malicious}};padding: 11px;font-size: 18px !important;\">\n                    {{vars.steps.Get_Reputation.data.results[0].score}}</div>\n                <div>{% elif vars.steps.Get_Reputation.data.results[0].score > (vars.suspicious_score.split('-')[1] | int) %}</div>\n                <div class=\"body-default-bgcolor card-number padding-left-md\"\n                    style=\"border-left: 5px solid {{vars.input.params.style_colors.Suspicious}};padding: 11px;font-size: 18px !important;\">\n                    {{vars.steps.Get_Reputation.data.results[0].score}}</div>\n                <div>{% elif vars.steps.Get_Reputation.data.results[0].score > (vars.good_score.split('-')[1] | int) %}</div>\n                <div class=\"body-default-bgcolor card-number padding-left-md\"\n                    style=\"border-left: 5px solid {{vars.input.params.style_colors.Good}};padding: 11px;font-size: 18px !important;\">\n                    {{vars.steps.Get_Reputation.data.results[0].score}}</div>\n                <div>{% else %}</div>\n                <div class=\"body-default-bgcolor card-number padding-left-md\"\n                    style=\"border-left: 5px solid {{vars.input.params.style_colors['No Reputation Available']}};padding: 11px;font-size: 18px !important;\">\n                    {{vars.steps.Get_Reputation.data.results[0].score}}</div>\n                <div>{% endif %}</div>\n            </div>\n        </td>\n    </tr>\n</table>"
+                },
+                "version": "3.2.3",
+                "connector": "cyops_utilities",
+                "operation": "format_richtext",
+                "operationTitle": "Utils: Format as RichText (Markdown)",
+                "step_variables": []
+              },
+              "status": null,
+              "top": "560",
+              "left": "480",
+              "stepType": "/api/3/workflow_step_types/0109f35d-090b-4a2b-bd8a-94cbc3508562",
+              "group": null,
+              "uuid": "f5ff3c32-df71-4e70-a7de-31110e8164e6"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "name": "Configuration -> Get Reputation2",
+              "targetStep": "/api/3/workflow_steps/034cb284-84e7-4946-8153-a44200d13284",
+              "sourceStep": "/api/3/workflow_steps/0d6e08c5-6a41-445e-8cbf-0a5d6d014eb4",
+              "label": null,
+              "isExecuted": false,
+              "uuid": "5e32d9c6-c7b8-4616-8552-20f3064a1fe6"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "name": "Is Reputation Found -> No Operation",
+              "targetStep": "/api/3/workflow_steps/f592bdc6-c846-4029-95ac-5d8558f13c00",
+              "sourceStep": "/api/3/workflow_steps/9015263f-fd19-4b27-a8b3-06eccb7d2e2e",
+              "label": "No",
+              "isExecuted": false,
+              "uuid": "d9e01b78-d149-4c77-9a18-67029d0b4aba"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "name": "Start -> Configuration",
+              "targetStep": "/api/3/workflow_steps/0d6e08c5-6a41-445e-8cbf-0a5d6d014eb4",
+              "sourceStep": "/api/3/workflow_steps/9ddf2208-ce2f-466b-bcfb-cbdde2851747",
+              "label": null,
+              "isExecuted": false,
+              "uuid": "8db7f57e-9824-4688-a6a5-0605ce03f56a"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "name": "Compute Enrichment Summary -> Return Output Data",
+              "targetStep": "/api/3/workflow_steps/964b9651-4c36-4f30-8832-bd65f0b168ad",
+              "sourceStep": "/api/3/workflow_steps/f5ff3c32-df71-4e70-a7de-31110e8164e6",
+              "label": null,
+              "isExecuted": false,
+              "uuid": "f64aa714-1185-4af7-938d-264a74fe0c87"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "name": "Is Reputation Found -> Compute Enrichment Summary",
+              "targetStep": "/api/3/workflow_steps/f5ff3c32-df71-4e70-a7de-31110e8164e6",
+              "sourceStep": "/api/3/workflow_steps/9015263f-fd19-4b27-a8b3-06eccb7d2e2e",
+              "label": "Yes",
+              "isExecuted": false,
+              "uuid": "57b59266-4798-40c5-968f-69285622dec6"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "name": "Get Reputation2 -> Is Reputation Found",
+              "targetStep": "/api/3/workflow_steps/9015263f-fd19-4b27-a8b3-06eccb7d2e2e",
+              "sourceStep": "/api/3/workflow_steps/034cb284-84e7-4946-8153-a44200d13284",
+              "label": null,
+              "isExecuted": false,
+              "uuid": "97e46aa5-555a-4548-b3bf-1d34999997b1"
+            }
+          ],
+          "groups": [],
+          "priority": "/api/3/picklists/2b563c61-ae2c-41c0-a85a-c9709585e3f2",
+          "uuid": "0df89390-f711-4444-84c5-7036f187ca8b",
+          "id": 3709,
+          "owners": [],
+          "isPrivate": false,
+          "deletedAt": null,
+          "importedBy": [],
+          "recordTags": [
+            "Cyware",
+            "cyware-ctix",
+            "FileHash_Enrichment"
+          ]
+        },
+        {
+          "@type": "Workflow",
+          "triggerLimit": null,
+          "name": "Search IP",
+          "aliasName": null,
+          "tag": "#Cyware CTIX",
+          "description": "Searches for an IP address in the Cyware threat intelligence platform and retrieves relevant details from CTIX based on the IP address you have specified.",
+          "isActive": false,
+          "debug": false,
+          "singleRecordExecution": false,
+          "remoteExecutableFlag": false,
+          "parameters": [],
+          "synchronous": false,
+          "lastModifyDate": null,
+          "collection": "/api/3/workflow_collections/95ed288e-1618-47c0-a78f-dc8dc2f3bf2d",
+          "versions": [],
+          "triggerStep": "/api/3/workflow_steps/a53cf4af-c65b-4a8e-bb75-53ab8055144b",
+          "steps": [
+            {
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "arguments": {
+                "route": "9d811b7f-ab43-4536-a01d-19e7bb17cacb",
+                "title": "Cyware CTIX: Search IP",
+                "resources": [
+                  "alerts"
+                ],
+                "inputVariables": [],
+                "step_variables": {
+                  "input": {
+                    "records": "{{vars.input.records[0]}}"
+                  }
+                },
+                "executeButtonText": "Execute",
+                "noRecordExecution": true,
+                "singleRecordExecution": false
+              },
+              "status": null,
+              "top": "20",
+              "left": "20",
+              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a",
+              "group": null,
+              "uuid": "a53cf4af-c65b-4a8e-bb75-53ab8055144b"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Search IP",
+              "description": null,
+              "arguments": {
+                "name": "Cyware CTIX",
+                "config": "''",
+                "params": {
+                  "ip": "",
+                  "page_size": ""
+                },
+                "version": "1.1.0",
+                "connector": "cyware-ctix",
+                "operation": "search_ip",
+                "operationTitle": "Search IP",
+                "step_variables": {
+                  "output_data": "{{vars.result}}"
+                }
+              },
+              "status": null,
+              "top": "120",
+              "left": "188",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
+              "group": null,
+              "uuid": "fe665bca-761b-475a-9486-b84a1aec08f2"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "name": "Start-> Search IP",
+              "targetStep": "/api/3/workflow_steps/fe665bca-761b-475a-9486-b84a1aec08f2",
+              "sourceStep": "/api/3/workflow_steps/a53cf4af-c65b-4a8e-bb75-53ab8055144b",
+              "label": null,
+              "isExecuted": false,
+              "uuid": "db99d233-4b68-4fb7-ad3a-6f06dfb3c5e2"
+            }
+          ],
+          "groups": [],
+          "priority": null,
+          "uuid": "15476a84-48b7-4021-8f22-722e9b5b009c",
+          "id": 3696,
+          "owners": [],
+          "isPrivate": false,
+          "deletedAt": null,
+          "importedBy": [],
+          "recordTags": [
+            "Cyware",
+            "cyware-ctix"
+          ]
+        },
+        {
+          "@type": "Workflow",
+          "triggerLimit": null,
+          "name": "URL > Cyware CTIX > Enrichment",
+          "aliasName": null,
+          "tag": "#Cyware CTIX",
+          "description": "Retrieve the reputation of indicator of type ‘URL’ using Cyware CTIX",
+          "isActive": true,
+          "debug": false,
+          "singleRecordExecution": false,
+          "remoteExecutableFlag": false,
+          "parameters": [
+            "indicator_value",
+            "style_colors"
+          ],
+          "synchronous": false,
+          "lastModifyDate": 1684219417,
+          "collection": "/api/3/workflow_collections/95ed288e-1618-47c0-a78f-dc8dc2f3bf2d",
+          "versions": [],
+          "triggerStep": "/api/3/workflow_steps/d2199649-2e83-40a8-ba32-27bc1946e818",
+          "steps": [
+            {
+              "@type": "WorkflowStep",
+              "name": "No Operation",
+              "description": null,
+              "arguments": {
+                "params": [],
+                "version": "3.2.3",
+                "connector": "cyops_utilities",
+                "operation": "no_op",
+                "operationTitle": "Utils: No Operation",
+                "step_variables": []
+              },
+              "status": null,
+              "top": "570",
+              "left": "125",
+              "stepType": "/api/3/workflow_step_types/0109f35d-090b-4a2b-bd8a-94cbc3508562",
+              "group": null,
+              "uuid": "09bc3022-9370-4b12-9126-9318adb4635c"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Compute Enrichment Summary",
+              "description": null,
+              "arguments": {
+                "params": {
+                  "value": "<table class=\"no-border\">\n    <tr>\n        <th colspan=\"5\" class=\"no-background padding-0\">\n            <div class=\"font-size-11 ng-binding padding-bottom-sm\">\n                <h4 style=\"color: orange;\"\n                    class=\"body-default-bgcolor margin-bottom-0 padding-bottom-md padding-left-md padding-top-md text-align-left\">\n                    Cyware CTIX Detection Summary</h4>\n            </div>\n        </th>\n    </tr>\n    <tr class=\"solid-border\">\n        <td>\n            <div small class=\"control-label\">Score</div>\n            <div class=\"card-container-body margin-left-0\" style=\"width: 100px;\">\n                <div>{% if vars.steps.Get_Reputation.data.result.score > (vars.malicious_score.split('-')[1] | int) %}</div>\n                <div class=\"body-default-bgcolor card-number padding-left-md\"\n                    style=\"border-left: 5px solid {{vars.input.params.style_colors.Malicious}};padding: 11px;font-size: 18px !important;\">\n                    {{vars.steps.Get_Reputation.data.result.score}}</div>\n                <div>{% elif vars.steps.Get_Reputation.data.result.score > (vars.suspicious_score.split('-')[1] | int) %}</div>\n                <div class=\"body-default-bgcolor card-number padding-left-md\"\n                    style=\"border-left: 5px solid {{vars.input.params.style_colors.Suspicious}};padding: 11px;font-size: 18px !important;\">\n                    {{vars.steps.Get_Reputation.data.result.score}}</div>\n                <div>{% elif vars.steps.Get_Reputation.data.result.score > (vars.good_score.split('-')[1] | int) %}</div>\n                <div class=\"body-default-bgcolor card-number padding-left-md\"\n                    style=\"border-left: 5px solid {{vars.input.params.style_colors.Good}};padding: 11px;font-size: 18px !important;\">\n                    {{vars.steps.Get_Reputation.data.result.score}}</div>\n                <div>{% else %}</div>\n                <div class=\"body-default-bgcolor card-number padding-left-md\"\n                    style=\"border-left: 5px solid {{vars.input.params.style_colors['No Reputation Available']}};padding: 11px;font-size: 18px !important;\">\n                    {{vars.steps.Get_Reputation.data.result.score}}</div>\n                <div>{% endif %}</div>\n            </div>\n        </td>\n    </tr>\n</table>"
+                },
+                "version": "3.2.3",
+                "connector": "cyops_utilities",
+                "operation": "format_richtext",
+                "operationTitle": "Utils: Format as RichText (Markdown)",
+                "step_variables": []
+              },
+              "status": null,
+              "top": "560",
+              "left": "480",
+              "stepType": "/api/3/workflow_step_types/0109f35d-090b-4a2b-bd8a-94cbc3508562",
+              "group": null,
+              "uuid": "1e7f72ee-c106-4881-b24d-53d642a29776"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Return Output Data",
+              "description": null,
+              "arguments": {
+                "verdict": "{% if vars.steps.Get_Reputation.data.result.score > (vars.malicious_score.split('-')[1] | int) %}{{\"Malicious\"}}{% elif vars.steps.Get_Reputation.data.result.score > (vars.suspicious_score.split('-')[1] | int) %}{{\"Suspicious\"}}{% elif vars.steps.Get_Reputation.data.result.score > (vars.good_score.split('-')[1] | int) %}{{\"Good\"}}{% else %}{{\"No Reputation Available\"}}{% endif %}",
+                "cti_name": "CywareCTIX",
+                "cti_score": "{{vars.steps.Get_Reputation.data.result.score}}",
+                "source_data": "{\"CywareCTIX\": {{vars.steps.Get_Reputation.data}} }",
+                "enrichment_summary": "{{vars.steps.Compute_Enrichment_Summary.data['formatted_string']}}"
+              },
+              "status": null,
+              "top": "700",
+              "left": "480",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "group": null,
+              "uuid": "521b8b46-1125-4418-8370-445f7d70b279"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Configuration",
+              "description": null,
+              "arguments": {
+                "good_score": "33-0",
+                "useMockOutput": "{{globalVars.Demo_mode}}",
+                "indicator_value": "{{vars.input.params['indicator_value']}}",
+                "malicious_score": "100-67",
+                "suspicious_score": "66-34"
+              },
+              "status": null,
+              "top": "160",
+              "left": "300",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "group": null,
+              "uuid": "792eee3b-bf16-427a-a956-b755ccb55bc9"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Get Reputation",
+              "description": null,
+              "arguments": {
+                "name": "Cyware CTIX",
+                "config": "31319c16-be23-43d3-9e71-6d4abbbbf644",
+                "params": {
+                  "url": "{{vars.indicator_value}}",
+                  "page_size": ""
+                },
+                "version": "1.1.0",
+                "connector": "cyware-ctix",
+                "operation": "search_url",
+                "mock_result": "{\n    \"data\": {\n        \"message\": \"\",\n        \"result\": {\n            \"package_count\": \"\",\n            \"whois_domain_report\": \"\",\n            \"stix_object_id\": \"\",\n            \"domain_data\": \"https://demo_data.com\",\n            \"created\": \"\",\n            \"package_details\": [\n                {\n                    \"source_grading\": \"\",\n                    \"intl_grading\": \"\",\n                    \"package_timestamp\": \"\",\n                    \"package_id\": \"\",\n                    \"package_title\": \"\",\n                    \"source_name\": \"\",\n                    \"collection_name\": \"\"\n                }\n            ],\n            \"domain_tld_data\": \".\",\n            \"packages_list\": [],\n            \"updated\": \"\",\n            \"url_data\": [],\n            \"score\": 82\n        }\n    }\n}",
+                "operationTitle": "Search URL",
+                "pickFromTenant": false,
+                "step_variables": []
+              },
+              "status": null,
+              "top": "300",
+              "left": "300",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
+              "group": null,
+              "uuid": "c3fb6645-f2ef-4ca4-b0fb-713995b271d6"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Is Reputation Found",
+              "description": null,
+              "arguments": {
+                "conditions": [
+                  {
+                    "option": "Yes",
+                    "step_iri": "/api/3/workflow_steps/1e7f72ee-c106-4881-b24d-53d642a29776",
+                    "condition": "{{ vars.steps.Get_Reputation.data.result.score != null }}",
+                    "step_name": "Compute Enrichment Summary"
+                  },
+                  {
+                    "option": "No",
+                    "default": true,
+                    "step_iri": "/api/3/workflow_steps/09bc3022-9370-4b12-9126-9318adb4635c",
+                    "step_name": "No Operation"
+                  }
+                ]
+              },
+              "status": null,
+              "top": "440",
+              "left": "300",
+              "stepType": "/api/3/workflow_step_types/12254cf5-5db7-4b1a-8cb1-3af081924b28",
+              "group": null,
+              "uuid": "d05f8274-b154-44e4-bcc5-e46e0afb300f"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "arguments": {
+                "step_variables": {
+                  "input": {
+                    "params": []
+                  }
+                }
+              },
+              "status": null,
+              "top": "30",
+              "left": "300",
+              "stepType": "/api/3/workflow_step_types/b348f017-9a94-471f-87f8-ce88b6a7ad62",
+              "group": null,
+              "uuid": "d2199649-2e83-40a8-ba32-27bc1946e818"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "name": "Configuration -> Get Reputation2",
+              "targetStep": "/api/3/workflow_steps/c3fb6645-f2ef-4ca4-b0fb-713995b271d6",
+              "sourceStep": "/api/3/workflow_steps/792eee3b-bf16-427a-a956-b755ccb55bc9",
+              "label": null,
+              "isExecuted": false,
+              "uuid": "08f792c0-d588-49f7-8806-1f1355852e4e"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "name": "Is Reputation Found -> No Operation",
+              "targetStep": "/api/3/workflow_steps/09bc3022-9370-4b12-9126-9318adb4635c",
+              "sourceStep": "/api/3/workflow_steps/d05f8274-b154-44e4-bcc5-e46e0afb300f",
+              "label": "No",
+              "isExecuted": false,
+              "uuid": "1643a1d6-5879-4534-99e3-912e36ce0501"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "name": "Start -> Configuration",
+              "targetStep": "/api/3/workflow_steps/792eee3b-bf16-427a-a956-b755ccb55bc9",
+              "sourceStep": "/api/3/workflow_steps/d2199649-2e83-40a8-ba32-27bc1946e818",
+              "label": null,
+              "isExecuted": false,
+              "uuid": "d8ab4cc3-3927-405f-ad4c-0deb99034479"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "name": "Compute Enrichment Summary -> Return Output Data",
+              "targetStep": "/api/3/workflow_steps/521b8b46-1125-4418-8370-445f7d70b279",
+              "sourceStep": "/api/3/workflow_steps/1e7f72ee-c106-4881-b24d-53d642a29776",
+              "label": null,
+              "isExecuted": false,
+              "uuid": "c2a9e673-cbe2-476f-b3cf-66c5e7b44ade"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "name": "Is Reputation Found -> Compute Enrichment Summary",
+              "targetStep": "/api/3/workflow_steps/1e7f72ee-c106-4881-b24d-53d642a29776",
+              "sourceStep": "/api/3/workflow_steps/d05f8274-b154-44e4-bcc5-e46e0afb300f",
+              "label": "Yes",
+              "isExecuted": false,
+              "uuid": "9a185d56-bb72-46d5-91a3-b22a2cba80e9"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "name": "Get Reputation2 -> Is Reputation Found",
+              "targetStep": "/api/3/workflow_steps/d05f8274-b154-44e4-bcc5-e46e0afb300f",
+              "sourceStep": "/api/3/workflow_steps/c3fb6645-f2ef-4ca4-b0fb-713995b271d6",
+              "label": null,
+              "isExecuted": false,
+              "uuid": "5ec4daec-9335-47cf-bfb9-999e129b9670"
+            }
+          ],
+          "groups": [],
+          "priority": "/api/3/picklists/2b563c61-ae2c-41c0-a85a-c9709585e3f2",
+          "uuid": "2180a862-d26f-4019-ba12-0b263da85421",
+          "id": 3707,
+          "owners": [],
+          "isPrivate": false,
+          "deletedAt": null,
+          "importedBy": [],
+          "recordTags": [
+            "URL_Enrichment",
+            "Cyware",
+            "cyware-ctix"
+          ]
+        },
+        {
+          "@type": "Workflow",
+          "triggerLimit": null,
+          "name": "Search URL",
+          "aliasName": null,
+          "tag": "#Cyware CTIX",
+          "description": "Searches for a URL in the Cyware threat intelligence platform and retrieves relevant details from CTIX based on the URL you have specified.",
+          "isActive": false,
+          "debug": false,
+          "singleRecordExecution": false,
+          "remoteExecutableFlag": false,
+          "parameters": [],
+          "synchronous": false,
+          "lastModifyDate": null,
+          "collection": "/api/3/workflow_collections/95ed288e-1618-47c0-a78f-dc8dc2f3bf2d",
+          "versions": [],
+          "triggerStep": "/api/3/workflow_steps/f8de693d-3e8f-4d30-9399-c73b2f2efb3c",
+          "steps": [
+            {
+              "@type": "WorkflowStep",
+              "name": "Search URL",
+              "description": null,
+              "arguments": {
+                "name": "Cyware CTIX",
+                "config": "''",
+                "params": {
+                  "url": "",
+                  "page_size": ""
+                },
+                "version": "1.1.0",
+                "connector": "cyware-ctix",
+                "operation": "search_url",
+                "operationTitle": "Search URL",
+                "step_variables": {
+                  "output_data": "{{vars.result}}"
+                }
+              },
+              "status": null,
+              "top": "120",
+              "left": "188",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
+              "group": null,
+              "uuid": "13df22fc-1aab-4da9-b6b6-a1e3d332f5b8"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "arguments": {
+                "route": "504f35e6-5d97-4077-92ab-10ecac5efbde",
+                "title": "Cyware CTIX: Search URL",
+                "resources": [
+                  "alerts"
+                ],
+                "inputVariables": [],
+                "step_variables": {
+                  "input": {
+                    "records": "{{vars.input.records[0]}}"
+                  }
+                },
+                "executeButtonText": "Execute",
+                "noRecordExecution": true,
+                "singleRecordExecution": false
+              },
+              "status": null,
+              "top": "20",
+              "left": "20",
+              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a",
+              "group": null,
+              "uuid": "f8de693d-3e8f-4d30-9399-c73b2f2efb3c"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "name": "Start-> Search URL",
+              "targetStep": "/api/3/workflow_steps/13df22fc-1aab-4da9-b6b6-a1e3d332f5b8",
+              "sourceStep": "/api/3/workflow_steps/f8de693d-3e8f-4d30-9399-c73b2f2efb3c",
+              "label": null,
+              "isExecuted": false,
+              "uuid": "d39e61a3-d944-4230-a4c7-05ddb39935ab"
+            }
+          ],
+          "groups": [],
+          "priority": null,
+          "uuid": "309543ef-670f-4b44-8a8e-604a88741849",
+          "id": 3697,
+          "owners": [],
+          "isPrivate": false,
+          "deletedAt": null,
+          "importedBy": [],
+          "recordTags": [
+            "Cyware",
+            "cyware-ctix"
+          ]
+        },
+        {
+          "@type": "Workflow",
+          "triggerLimit": null,
+          "name": "Search CVE ID",
+          "aliasName": null,
+          "tag": "#Cyware CTIX",
+          "description": "Searches for a CVE ID in the Cyware threat intelligence platform and retrieves relevant details from CTIX based on the ID of the CVE you have specified.",
+          "isActive": false,
+          "debug": false,
+          "singleRecordExecution": false,
+          "remoteExecutableFlag": false,
+          "parameters": [],
+          "synchronous": false,
+          "lastModifyDate": null,
+          "collection": "/api/3/workflow_collections/95ed288e-1618-47c0-a78f-dc8dc2f3bf2d",
+          "versions": [],
+          "triggerStep": "/api/3/workflow_steps/a2604dfd-eacd-4dc0-801e-987623b23114",
+          "steps": [
+            {
+              "@type": "WorkflowStep",
+              "name": "Search CVE ID",
+              "description": null,
+              "arguments": {
+                "name": "Cyware CTIX",
+                "config": "''",
+                "params": {
+                  "cve_id": "",
+                  "page_size": ""
+                },
+                "version": "1.1.0",
+                "connector": "cyware-ctix",
+                "operation": "search_cve_id",
+                "operationTitle": "Search CVE ID",
+                "step_variables": {
+                  "output_data": "{{vars.result}}"
+                }
+              },
+              "status": null,
+              "top": "120",
+              "left": "188",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
+              "group": null,
+              "uuid": "920ea3cc-c888-4b17-bd47-b9ca880dbffa"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "arguments": {
+                "route": "80d08815-b7af-42af-8625-0a236611e38e",
+                "title": "Cyware CTIX: Search CVE ID",
+                "resources": [
+                  "alerts"
+                ],
+                "inputVariables": [],
+                "step_variables": {
+                  "input": {
+                    "records": "{{vars.input.records[0]}}"
+                  }
+                },
+                "executeButtonText": "Execute",
+                "noRecordExecution": true,
+                "singleRecordExecution": false
+              },
+              "status": null,
+              "top": "20",
+              "left": "20",
+              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a",
+              "group": null,
+              "uuid": "a2604dfd-eacd-4dc0-801e-987623b23114"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "name": "Start-> Search CVE ID",
+              "targetStep": "/api/3/workflow_steps/920ea3cc-c888-4b17-bd47-b9ca880dbffa",
+              "sourceStep": "/api/3/workflow_steps/a2604dfd-eacd-4dc0-801e-987623b23114",
+              "label": null,
+              "isExecuted": false,
+              "uuid": "6b174767-ed19-47c7-9ee0-2ab3d822c67b"
+            }
+          ],
+          "groups": [],
+          "priority": null,
+          "uuid": "43235f89-d8b7-4557-b7f3-9d89ba9d9eaa",
+          "id": 3698,
+          "owners": [],
+          "isPrivate": false,
+          "deletedAt": null,
+          "importedBy": [],
+          "recordTags": [
+            "Cyware",
+            "cyware-ctix"
+          ]
+        },
+        {
+          "@type": "Workflow",
+          "triggerLimit": null,
+          "name": "Bulk Lookup and Create",
+          "aliasName": null,
+          "tag": "#Cyware CTIX",
+          "description": "This API fetches the list of threat data objects present in the CTIX application. In case some IOCs are not present in the application, you can choose to ingest the missing IOCs and create new records. You can lookup and further ingest a maximum of 1000 IOCs in the application at any moment.",
+          "isActive": false,
+          "debug": false,
+          "singleRecordExecution": false,
+          "remoteExecutableFlag": false,
+          "parameters": [],
+          "synchronous": false,
+          "lastModifyDate": null,
+          "collection": "/api/3/workflow_collections/95ed288e-1618-47c0-a78f-dc8dc2f3bf2d",
+          "versions": [],
+          "triggerStep": "/api/3/workflow_steps/671df1c1-76d0-40ba-b236-d458f43f2fde",
+          "steps": [
+            {
+              "@type": "WorkflowStep",
+              "name": "Bulk Lookup and Create",
+              "description": null,
+              "arguments": {
+                "name": "Cyware CTIX",
+                "config": "''",
+                "params": {
+                  "metadata": {
+                    "tlp": "RED",
+                    "tags": [
+                      "Tagged"
+                    ],
+                    "confidence": 100
+                  }
+                },
+                "version": "1.1.0",
+                "connector": "cyware-ctix",
+                "operation": "bulk_lookup_and_create",
+                "operationTitle": "Bulk Lookup and Create",
+                "step_variables": {
+                  "output_data": "{{vars.result}}"
+                }
+              },
+              "status": null,
+              "top": "120",
+              "left": "188",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
+              "group": null,
+              "uuid": "03253da7-b8aa-4a60-9d19-35e7b6020ae6"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "arguments": {
+                "route": "5f741968-bbf1-4a3b-958b-1aa811a320f5",
+                "title": "Cyware CTIX: Bulk Lookup and Create",
+                "resources": [
+                  "alerts"
+                ],
+                "inputVariables": [],
+                "step_variables": {
+                  "input": {
+                    "records": "{{vars.input.records[0]}}"
+                  }
+                },
+                "executeButtonText": "Execute",
+                "noRecordExecution": true,
+                "singleRecordExecution": false
+              },
+              "status": null,
+              "top": "20",
+              "left": "20",
+              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a",
+              "group": null,
+              "uuid": "671df1c1-76d0-40ba-b236-d458f43f2fde"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "name": "Start-> Bulk Lookup and Create",
+              "targetStep": "/api/3/workflow_steps/03253da7-b8aa-4a60-9d19-35e7b6020ae6",
+              "sourceStep": "/api/3/workflow_steps/671df1c1-76d0-40ba-b236-d458f43f2fde",
+              "label": null,
+              "isExecuted": false,
+              "uuid": "6b5cd482-6301-4d94-8996-5ae39d82fd34"
+            }
+          ],
+          "groups": [],
+          "priority": null,
+          "uuid": "711ccf4b-f31b-4304-a423-70bffb3a8db4",
+          "id": 3699,
+          "owners": [],
+          "isPrivate": false,
+          "deletedAt": null,
+          "importedBy": [],
+          "recordTags": [
+            "Cyware",
+            "cyware-ctix"
+          ]
+        },
+        {
+          "@type": "Workflow",
+          "triggerLimit": null,
+          "name": "Search Domain",
+          "aliasName": null,
+          "tag": "#Cyware CTIX",
+          "description": "Searches for a domain in the Cyware threat intelligence platform and retrieves relevant details from CTIX based on the domain name you have specified.",
+          "isActive": false,
+          "debug": false,
+          "singleRecordExecution": false,
+          "remoteExecutableFlag": false,
+          "parameters": [],
+          "synchronous": false,
+          "lastModifyDate": 1683889994,
+          "collection": "/api/3/workflow_collections/95ed288e-1618-47c0-a78f-dc8dc2f3bf2d",
+          "versions": [],
+          "triggerStep": "/api/3/workflow_steps/188dfc82-84c9-4514-b77e-218483cc507d",
+          "steps": [
+            {
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "arguments": {
+                "route": "683855f7-867c-47ec-8976-f64a2b6a5b1d",
+                "title": "Cyware CTIX: Search Domain",
+                "resources": [
+                  "alerts"
+                ],
+                "inputVariables": [],
+                "step_variables": {
+                  "input": {
+                    "records": "{{vars.input.records[0]}}"
+                  }
+                },
+                "executeButtonText": "Execute",
+                "noRecordExecution": true,
+                "singleRecordExecution": false
+              },
+              "status": null,
+              "top": "20",
+              "left": "20",
+              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a",
+              "group": null,
+              "uuid": "188dfc82-84c9-4514-b77e-218483cc507d"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Search Domain",
+              "description": null,
+              "arguments": {
+                "name": "Cyware CTIX",
+                "config": "31319c16-be23-43d3-9e71-6d4abbbbf644",
+                "params": {
+                  "domain": "dfgdfgv",
+                  "page_size": ""
+                },
+                "version": "1.1.0",
+                "connector": "cyware-ctix",
+                "operation": "search_domain",
+                "operationTitle": "Search Domain",
+                "step_variables": {
+                  "output_data": "{{vars.result}}"
+                }
+              },
+              "status": null,
+              "top": "120",
+              "left": "180",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
+              "group": null,
+              "uuid": "8248b9ec-b8aa-4259-9dc6-6052e68313b4"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "name": "Start-> Search Domain",
+              "targetStep": "/api/3/workflow_steps/8248b9ec-b8aa-4259-9dc6-6052e68313b4",
+              "sourceStep": "/api/3/workflow_steps/188dfc82-84c9-4514-b77e-218483cc507d",
+              "label": null,
+              "isExecuted": false,
+              "uuid": "6f3115c8-9905-4c3a-94c0-d2716b86ae02"
+            }
+          ],
+          "groups": [],
+          "priority": null,
+          "uuid": "7a0d63da-d448-448e-a3b9-0b51a08fa783",
+          "id": 3700,
+          "owners": [],
+          "isPrivate": false,
+          "deletedAt": null,
+          "importedBy": [],
+          "recordTags": [
+            "Cyware",
+            "cyware-ctix"
+          ]
+        },
+        {
+          "@type": "Workflow",
+          "triggerLimit": null,
+          "name": "IP > Cyware CTIX > Enrichment",
+          "aliasName": null,
+          "tag": "#Cyware CTIX",
+          "description": "Retrieve the reputation of indicator of type ‘IP’ using Cyware CTIX",
+          "isActive": true,
+          "debug": false,
+          "singleRecordExecution": false,
+          "remoteExecutableFlag": false,
+          "parameters": [
+            "indicator_value",
+            "style_colors"
+          ],
+          "synchronous": false,
+          "lastModifyDate": 1684219461,
+          "collection": "/api/3/workflow_collections/95ed288e-1618-47c0-a78f-dc8dc2f3bf2d",
+          "versions": [],
+          "triggerStep": "/api/3/workflow_steps/699b45ff-e0c6-4911-af7f-1f19f2ef58f1",
+          "steps": [
+            {
+              "@type": "WorkflowStep",
+              "name": "No Operation",
+              "description": null,
+              "arguments": {
+                "params": [],
+                "version": "3.2.3",
+                "connector": "cyops_utilities",
+                "operation": "no_op",
+                "operationTitle": "Utils: No Operation",
+                "step_variables": []
+              },
+              "status": null,
+              "top": "570",
+              "left": "125",
+              "stepType": "/api/3/workflow_step_types/0109f35d-090b-4a2b-bd8a-94cbc3508562",
+              "group": null,
+              "uuid": "09bf3efa-bd68-4f99-921c-ef0a4b96d9b6"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Get Reputation",
+              "description": null,
+              "arguments": {
+                "name": "Cyware CTIX",
+                "config": "31319c16-be23-43d3-9e71-6d4abbbbf644",
+                "params": {
+                  "ip": "{{vars.indicator_value}}",
+                  "page_size": ""
+                },
+                "version": "1.1.0",
+                "connector": "cyware-ctix",
+                "operation": "search_ip",
+                "mock_result": "{\n  \"data\":{\n    \"message\":\"\",\n    \"result\":{\n      \"package_count\":\"\",\n      \"stix_object_id\":\"\",\n      \"ip_data\":\"1.1.1.1\",\n      \"maxmind_geoip_ip_report\":\"\",\n      \"geoip_report\":{\n        \"country\":{\n          \"country_code\":\"\",\n          \"country_name\":\"\"\n        },\n        \"city\":{\n          \"continent_name\":\"\",\n          \"country_code\":\"\",\n          \"city\":\"\",\n          \"latitude\":\"\",\n          \"country_name\":\"\",\n          \"dma_code\":null,\n          \"continent_code\":\"\",\n          \"postal_code\":\"\",\n          \"region\":\"\",\n          \"time_zone\":\"\",\n          \"longitude\":\"\"\n        }\n      },\n      \"created\":\"\",\n      \"whois_ip_report\":\"\",\n      \"package_details\":[\n        {\n          \"source_grading\":\"\",\n          \"intl_grading\":\"\",\n          \"package_timestamp\":\"\",\n          \"package_id\":\"\",\n          \"package_title\":\"\",\n          \"source_name\":\"\",\n          \"collection_name\":\"\"\n        }\n      ],\n      \"packages_list\":[\n        \n      ],\n      \"updated\":\"\",\n      \"score\":82\n    }\n  }\n}",
+                "operationTitle": "Search IP",
+                "pickFromTenant": false,
+                "step_variables": []
+              },
+              "status": null,
+              "top": "300",
+              "left": "300",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
+              "group": null,
+              "uuid": "5c07d703-2a6c-4d36-8c2b-a2b3a91c11d0"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "arguments": {
+                "step_variables": {
+                  "input": {
+                    "params": []
+                  }
+                }
+              },
+              "status": null,
+              "top": "30",
+              "left": "300",
+              "stepType": "/api/3/workflow_step_types/b348f017-9a94-471f-87f8-ce88b6a7ad62",
+              "group": null,
+              "uuid": "699b45ff-e0c6-4911-af7f-1f19f2ef58f1"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Return Output Data",
+              "description": null,
+              "arguments": {
+                "verdict": "{% if vars.steps.Get_Reputation.data.result.score > (vars.malicious_score.split('-')[1] | int) %}{{\"Malicious\"}}{% elif vars.steps.Get_Reputation.data.result.score > (vars.suspicious_score.split('-')[1] | int) %}{{\"Suspicious\"}}{% elif vars.steps.Get_Reputation.data.result.score > (vars.good_score.split('-')[1] | int) %}{{\"Good\"}}{% else %}{{\"No Reputation Available\"}}{% endif %}",
+                "cti_name": "CywareCTIX",
+                "cti_score": "{{vars.steps.Get_Reputation.data.result.score}}",
+                "source_data": "{\"CywareCTIX\": {{vars.steps.Get_Reputation.data}} }",
+                "enrichment_summary": "{{vars.steps.Compute_Enrichment_Summary.data['formatted_string']}}"
+              },
+              "status": null,
+              "top": "700",
+              "left": "480",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "group": null,
+              "uuid": "93e21dd4-dca9-42fd-b9b5-1df4b4757ed3"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Compute Enrichment Summary",
+              "description": null,
+              "arguments": {
+                "params": {
+                  "value": "<table class=\"no-border\">\n    <tr>\n        <th colspan=\"5\" class=\"no-background padding-0\">\n            <div class=\"font-size-11 ng-binding padding-bottom-sm\">\n                <h4 style=\"color: orange;\"\n                    class=\"body-default-bgcolor margin-bottom-0 padding-bottom-md padding-left-md padding-top-md text-align-left\">\n                    Cyware CTIX Detection Summary</h4>\n            </div>\n        </th>\n    </tr>\n    <tr class=\"solid-border\">\n        <td>\n            <div small class=\"control-label\">Score</div>\n            <div class=\"card-container-body margin-left-0\" style=\"width: 100px;\">\n                <div>{% if vars.steps.Get_Reputation.data.result.score > (vars.malicious_score.split('-')[1] | int) %}</div>\n                <div class=\"body-default-bgcolor card-number padding-left-md\"\n                    style=\"border-left: 5px solid {{vars.input.params.style_colors.Malicious}};padding: 11px;font-size: 18px !important;\">\n                    {{vars.steps.Get_Reputation.data.result.score}}</div>\n                <div>{% elif vars.steps.Get_Reputation.data.result.score > (vars.suspicious_score.split('-')[1] | int) %}</div>\n                <div class=\"body-default-bgcolor card-number padding-left-md\"\n                    style=\"border-left: 5px solid {{vars.input.params.style_colors.Suspicious}};padding: 11px;font-size: 18px !important;\">\n                    {{vars.steps.Get_Reputation.data.result.score}}</div>\n                <div>{% elif vars.steps.Get_Reputation.data.result.score > (vars.good_score.split('-')[1] | int) %}</div>\n                <div class=\"body-default-bgcolor card-number padding-left-md\"\n                    style=\"border-left: 5px solid {{vars.input.params.style_colors.Good}};padding: 11px;font-size: 18px !important;\">\n                    {{vars.steps.Get_Reputation.data.result.score}}</div>\n                <div>{% else %}</div>\n                <div class=\"body-default-bgcolor card-number padding-left-md\"\n                    style=\"border-left: 5px solid {{vars.input.params.style_colors['No Reputation Available']}};padding: 11px;font-size: 18px !important;\">\n                    {{vars.steps.Get_Reputation.data.result.score}}</div>\n                <div>{% endif %}</div>\n            </div>\n        </td>\n    </tr>\n</table>"
+                },
+                "version": "3.2.3",
+                "connector": "cyops_utilities",
+                "operation": "format_richtext",
+                "operationTitle": "Utils: Format as RichText (Markdown)",
+                "step_variables": []
+              },
+              "status": null,
+              "top": "560",
+              "left": "480",
+              "stepType": "/api/3/workflow_step_types/0109f35d-090b-4a2b-bd8a-94cbc3508562",
+              "group": null,
+              "uuid": "ae9c89eb-c9e9-4eb8-92ec-415a4a04b7c7"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Is Reputation Found",
+              "description": null,
+              "arguments": {
+                "conditions": [
+                  {
+                    "option": "Yes",
+                    "step_iri": "/api/3/workflow_steps/ae9c89eb-c9e9-4eb8-92ec-415a4a04b7c7",
+                    "condition": "{{ vars.steps.Get_Reputation.data.result.score != null }}",
+                    "step_name": "Compute Enrichment Summary"
+                  },
+                  {
+                    "option": "No",
+                    "default": true,
+                    "step_iri": "/api/3/workflow_steps/09bf3efa-bd68-4f99-921c-ef0a4b96d9b6",
+                    "step_name": "No Operation"
+                  }
+                ]
+              },
+              "status": null,
+              "top": "440",
+              "left": "300",
+              "stepType": "/api/3/workflow_step_types/12254cf5-5db7-4b1a-8cb1-3af081924b28",
+              "group": null,
+              "uuid": "b034ca3b-d64e-4f80-9e0a-40d4931b3d9e"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Configuration",
+              "description": null,
+              "arguments": {
+                "good_score": "33-0",
+                "useMockOutput": "{{globalVars.Demo_mode}}",
+                "indicator_value": "{{vars.input.params['indicator_value']}}",
+                "malicious_score": "100-67",
+                "suspicious_score": "66-34"
+              },
+              "status": null,
+              "top": "160",
+              "left": "300",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "group": null,
+              "uuid": "e4b85555-4dab-4a20-b027-858d1a154320"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "name": "Configuration -> Get Reputation2",
+              "targetStep": "/api/3/workflow_steps/5c07d703-2a6c-4d36-8c2b-a2b3a91c11d0",
+              "sourceStep": "/api/3/workflow_steps/e4b85555-4dab-4a20-b027-858d1a154320",
+              "label": null,
+              "isExecuted": false,
+              "uuid": "ab7e46be-e04e-443f-ba6d-2f1c36a6d738"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "name": "Is Reputation Found -> No Operation",
+              "targetStep": "/api/3/workflow_steps/09bf3efa-bd68-4f99-921c-ef0a4b96d9b6",
+              "sourceStep": "/api/3/workflow_steps/b034ca3b-d64e-4f80-9e0a-40d4931b3d9e",
+              "label": "No",
+              "isExecuted": false,
+              "uuid": "bf3bcac4-6660-49cf-a89e-c53ffc3f040e"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "name": "Start -> Configuration",
+              "targetStep": "/api/3/workflow_steps/e4b85555-4dab-4a20-b027-858d1a154320",
+              "sourceStep": "/api/3/workflow_steps/699b45ff-e0c6-4911-af7f-1f19f2ef58f1",
+              "label": null,
+              "isExecuted": false,
+              "uuid": "bd1ac56e-1462-4a6a-82da-ba7ada70f980"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "name": "Compute Enrichment Summary -> Return Output Data",
+              "targetStep": "/api/3/workflow_steps/93e21dd4-dca9-42fd-b9b5-1df4b4757ed3",
+              "sourceStep": "/api/3/workflow_steps/ae9c89eb-c9e9-4eb8-92ec-415a4a04b7c7",
+              "label": null,
+              "isExecuted": false,
+              "uuid": "b00d2e22-051f-4920-9134-1c2b4a0f83ae"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "name": "Is Reputation Found -> Compute Enrichment Summary",
+              "targetStep": "/api/3/workflow_steps/ae9c89eb-c9e9-4eb8-92ec-415a4a04b7c7",
+              "sourceStep": "/api/3/workflow_steps/b034ca3b-d64e-4f80-9e0a-40d4931b3d9e",
+              "label": "Yes",
+              "isExecuted": false,
+              "uuid": "25a16e17-8538-4efa-84ad-e30f0ea35772"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "name": "Get Reputation2 -> Is Reputation Found",
+              "targetStep": "/api/3/workflow_steps/b034ca3b-d64e-4f80-9e0a-40d4931b3d9e",
+              "sourceStep": "/api/3/workflow_steps/5c07d703-2a6c-4d36-8c2b-a2b3a91c11d0",
+              "label": null,
+              "isExecuted": false,
+              "uuid": "01c994fc-2415-481c-9bea-32eed8bc449e"
+            }
+          ],
+          "groups": [],
+          "priority": "/api/3/picklists/2b563c61-ae2c-41c0-a85a-c9709585e3f2",
+          "uuid": "7d7b826e-052e-4590-b839-0842dff9063d",
+          "id": 3708,
+          "owners": [],
+          "isPrivate": false,
+          "deletedAt": null,
+          "importedBy": [],
+          "recordTags": [
+            "Cyware",
+            "cyware-ctix",
+            "IP_Enrichment"
+          ]
+        },
+        {
+          "@type": "Workflow",
+          "triggerLimit": null,
+          "name": "Domain > Cyware CTIX > Enrichment",
+          "aliasName": null,
+          "tag": "#Cyware CTIX",
+          "description": "Retrieve the reputation of indicator of type ‘Domain’ using Cyware CTIX",
+          "isActive": true,
+          "debug": false,
+          "singleRecordExecution": false,
+          "remoteExecutableFlag": false,
+          "parameters": [
+            "indicator_value",
+            "style_colors"
+          ],
+          "synchronous": false,
+          "lastModifyDate": 1684154748,
+          "collection": "/api/3/workflow_collections/95ed288e-1618-47c0-a78f-dc8dc2f3bf2d",
+          "versions": [],
+          "triggerStep": "/api/3/workflow_steps/5d8e7c30-e11c-4d14-8f6a-22632d964761",
+          "steps": [
+            {
+              "@type": "WorkflowStep",
+              "name": "Configuration",
+              "description": null,
+              "arguments": {
+                "good_score": "33-0",
+                "useMockOutput": "{{globalVars.Demo_mode}}",
+                "indicator_value": "{{vars.input.params['indicator_value']}}",
+                "malicious_score": "100-67",
+                "suspicious_score": "66-34"
+              },
+              "status": null,
+              "top": "160",
+              "left": "300",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "group": null,
+              "uuid": "0901e870-5570-4189-91f1-ed30f24648c0"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Is Reputation Found",
+              "description": null,
+              "arguments": {
+                "conditions": [
+                  {
+                    "option": "Yes",
+                    "step_iri": "/api/3/workflow_steps/32a55bda-c8ea-491d-8450-fba5b945f864",
+                    "condition": "{{ vars.steps.Get_Reputation.data.result.score != null }}",
+                    "step_name": "Compute Enrichment Summary"
+                  },
+                  {
+                    "option": "No",
+                    "default": true,
+                    "step_iri": "/api/3/workflow_steps/e4a00c82-1d62-4b4c-8d65-4148a9d9efd1",
+                    "step_name": "No Operation"
+                  }
+                ]
+              },
+              "status": null,
+              "top": "440",
+              "left": "300",
+              "stepType": "/api/3/workflow_step_types/12254cf5-5db7-4b1a-8cb1-3af081924b28",
+              "group": null,
+              "uuid": "28c6c88d-4cef-4bfa-ad7b-6de07109f5a3"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Compute Enrichment Summary",
+              "description": null,
+              "arguments": {
+                "params": {
+                  "value": "<table class=\"no-border\">\n    <tr>\n        <th colspan=\"5\" class=\"no-background padding-0\">\n            <div class=\"font-size-11 ng-binding padding-bottom-sm\">\n                <h4 style=\"color: orange;\"\n                    class=\"body-default-bgcolor margin-bottom-0 padding-bottom-md padding-left-md padding-top-md text-align-left\">\n                    Cyware CTIX Detection Summary</h4>\n            </div>\n        </th>\n    </tr>\n    <tr class=\"solid-border\">\n        <td>\n            <div small class=\"control-label\">Score</div>\n            <div class=\"card-container-body margin-left-0\" style=\"width: 100px;\">\n                <div>{% if vars.steps.Get_Reputation.data.result.score > (vars.malicious_score.split('-')[1] | int) %}</div>\n                <div class=\"body-default-bgcolor card-number padding-left-md\"\n                    style=\"border-left: 5px solid {{vars.input.params.style_colors.Malicious}};padding: 11px;font-size: 18px !important;\">\n                    {{vars.steps.Get_Reputation.data.result.score}}</div>\n                <div>{% elif vars.steps.Get_Reputation.data.result.score > (vars.suspicious_score.split('-')[1] | int) %}</div>\n                <div class=\"body-default-bgcolor card-number padding-left-md\"\n                    style=\"border-left: 5px solid {{vars.input.params.style_colors.Suspicious}};padding: 11px;font-size: 18px !important;\">\n                    {{vars.steps.Get_Reputation.data.result.score}}</div>\n                <div>{% elif vars.steps.Get_Reputation.data.result.score > (vars.good_score.split('-')[1] | int) %}</div>\n                <div class=\"body-default-bgcolor card-number padding-left-md\"\n                    style=\"border-left: 5px solid {{vars.input.params.style_colors.Good}};padding: 11px;font-size: 18px !important;\">\n                    {{vars.steps.Get_Reputation.data.result.score}}</div>\n                <div>{% else %}</div>\n                <div class=\"body-default-bgcolor card-number padding-left-md\"\n                    style=\"border-left: 5px solid {{vars.input.params.style_colors['No Reputation Available']}};padding: 11px;font-size: 18px !important;\">\n                    {{vars.steps.Get_Reputation.data.result.score}}</div>\n                <div>{% endif %}</div>\n            </div>\n        </td>\n    </tr>\n</table>"
+                },
+                "version": "3.2.3",
+                "connector": "cyops_utilities",
+                "operation": "format_richtext",
+                "operationTitle": "Utils: Format as RichText (Markdown)",
+                "step_variables": []
+              },
+              "status": null,
+              "top": "570",
+              "left": "475",
+              "stepType": "/api/3/workflow_step_types/0109f35d-090b-4a2b-bd8a-94cbc3508562",
+              "group": null,
+              "uuid": "32a55bda-c8ea-491d-8450-fba5b945f864"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "arguments": {
+                "step_variables": {
+                  "input": {
+                    "params": []
+                  }
+                }
+              },
+              "status": null,
+              "top": "30",
+              "left": "300",
+              "stepType": "/api/3/workflow_step_types/b348f017-9a94-471f-87f8-ce88b6a7ad62",
+              "group": null,
+              "uuid": "5d8e7c30-e11c-4d14-8f6a-22632d964761"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Get Reputation",
+              "description": null,
+              "arguments": {
+                "name": "Cyware CTIX",
+                "config": "31319c16-be23-43d3-9e71-6d4abbbbf644",
+                "params": {
+                  "domain": "{{vars.indicator_value}}",
+                  "page_size": ""
+                },
+                "version": "1.1.0",
+                "connector": "cyware-ctix",
+                "operation": "search_domain",
+                "mock_result": "{\n    \"data\": {\n        \"message\": \"\",\n        \"result\": {\n            \"package_count\": \"\",\n            \"whois_domain_report\": \"\",\n            \"stix_object_id\": \"\",\n            \"domain_data\": \"demo_data.com\",\n            \"created\": \"\",\n            \"package_details\": [\n                {\n                    \"source_grading\": \"\",\n                    \"intl_grading\": \"\",\n                    \"package_timestamp\": \"\",\n                    \"package_id\": \"\",\n                    \"package_title\": \"\",\n                    \"source_name\": \"\",\n                    \"collection_name\": \"\"\n                }\n            ],\n            \"domain_tld_data\": \".\",\n            \"packages_list\": [],\n            \"updated\": \"\",\n            \"url_data\": [],\n            \"score\": 82\n        }\n    }\n}",
+                "operationTitle": "Search Domain",
+                "pickFromTenant": false,
+                "step_variables": []
+              },
+              "status": null,
+              "top": "300",
+              "left": "300",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
+              "group": null,
+              "uuid": "9473e823-0d6b-428d-bbac-73b025e3ebae"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Return Output Data",
+              "description": null,
+              "arguments": {
+                "verdict": "{% if vars.steps.Get_Reputation.data.result.score > (vars.malicious_score.split('-')[1] | int) %}{{\"Malicious\"}}{% elif vars.steps.Get_Reputation.data.result.score > (vars.suspicious_score.split('-')[1] | int) %}{{\"Suspicious\"}}{% elif vars.steps.Get_Reputation.data.result.score > (vars.good_score.split('-')[1] | int) %}{{\"Good\"}}{% else %}{{\"No Reputation Available\"}}{% endif %}",
+                "cti_name": "CywareCTIX",
+                "cti_score": "{{vars.steps.Get_Reputation.data.result.score}}",
+                "source_data": "{\"CywareCTIX\": {{vars.steps.Get_Reputation.data}} }",
+                "enrichment_summary": "{{vars.steps.Compute_Enrichment_Summary.data['formatted_string']}}"
+              },
+              "status": null,
+              "top": "705",
+              "left": "475",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "group": null,
+              "uuid": "989d906a-7872-4335-aa98-bd4a57f43c54"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "No Operation",
+              "description": null,
+              "arguments": {
+                "params": [],
+                "version": "3.2.3",
+                "connector": "cyops_utilities",
+                "operation": "no_op",
+                "operationTitle": "Utils: No Operation",
+                "step_variables": []
+              },
+              "status": null,
+              "top": "570",
+              "left": "125",
+              "stepType": "/api/3/workflow_step_types/0109f35d-090b-4a2b-bd8a-94cbc3508562",
+              "group": null,
+              "uuid": "e4a00c82-1d62-4b4c-8d65-4148a9d9efd1"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "name": "Configuration -> Get Reputation2",
+              "targetStep": "/api/3/workflow_steps/9473e823-0d6b-428d-bbac-73b025e3ebae",
+              "sourceStep": "/api/3/workflow_steps/0901e870-5570-4189-91f1-ed30f24648c0",
+              "label": null,
+              "isExecuted": false,
+              "uuid": "117c0c9f-3633-4e5a-817d-77253735e9e3"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "name": "Is Reputation Found -> No Operation",
+              "targetStep": "/api/3/workflow_steps/e4a00c82-1d62-4b4c-8d65-4148a9d9efd1",
+              "sourceStep": "/api/3/workflow_steps/28c6c88d-4cef-4bfa-ad7b-6de07109f5a3",
+              "label": "No",
+              "isExecuted": false,
+              "uuid": "559b2d6a-28c0-4c1a-9546-bc7bfcac261f"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "name": "Start -> Configuration",
+              "targetStep": "/api/3/workflow_steps/0901e870-5570-4189-91f1-ed30f24648c0",
+              "sourceStep": "/api/3/workflow_steps/5d8e7c30-e11c-4d14-8f6a-22632d964761",
+              "label": null,
+              "isExecuted": false,
+              "uuid": "68da1a50-1e95-4dc0-93f6-b59a81cfd99a"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "name": "Compute Enrichment Summary -> Return Output Data",
+              "targetStep": "/api/3/workflow_steps/989d906a-7872-4335-aa98-bd4a57f43c54",
+              "sourceStep": "/api/3/workflow_steps/32a55bda-c8ea-491d-8450-fba5b945f864",
+              "label": null,
+              "isExecuted": false,
+              "uuid": "72c5725f-95cf-40c1-9a42-a193c8636db6"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "name": "Is Reputation Found -> Compute Enrichment Summary",
+              "targetStep": "/api/3/workflow_steps/32a55bda-c8ea-491d-8450-fba5b945f864",
+              "sourceStep": "/api/3/workflow_steps/28c6c88d-4cef-4bfa-ad7b-6de07109f5a3",
+              "label": "Yes",
+              "isExecuted": false,
+              "uuid": "96d1a8cb-0222-4450-9393-ad31e9697595"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "name": "Get Reputation2 -> Is Reputation Found",
+              "targetStep": "/api/3/workflow_steps/28c6c88d-4cef-4bfa-ad7b-6de07109f5a3",
+              "sourceStep": "/api/3/workflow_steps/9473e823-0d6b-428d-bbac-73b025e3ebae",
+              "label": null,
+              "isExecuted": false,
+              "uuid": "dd2d3b75-bf83-4996-b79f-8d82fd470aeb"
+            }
+          ],
+          "groups": [],
+          "priority": "/api/3/picklists/2b563c61-ae2c-41c0-a85a-c9709585e3f2",
+          "uuid": "85529222-dd89-4b89-9b96-43c55d0ab663",
+          "id": 3701,
+          "owners": [],
+          "isPrivate": false,
+          "deletedAt": null,
+          "importedBy": [],
+          "recordTags": [
+            "Domain_Enrichment",
+            "Cyware",
+            "cyware-ctix"
+          ]
+        },
+        {
+          "@type": "Workflow",
+          "triggerLimit": null,
+          "name": "Search Hash",
+          "aliasName": null,
+          "tag": "#Cyware CTIX",
+          "description": "Searches for a hash in the Cyware threat intelligence platform and retrieves relevant details from CTIX based on the hash value you have specified.",
+          "isActive": false,
+          "debug": false,
+          "singleRecordExecution": false,
+          "remoteExecutableFlag": false,
+          "parameters": [],
+          "synchronous": false,
+          "lastModifyDate": null,
+          "collection": "/api/3/workflow_collections/95ed288e-1618-47c0-a78f-dc8dc2f3bf2d",
+          "versions": [],
+          "triggerStep": "/api/3/workflow_steps/184cb858-28fc-40df-b939-1f2f10c6200f",
+          "steps": [
+            {
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "arguments": {
+                "route": "ad098193-2376-41c4-a133-9d98fddebd99",
+                "title": "Cyware CTIX: Search Hash",
+                "resources": [
+                  "alerts"
+                ],
+                "inputVariables": [],
+                "step_variables": {
+                  "input": {
+                    "records": "{{vars.input.records[0]}}"
+                  }
+                },
+                "executeButtonText": "Execute",
+                "noRecordExecution": true,
+                "singleRecordExecution": false
+              },
+              "status": null,
+              "top": "20",
+              "left": "20",
+              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a",
+              "group": null,
+              "uuid": "184cb858-28fc-40df-b939-1f2f10c6200f"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Search Hash",
+              "description": null,
+              "arguments": {
+                "name": "Cyware CTIX",
+                "config": "''",
+                "params": {
+                  "hash": "",
+                  "page_size": ""
+                },
+                "version": "1.1.0",
+                "connector": "cyware-ctix",
+                "operation": "search_hash",
+                "operationTitle": "Search Hash",
+                "step_variables": {
+                  "output_data": "{{vars.result}}"
+                }
+              },
+              "status": null,
+              "top": "120",
+              "left": "188",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
+              "group": null,
+              "uuid": "189b5836-dbac-4666-818d-87940ae65e52"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "name": "Start-> Search Hash",
+              "targetStep": "/api/3/workflow_steps/189b5836-dbac-4666-818d-87940ae65e52",
+              "sourceStep": "/api/3/workflow_steps/184cb858-28fc-40df-b939-1f2f10c6200f",
+              "label": null,
+              "isExecuted": false,
+              "uuid": "7c9e416e-9245-4bc8-8717-1d559ba2dc1c"
+            }
+          ],
+          "groups": [],
+          "priority": null,
+          "uuid": "ca34a5bd-9a13-40c3-978a-4d261011a283",
+          "id": 3702,
+          "owners": [],
+          "isPrivate": false,
+          "deletedAt": null,
+          "importedBy": [],
+          "recordTags": [
+            "Cyware",
+            "cyware-ctix"
+          ]
+        }
+      ]
+    }
+  ],
+  "macros": [
+    {
+      "name": "Demo_mode",
+      "value": "False",
+      "default_value": "False"
+    }
+  ],
+  "exported_tags": [
+    "Cyware",
+    "cyware-ctix",
+    "FileHash_Enrichment",
+    "URL_Enrichment",
+    "IP_Enrichment",
+    "Domain_Enrichment"
+  ]
+}

@@ -1,0 +1,465 @@
+{
+  "name": "cyware-ctix",
+  "label": "Cyware CTIX",
+  "version": "1.1.0",
+  "description": "Allows user to search for URL, Domain and IP,Hash and CVE ID, chooses the matching element, and displays relevant details.",
+  "publisher": "Fortinet",
+  "cs_approved": false,
+  "cs_compatible": true,
+  "category": "Threat Intelligence Exchange",
+  "icon_small_name": "cyware_ctix_small.png",
+  "icon_large_name": "cyware_ctix_large.png",
+  "help_online": "https://docs.fortinet.com/document/fortisoar/1.1.0/cyware-ctix/640/cyware-ctix-v1-1-0",
+  "configuration": {
+    "fields": [
+      {
+        "title": "Server URL",
+        "type": "text",
+        "name": "server",
+        "description": "Specify the URL of the CTIX server to which you will connect and perform the automated operations.",
+        "tooltip": "URL of the CTIX server to which you will connect and perform the automated operations.",
+        "required": true,
+        "editable": true,
+        "visible": true,
+        "value": ""
+      },
+      {
+        "title": "Access ID",
+        "type": "password",
+        "name": "access_id",
+        "description": "Specify the Access ID configured for your CTIX server to which you will connect and perform the automated operations.",
+        "tooltip": "Access ID configured for your CTIX server to which you will connect and perform the automated operations.",
+        "required": true,
+        "editable": true,
+        "visible": true,
+        "value": ""
+      },
+      {
+        "title": "Secret Key",
+        "type": "password",
+        "name": "secret_key",
+        "description": "Specify the Secret Key configured for your CTIX server to which you will connect and perform the automated operations.",
+        "tooltip": "Secret Key configured for your CTIX server to which you will connect and perform the automated operations.",
+        "required": true,
+        "editable": true,
+        "visible": true
+      },
+      {
+        "title": "Verify SSL",
+        "name": "verify_ssl",
+        "type": "checkbox",
+        "description": "Specifies whether the SSL certificate for the server is to be verified or not. By default, this option is set as True.",
+        "tooltip": "Specifies whether the SSL certificate for the server is to be verified or not. By default, this option is set as True.",
+        "required": false,
+        "editable": true,
+        "visible": true,
+        "value": true
+      }
+    ]
+  },
+  "operations": [
+    {
+      "operation": "search_domain",
+      "title": "Search Domain",
+      "description": "Searches for a domain in the Cyware threat intelligence platform and retrieves relevant details from CTIX based on the domain name you have specified.",
+      "category": "investigation",
+      "annotation": "search_domain",
+      "endpoint": "/ctixapi/openapi/search/",
+      "parameters": [
+        {
+          "title": "Domain",
+          "name": "domain",
+          "type": "text",
+          "description": "Name of the domain whose information you want to retrieve from CTIX.",
+          "tooltip": "Name of the domain whose information you want to retrieve from CTIX.",
+          "required": true,
+          "editable": true,
+          "visible": true,
+          "value": ""
+        },
+        {
+          "title": "Page Size",
+          "name": "page_size",
+          "type": "integer",
+          "description": "(Optional) Number of record requests that should be included per page. By default, this is set to 20.",
+          "tooltip": "Number of record requests that should be included per page. By default, this is set to 20.",
+          "required": false,
+          "editable": true,
+          "visible": true,
+          "value": ""
+        }
+      ],
+      "output_schema": {
+        "message": "",
+        "result": {
+          "package_count": "",
+          "whois_domain_report": "",
+          "stix_object_id": "",
+          "domain_data": "",
+          "created": "",
+          "package_details": [
+            {
+              "source_grading": "",
+              "intl_grading": "",
+              "package_timestamp": "",
+              "package_id": "",
+              "package_title": "",
+              "source_name": "",
+              "collection_name": ""
+            }
+          ],
+          "domain_tld_data": ".",
+          "packages_list": [],
+          "updated": "",
+          "url_data": [],
+          "score": ""
+        }
+      },
+      "enabled": true
+    },
+    {
+      "operation": "search_ip",
+      "title": "Search IP",
+      "description": "Searches for an IP address in the Cyware threat intelligence platform and retrieves relevant details from CTIX based on the IP address you have specified.",
+      "category": "investigation",
+      "annotation": "search_ip",
+      "endpoint": "/ctixapi/openapi/search/",
+      "parameters": [
+        {
+          "title": "IP Address",
+          "name": "ip",
+          "type": "text",
+          "description": "IP address whose information you want to retrieve from CTIX.",
+          "tooltip": "IP address whose information you want to retrieve from CTIX.",
+          "required": true,
+          "editable": true,
+          "visible": true,
+          "value": ""
+        },
+        {
+          "title": "Page Size",
+          "name": "page_size",
+          "type": "integer",
+          "description": "(Optional) Number of record requests that should be included per page. By default, this is set to 20.",
+          "tooltip": "Number of record requests that should be included per page. By default, this is set to 20.",
+          "required": false,
+          "editable": true,
+          "visible": true,
+          "value": ""
+        }
+      ],
+      "output_schema": {
+        "message": "",
+        "result": {
+          "package_count": "",
+          "stix_object_id": "",
+          "ip_data": "",
+          "maxmind_geoip_ip_report": "",
+          "geoip_report": {
+            "country": {
+              "country_code": "",
+              "country_name": ""
+            },
+            "city": {
+              "continent_name": "",
+              "country_code": "",
+              "city": "",
+              "latitude": "",
+              "country_name": "",
+              "dma_code": null,
+              "continent_code": "",
+              "postal_code": "",
+              "region": "",
+              "time_zone": "",
+              "longitude": ""
+            }
+          },
+          "created": "",
+          "whois_ip_report": "",
+          "package_details": [
+            {
+              "source_grading": "",
+              "intl_grading": "",
+              "package_timestamp": "",
+              "package_id": "",
+              "package_title": "",
+              "source_name": "",
+              "collection_name": ""
+            }
+          ],
+          "packages_list": [],
+          "updated": "",
+          "score": ""
+        }
+      },
+      "enabled": true
+    },
+    {
+      "operation": "search_url",
+      "title": "Search URL",
+      "description": "Searches for a URL in the Cyware threat intelligence platform and retrieves relevant details from CTIX based on the URL you have specified.",
+      "category": "investigation",
+      "annotation": "search_url",
+      "endpoint": "/ctixapi/openapi/search/",
+      "parameters": [
+        {
+          "title": "URL",
+          "name": "url",
+          "type": "text",
+          "description": "URL whose information you want to retrieve from CTIX.",
+          "tooltip": "URL whose information you want to retrieve from CTIX.",
+          "required": true,
+          "editable": true,
+          "visible": true,
+          "value": ""
+        },
+        {
+          "title": "Page Size",
+          "name": "page_size",
+          "type": "integer",
+          "description": "(Optional) Number of record requests that should be included per page. By default, this is set to 20.",
+          "tooltip": "Number of record requests that should be included per page. By default, this is set to 20.",
+          "required": false,
+          "editable": true,
+          "visible": true,
+          "value": ""
+        }
+      ],
+      "output_schema": {
+        "message": "",
+        "result": {
+          "package_count": "",
+          "stix_object_id": "",
+          "created": "",
+          "package_details": [
+            {
+              "source_grading": "",
+              "intl_grading": "",
+              "package_timestamp": "",
+              "package_id": "",
+              "package_title": "",
+              "source_name": "",
+              "collection_name": ""
+            }
+          ],
+          "uri_data": "",
+          "packages_list": [],
+          "updated": "",
+          "score": ""
+        }
+      },
+      "enabled": true
+    },
+    {
+      "operation": "search_hash",
+      "title": "Search Hash",
+      "description": "Searches for a hash in the Cyware threat intelligence platform and retrieves relevant details from CTIX based on the hash value you have specified.",
+      "category": "investigation",
+      "annotation": "search_hash",
+      "endpoint": "/ctixapi/openapi/search/",
+      "parameters": [
+        {
+          "title": "Hash",
+          "name": "hash",
+          "type": "text",
+          "description": "Value of the hash whose information you want to retrieve from CTIX.",
+          "tooltip": "Value of the hash whose information you want to retrieve from CTIX.",
+          "required": true,
+          "editable": true,
+          "visible": true,
+          "value": ""
+        },
+        {
+          "title": "Page Size",
+          "name": "page_size",
+          "type": "integer",
+          "description": "(Optional) Number of record requests that should be included per page. By default, this is set to 20.",
+          "tooltip": "Number of record requests that should be included per page. By default, this is set to 20.",
+          "required": false,
+          "editable": true,
+          "visible": true,
+          "value": ""
+        }
+      ],
+      "output_schema": {
+        "page_limit": "",
+        "results": [
+          {
+            "first_seen": "",
+            "last_seen": "",
+            "stix_object_id": "",
+            "deprecated": "",
+            "intel_grading": "",
+            "indicator_type": "",
+            "package_id": [],
+            "source": [],
+            "labels": [],
+            "source_grading": "",
+            "score": "",
+            "blocked_time": "",
+            "blocked": "",
+            "name2": "",
+            "deprecated_time": ""
+          }
+        ],
+        "total": ""
+      },
+      "enabled": true
+    },
+    {
+      "operation": "search_cve_id",
+      "title": "Search CVE ID",
+      "description": "Searches for a CVE ID in the Cyware threat intelligence platform and retrieves relevant details from CTIX based on the ID of the CVE you have specified.",
+      "category": "investigation",
+      "annotation": "search_cve_id",
+      "endpoint": "/ctixapi/openapi/search/",
+      "parameters": [
+        {
+          "title": "CVE ID",
+          "name": "cve_id",
+          "type": "text",
+          "description": "ID of the CVE whose information you want to retrieve from CTIX.",
+          "tooltip": "ID of the CVE whose information you want to retrieve from CTIX.",
+          "required": true,
+          "editable": true,
+          "visible": true,
+          "value": ""
+        },
+        {
+          "title": "Page Size",
+          "name": "page_size",
+          "type": "integer",
+          "description": "(Optional) Number of record requests that should be included per page. By default, this is set to 20.",
+          "tooltip": "Number of record requests that should be included per page. By default, this is set to 20.",
+          "required": false,
+          "editable": true,
+          "visible": true,
+          "value": ""
+        }
+      ],
+      "output_schema": {
+        "message": "",
+        "result": {
+          "package_count": "",
+          "stix_object_id": "",
+          "cve_id": "",
+          "created": "",
+          "package_details": [
+            {
+              "source_grading": "",
+              "intl_grading": "",
+              "package_timestamp": "",
+              "package_id": "",
+              "package_title": "",
+              "source_name": "",
+              "collection_name": ""
+            },
+            {
+              "source_grading": "",
+              "intl_grading": "",
+              "package_timestamp": "",
+              "package_id": "",
+              "package_title": "",
+              "source_name": "",
+              "collection_name": ""
+            }
+          ],
+          "packages_list": [],
+          "updated": "",
+          "score": ""
+        }
+      },
+      "enabled": true
+    },
+    {
+      "operation": "bulk_lookup_and_create",
+      "title": "Bulk Lookup and Create",
+      "description": "Performs a bulk IOC lookup by fetching a list of threat data objects present in the CTIX application. If some IOCs are not present in the application, then you can choose to ingest the missing IOCs and create new records. NOTE: You can perform the lookup and further ingest a maximum of 1000 IOCs in the application at any moment.",
+      "category": "investigation",
+      "annotation": "bulk_lookup_and_create",
+      "endpoint": "/ingestion/threat-data/bulk-lookup-and-create/",
+      "parameters": [
+        {
+          "title": "Indicator Values",
+          "name": "ioc_values",
+          "type": "text",
+          "description": "Specify the list of values to be used by IOCs to perform the lookup.",
+          "tooltip": "Specify the list of values to be used by IOCs to perform the lookup.",
+          "required": true,
+          "editable": true,
+          "visible": true,
+          "placeholder": "1.1.1.1,fortinet.com"
+        },
+        {
+          "title": "Create Records",
+          "name": "create",
+          "type": "checkbox",
+          "description": "Select this checkbox, i.e., set it to 'True', if you want to create records of the IOCs that were not present in the CTIX platform while performing the lookup. By default this checkbox is not selected, i.e. it is set as 'False'.",
+          "tooltip": "Select this checkbox, i.e., set it to 'True', if you want to create records of the IOCs that were not present in the CTIX platform while performing the lookup. By default this checkbox is not selected, i.e. it is set as 'False'.",
+          "required": false,
+          "editable": true,
+          "visible": true
+        },
+        {
+          "title": "Enrich Records",
+          "name": "enrichment",
+          "type": "checkbox",
+          "description": "Select this checkbox, i.e., set it to 'True', to add the last enriched information for each enriched object found during the lookup. By default this checkbox is not selected, i.e. it is set as 'False'.",
+          "tooltip": "Select this checkbox, i.e., set it to 'True', to add the last enriched information for each enriched object found during the lookup. By default this checkbox is not selected, i.e. it is set as 'False'.",
+          "required": false,
+          "editable": true,
+          "visible": true
+        },
+        {
+          "title": "Metadata",
+          "name": "metadata",
+          "type": "json",
+          "description": "(Optional) Specify any additional information such as TLP, confidence score, etc., in the JSON format to be included with the object while creating records.",
+          "tooltip": "Specify any additional information such as TLP, confidence score, etc., in the JSON format to be included with the object while creating records.",
+          "required": false,
+          "editable": true,
+          "visible": true,
+          "value": {
+            "tlp": "RED",
+            "confidence": 100,
+            "tags": [
+              "Tagged"
+            ]
+          }
+        },
+        {
+          "title": "Source",
+          "name": "source",
+          "type": "text",
+          "description": "(Optional) Specify the source name that you want to map to the threat data objects.",
+          "tooltip": "Specify the source name that you want to map to the threat data objects.",
+          "required": false,
+          "editable": true,
+          "visible": true
+        },
+        {
+          "title": "Collection",
+          "name": "collection",
+          "type": "text",
+          "description": "(Optional) Specify the collection name that you want to map to the threat data objects.",
+          "tooltip": "Specify the collection name that you want to map to the threat data objects.",
+          "required": false,
+          "editable": true,
+          "visible": true
+        }
+      ],
+      "output_schema": {
+        "found_iocs": {
+          "results": [],
+          "total": ""
+        },
+        "values_not_found": {
+          "invalid_values": [],
+          "total_invalid": "",
+          "total_valid": "",
+          "valid_iocs": []
+        }
+      }
+    }
+  ]
+}
