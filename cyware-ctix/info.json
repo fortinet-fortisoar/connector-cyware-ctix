@@ -1,9 +1,10 @@
 {
   "name": "cyware-ctix",
   "label": "Cyware CTIX",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "Allows user to search for URL, Domain and IP,Hash and CVE ID, chooses the matching element, and displays relevant details.",
-  "publisher": "Fortinet",
+  "publisher": "Fortinet SE",
+  "contributor": "Reem Moustafa",
   "cs_approved": false,
   "cs_compatible": true,
   "category": "Threat Intelligence Exchange",
@@ -58,1835 +59,2238 @@
     ]
   },
   "operations": [
+    {
+      "operation": "search_domain",
+      "title": "Search Domain",
+      "description": "Searches for a domain in the Cyware threat intelligence platform and retrieves relevant details from CTIX based on the domain name you have specified.",
+      "category": "investigation",
+      "annotation": "search_domain",
+      "endpoint": "/ctixapi/openapi/search/",
+      "parameters": [
         {
-            "title": "Create Intel via Open API",
-            "operation": "create_intel_via_open_api",
-            "description": "Create intel with additional details such as the source and collection. You can also include details for each object, such as description, notes, custom attributes, and more.",
-            "parameters": [
-                {
-                    "title": "Title",
-                    "type": "text",
-                    "name": "title",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the title of the intel within 100 characters."
-                },
-                {
-                    "title": "All SDOS",
-                    "type": "object",
-                    "name": "allSDOS",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": null,
-                    "tooltip": "Pass the SDO and IOC objects to add to the intel. For more information, see The All SDOs Object."
-                },
-                {
-                    "title": "Source",
-                    "type": "text",
-                    "name": "source",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": "Miscellaneous",
-                    "tooltip": "Pass the name of the source to map the intel.If the passed source name does not exists in the platform, then a new source is automatically created in the Miscellaneous source category."
-                },
-                {
-                    "title": "Collection",
-                    "type": "text",
-                    "name": "collection",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": "Free Text",
-                    "tooltip": "Pass the name of the source collection to associate with the source.\nIf the passed collection name does not exists in the platform, then a new collection is automatically created."
-                },
-                {
-                    "title": "Metadata",
-                    "type": "object",
-                    "name": "metadata",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": null,
-                    "tooltip": "Pass additional information to associate with the intel."
-                }
-            ],
-            "open": false
+          "title": "Domain",
+          "name": "domain",
+          "type": "text",
+          "description": "Name of the domain whose information you want to retrieve from CTIX.",
+          "tooltip": "Name of the domain whose information you want to retrieve from CTIX.",
+          "required": true,
+          "editable": true,
+          "visible": true,
+          "value": ""
         },
         {
-            "title": "Get Threat Data",
-            "operation": "list_threat_data",
-            "description": "Returns a list of threat data objects from the CTIX application. You can retrieve a maximum of 500,000 threat data objects using this API.",
-            "category": "",
-            "annotation": "list_threat_data",
-            "parameters": [
-                {
-                    "title": "Query",
-                    "type": "text",
-                    "name": "query",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass a CQL query to filter and fetch results."
-                },
-                {
-                    "title": "Page",
-                    "type": "integer",
-                    "name": "page",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": 1,
-                    "tooltip": "Pass the page number to filter threat data objects by page number."
-                },
-                {
-                    "title": "Page Size",
-                    "type": "integer",
-                    "name": "page_size",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": 1,
-                    "tooltip": " Pass the number of records per page to filter the threat data objects by page size."
-                },
-                {
-                    "title": "Page Limit",
-                    "type": "integer",
-                    "name": "page_limit",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": 10,
-                    "tooltip": "Pass the number of threat data objects to be retrieved."
-                },
-                {
-                    "title": "Enrichment",
-                    "type": "checkbox",
-                    "name": "enrichment",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": true,
-                    "tooltip": "Pass true to retrieve the details of the last enrichment for the objects that can be enriched."
-                },
-                {
-                    "title": "Sort",
-                    "type": "text",
-                    "name": "sort",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": "-ctix_created",
-                    "tooltip": ""
-                }
-            ],
-            "output_schema": {
-                "message": "",
-                "result": {}
-            },
-            "open": false
-        },
-        {
-            "title": "Bulk Add Relation",
-            "operation": "bulk_add_relation",
-            "description": "Add a relation to multiple threat data objects.",
-            "category": "utilities",
-            "annotation": "bulk_add_relation",
-            "parameters": [
-                {
-                    "title": "Object Ids",
-                    "type": "text",
-                    "name": "object_ids",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": null,
-                    "tooltip": "Pass the list of threat data object IDs to perform the bulk action. To retrieve a list of object IDs, use the List Threat Data API under the Threat Data section."
-                },
-                {
-                    "title": "Object Type",
-                    "type": "text",
-                    "name": "object_type",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the type of threat data objects. To get the list of supported object types, see Supported SDO Types in Threat Data > Miscellaneous."
-                },
-                {
-                    "title": "Data",
-                    "type": "object",
-                    "name": "data",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": null,
-                    "tooltip": "Pass the additional data to pass with the request."
-                }
-            ],
-            "output_schema": {
-                "message": "",
-                "result": {}
-            },
-            "open": false
-        },
-        {
-            "title": "Bulk Deprecate/Undeprecate Objects",
-            "operation": "bulk_deprecate_undeprecate_objects",
-            "description": "Deprecate or undeprecate multiple threat data objects with one API request.",
-            "category": "utilities",
-            "annotation": "bulk_deprecate_undeprecate_objects",
-            "parameters": [
-                {
-                    "title": "Object Ids",
-                    "type": "text",
-                    "name": "object_ids",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the list of threat data object IDs to perform the bulk action. To retrieve a list of object IDs, use the List Threat Data API under the Threat Data section."
-                },
-                {
-                    "title": "Object Type",
-                    "type": "text",
-                    "name": "object_type",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the type of threat data objects. To get the list of supported object types, see Supported SDO Types in Threat Data > Miscellaneous."
-                },
-                {
-                    "title": "Action Type",
-                    "type": "text",
-                    "name": "action_type",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": "deprecate",
-                    "tooltip": "Pass deprecate objects. Pass un_deprecate to undeprecate objects."
-                }
-            ],
-            "output_schema": {
-                "message": ""
-            },
-            "open": false
-        },
-        {
-            "title": "Bulk Mark/Unmark False Positive",
-            "operation": "bulk_mark_unmark_false_positive",
-            "description": "Mark or unmark multiple IOCs as false positives.",
-            "category": "remediation",
-            "annotation": "bulk_mark_unmark_false_positive",
-            "parameters": [
-                {
-                    "title": "Object Ids",
-                    "type": "text",
-                    "name": "object_ids",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the list of threat data object IDs to perform the bulk action. To retrieve a list of object IDs, use the List Threat Data API under the Threat Data section"
-                },
-                {
-                    "title": "Object Type",
-                    "type": "text",
-                    "name": "object_type",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the type of threat data objects. To get the list of supported object types, see Supported SDO Types in Threat Data > Miscellaneous."
-                },
-                {
-                    "title": "Action Type",
-                    "type": "text",
-                    "name": "action_type",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": "false_positive",
-                    "tooltip": "Pass false_positive to mark IOCs as false positives. Pass un_false_positive to unmark an IOCs as false positives."
-                }
-            ],
-            "output_schema": {
-                "message": ""
-            },
-            "open": false
-        },
-        {
-            "title": "Bulk IOC Lookup and Create Intel",
-            "operation": "bulk_ioc_lookup_and_create_intel",
-            "description": "Performs a bulk IOC lookup by fetching a list of threat data objects present in the CTIX application. If some IOCs are not present in the application, then you can choose to ingest the missing IOCs and create new records. NOTE: You can perform the lookup and further ingest a maximum of 1000 IOCs in the application at any moment.",
-            "category": "investigation",
-            "annotation": "bulk_lookup_and_create",
-            "parameters": [
-                {
-                    "title": "Indicator Values",
-                    "type": "text",
-                    "name": "ioc_values",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "tooltip": "Specify a comma-separated list of values to be used by IOCs to perform the lookup."
-                },
-                {
-                    "title": "Source",
-                    "type": "text",
-                    "name": "source",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": "OpenAPI Lookup (OpenAPI)",
-                    "tooltip": "Specify the source name that you want to map to the threat data objects."
-                },
-                {
-                    "title": "Collection",
-                    "type": "text",
-                    "name": "collection",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": "OpenAPI Lookup (OpenAPI)",
-                    "tooltip": "Specify the collection name that you want to map to the threat data objects. If the passed source name does not exists in the platform, then a new source is automatically created with the suffix (OpenAPI) in the Miscellaneous source category."
-                },
-                {
-                    "title": "Metadata",
-                    "type": "object",
-                    "name": "metadata",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": null,
-                    "tooltip": "Specify any additional information such as TLP, confidence score, etc., in the JSON format to be included with the object while creating records."
-                },
-                {
-                    "title": "Create Records",
-                    "type": "checkbox",
-                    "name": "create",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": false,
-                    "tooltip": "Select this checkbox, i.e., set it to 'True', if you want to create records of the IOCs that were not present in the CTIX platform while performing the lookup. By default this checkbox is not selected, i.e. it is set as 'False'."
-                },
-                {
-                    "title": "Enrich Records",
-                    "type": "checkbox",
-                    "name": "enrichment",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": false,
-                    "tooltip": "Select this checkbox, i.e., set it to 'True', to add the last enriched information for each enriched object found during the lookup. By default this checkbox is not selected, i.e. it is set as 'False'."
-                }
-            ],
-            "output_schema": {
-                "found_iocs": {
-                    "results": [],
-                    "total": ""
-                },
-                "values_not_found": {
-                    "invalid_values": [],
-                    "total_invalid": "",
-                    "total_valid": "",
-                    "valid_iocs": []
-                }
-            },
-            "open": false
-        },
-        {
-            "title": "Bulk IOC Lookup (Advanced)",
-            "operation": "bulk_ioc_lookup_advanced",
-            "description": "Performs a lookup for threat data objects in the CTIX platform and retrieves the details of the objects, such as basic details, enriched data, and relations.",
-            "parameters": [
-                {
-                    "title": "Object Type",
-                    "type": "text",
-                    "name": "object_type",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass an object type to lookup. For the list of supported object types, see Supported SDO Types in Threat Data > Miscellaneous."
-                },
-                {
-                    "title": "Value",
-                    "type": "text",
-                    "name": "value",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass a list of up to 100 threat data object values to look up."
-                },
-                {
-                    "title": "Object ID",
-                    "type": "text",
-                    "name": "objectID",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass a list of up to 100 threat data object IDs to look up."
-                },
-                {
-                    "title": "Enrichment Data",
-                    "type": "checkbox",
-                    "name": "enrichment_data",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": false,
-                    "tooltip": "Pass true to retrieve the latest five enrichment data objects."
-                },
-                {
-                    "title": "Relation Data",
-                    "type": "checkbox",
-                    "name": "relation_data",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": false,
-                    "tooltip": "Pass true to retrieve the latest 100 relations details."
-                },
-                {
-                    "title": "Enrichment Tools",
-                    "type": "text",
-                    "name": "enrichment_tools",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the name of up to five enrichment tools separated by a comma."
-                },
-                {
-                    "title": "Fields",
-                    "type": "text",
-                    "name": "fields",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass a comma-separated list of field names to retrieve specific details of the objects. By default, all fields are retrieved."
-                }
-            ],
-            "open": false
-        },
-        {
-            "title": "Get Threat Data Object Details List",
-            "operation": "list_threat_data_object_details",
-            "description": "Returns basic correlated details of a threat data object in Intel Exchange.",
-            "category": "investigation",
-            "annotation": "list_threat_data_object_details",
-            "parameters": [
-                {
-                    "title": "Object Type",
-                    "type": "text",
-                    "name": "object_type",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the type of the object such as indicator, vulnerability, malware, and more."
-                },
-                {
-                    "title": "Object ID",
-                    "type": "text",
-                    "name": "objectID",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the ID of the object to retrieve the details."
-                }
-            ],
-            "output_schema": {
-                "message": "",
-                "result": {}
-            },
-            "open": false
-        },
-        {
-            "title": "Get Threat Data Object Additional Details",
-            "operation": "threat_data_object_advanced_details",
-            "description": "Retrieves additional information of a threat data object, such as, kill chain phases and published collections.",
-            "category": "investigation",
-            "annotation": "threat_data_object_advanced_details",
-            "parameters": [
-                {
-                    "title": "Object Type",
-                    "type": "text",
-                    "name": "object_type",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the type of the object such as indicator, vulnerability, malware, and more."
-                },
-                {
-                    "title": "Object ID",
-                    "type": "text",
-                    "name": "object_id",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the ID of the object to retrieve the details."
-                }
-            ],
-            "output_schema": {
-                "message": "",
-                "result": {
-                    "kill_chain_phases": [],
-                    "published_collections": []
-                }
-            },
-            "open": false
-        },
-        {
-            "title": "Get Relations List of Threat Data Object",
-            "operation": "list_relations_of_threat_data_object",
-            "description": "Retrieves the list of relations and the relation details of a threat data object.",
-            "category": "",
-            "annotation": "list_relations_of_threat_data_object",
-            "parameters": [
-                {
-                    "title": "Object ID",
-                    "type": "text",
-                    "name": "objectID",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": ""
-                },
-                {
-                    "title": "Object Type",
-                    "type": "text",
-                    "name": "objectType",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": ""
-                },
-                {
-                    "title": "Sources",
-                    "type": "text",
-                    "name": "sources",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the IDs of the sources to filter results."
-                },
-                {
-                    "title": "Page",
-                    "type": "integer",
-                    "name": "page",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": 1,
-                    "tooltip": "Pass the page number to retrieve relations."
-                },
-                {
-                    "title": "Page Size",
-                    "type": "integer",
-                    "name": "page_size",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": 10,
-                    "tooltip": "Pass the number of records to retrieve per page."
-                }
-            ],
-            "output_schema": {
-                "message": "",
-                "result": {}
-            },
-            "open": false
-        },
-        {
-            "title": "Create Threat Bulletin",
-            "operation": "create_threat_bulletin",
-            "description": "Creates a threat bulletin.",
-            "category": "utilities",
-            "annotation": "create_threat_bulletin",
-            "parameters": [
-                {
-                    "title": "Title",
-                    "type": "text",
-                    "name": "title",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the title for the threat bulletin."
-                },
-                {
-                    "title": "Description",
-                    "type": "text",
-                    "name": "description",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the description for the threat bulletin."
-                },
-                {
-                    "title": "Status",
-                    "type": "text",
-                    "name": "status",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the status of the creation of the threat bulletin."
-                },
-                {
-                    "title": "Tlp",
-                    "type": "text",
-                    "name": "tlp",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the TLP for the threat bulletin"
-                },
-                {
-                    "title": "Server Collections",
-                    "type": "object",
-                    "name": "server_collections",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": null,
-                    "tooltip": "Pass the list of server collections"
-                },
-                {
-                    "title": "Tags",
-                    "type": "object",
-                    "name": "tags",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": null,
-                    "tooltip": "Pass the list of tags"
-                },
-                {
-                    "title": "Attachments",
-                    "type": "object",
-                    "name": "attachments",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": null,
-                    "tooltip": "Pass the list of attachments"
-                }
-            ],
-            "output_schema": {
-                "message": "",
-                "result": {
-                    "status": "",
-                    "id": "",
-                    "published": false
-                }
-            },
-            "open": false
-        },
-        {
-            "title": "Update Threat Bulletin",
-            "operation": "update_threat_bulletin",
-            "description": "Updates the threat bulletin.",
-            "category": "utilities",
-            "annotation": "update_threat_bulletin",
-            "parameters": [
-                {
-                    "title": "Threat Bulletin Id",
-                    "type": "text",
-                    "name": "threat_bulletin_id",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Threat Bulletin ID"
-                },
-                {
-                    "title": "Title",
-                    "type": "text",
-                    "name": "title",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the title for the threat bulletin."
-                },
-                {
-                    "title": "Description",
-                    "type": "text",
-                    "name": "description",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": null,
-                    "tooltip": "Pass the description for the threat bulletin."
-                },
-                {
-                    "title": "Status",
-                    "type": "text",
-                    "name": "status",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the status of creation."
-                },
-                {
-                    "title": "Tlp",
-                    "type": "text",
-                    "name": "tlp",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": null,
-                    "tooltip": "Pass the TLP for the threat bulletin."
-                },
-                {
-                    "title": "Server Collections",
-                    "type": "object",
-                    "name": "server_collections",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": null,
-                    "tooltip": "Pass the list of server collections."
-                },
-                {
-                    "title": "Tags",
-                    "type": "object",
-                    "name": "tags",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": null,
-                    "tooltip": "Pass the comma-separated list of tags"
-                }
-            ],
-            "output_schema": {
-                "message": "",
-                "result": {
-                    "id": "",
-                    "title": "",
-                    "created": 0,
-                    "modified": 0,
-                    "report_id": "",
-                    "created_by": "",
-                    "modified_by": "",
-                    "status": "",
-                    "tags": [],
-                    "description": "",
-                    "tlp": "",
-                    "server_collections": "",
-                    "client_collections": "",
-                    "received": false,
-                    "published_on": "",
-                    "attachments": [],
-                    "metadata": "",
-                    "published": false,
-                    "confidence": "="
-                }
-            },
-            "open": false
-        },
-        {
-            "title": "List Rules",
-            "operation": "list_rules",
-            "description": "Retrieves a list of rules from the platform.",
-            "parameters": [
-                {
-                    "title": "Page",
-                    "type": "integer",
-                    "name": "page",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": 1,
-                    "tooltip": "Pass the page number to retrieve rules."
-                },
-                {
-                    "title": "Page Size",
-                    "type": "integer",
-                    "name": "pageSize",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": 10,
-                    "tooltip": "Pass the number of rules to retrieve per page."
-                },
-                {
-                    "title": "Source",
-                    "type": "text",
-                    "name": "source",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass a comma-separated list of source IDs to filter rules."
-                },
-                {
-                    "title": "Created By ID",
-                    "type": "text",
-                    "name": "createdByID",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the ID of the creator of the rules to filter."
-                },
-                {
-                    "title": "Status",
-                    "type": "text",
-                    "name": "status",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the status of the rules. Allowed values: DRAFT, ACTIVE, INACTIVE. By default, rules with all status are retrieved."
-                },
-                {
-                    "title": "Last Active To",
-                    "type": "datetime",
-                    "name": "lastActiveTo",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": null,
-                    "tooltip": "Pass the last active time in EPOCH format to filter rules."
-                },
-                {
-                    "title": "Last Active From",
-                    "type": "datetime",
-                    "name": "lastActiveFrom",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": null,
-                    "tooltip": "Pass the last active time in EPOCH format to filter rules."
-                },
-                {
-                    "title": "Created From",
-                    "type": "datetime",
-                    "name": "createdFrom",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": null,
-                    "tooltip": "Pass the creation time in EPOCH format to filter rules."
-                },
-                {
-                    "title": "Created To",
-                    "type": "text",
-                    "name": "createdTo",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the creation time in EPOCH format to filter rules."
-                },
-                {
-                    "title": "Is Manual Run",
-                    "type": "checkbox",
-                    "name": "isManualRun",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": false,
-                    "tooltip": "Check to retrieve rules that are configured for manual execution only"
-                }
-            ],
-            "output_schema": {
-                "next": null,
-                "previous": null,
-                "page_size": 10,
-                "total": 1,
-                "results": [
-                    {
-                        "name": "",
-                        "source": [],
-                        "id": "",
-                        "is_active": true,
-                        "last_activity_on": 0,
-                        "ctix_created": 1632767764,
-                        "ctix_updated": 1632767764,
-                        "is_follow": true,
-                        "no_conditions": true,
-                        "all_sources_and_collections": false,
-                        "status": "",
-                        "tags": [],
-                        "created_by": {
-                            "email": "",
-                            "first_name": "",
-                            "last_name": "",
-                            "id": ""
-                        },
-                        "updated_by": {
-                            "email": "",
-                            "first_name": "",
-                            "last_name": "",
-                            "id": ""
-                        },
-                        "trigger_on_update": false
-                    }
-                ]
-            },
-            "open": false,
-            "category": "investigation"
-        },
-        {
-            "title": "Run Rule",
-            "operation": "run_rule",
-            "description": "Runs a rule asynchronously on the existing threat data created in the specified time interval.",
-            "parameters": [
-                {
-                    "title": "Rule",
-                    "type": "text",
-                    "name": "rule",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the unique ID of a rule."
-                },
-                {
-                    "title": "Start Time",
-                    "type": "text",
-                    "name": "startTime",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": null,
-                    "tooltip": "Filters threat data objects that are created after the passed timestamp value."
-                },
-                {
-                    "title": "End Time",
-                    "type": "text",
-                    "name": "endTime",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": null,
-                    "tooltip": "Filters threat data objects that are created before the passed timestamp value."
-                }
-            ],
-            "open": false,
-            "category": "remediation"
-        },
-        {
-            "title": "Get Enrichment Tool List",
-            "operation": "enrichment_tools",
-            "description": "Returns the list of enrichment tools configured in Intel Exchange.",
-            "category": "investigation",
-            "annotation": "enrichment_tools",
-            "parameters": [
-                {
-                    "title": "Action Name",
-                    "type": "text",
-                    "name": "action_name",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": null,
-                    "tooltip": "Specify a list of comma-separated action names, for example: get_ip for IPs, get_domain for Domain, get_url for URL, get_cve for Vulnerability"
-                },
-                {
-                    "title": "Component",
-                    "type": "text",
-                    "name": "component",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Use this filter to get the enrichment tools list by a component. For example, if you specify the component as investigation, it returns only those apps whose enrichment is supported in threat-investigation"
-                },
-                {
-                    "title": "Full List",
-                    "type": "checkbox",
-                    "name": "full_list",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": "true",
-                    "tooltip": "Use this filter to get action separated tools together"
-                }
-            ],
-            "output_schema": {
-                "message": "",
-                "result": {}
-            },
-            "open": false
-        },
-        {
-            "title": "Get Enrichment Object Details",
-            "operation": "get_enrichment_object_details",
-            "description": "Retrieves the enrichment data for the given object and tool ID.",
-            "category": "investigation",
-            "annotation": "get_enrichment_object_details",
-            "parameters": [
-                {
-                    "title": "Object Type",
-                    "type": "text",
-                    "name": "object_type",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the type of object to retrieve enrichment details."
-                },
-                {
-                    "title": "Object ID",
-                    "type": "text",
-                    "name": "objectID",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the object ID to retrieve the enrichment details."
-                },
-                {
-                    "title": "Tool ID",
-                    "type": "text",
-                    "name": "toolID",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the tool ID to retrieve the enrichment details."
-                }
-            ],
-            "output_schema": {
-                "message": "",
-                "result": {}
-            },
-            "open": false
-        },
-        {
-            "title": "Get Enriched Threat Data",
-            "operation": "get_enriched_threat_data",
-            "description": "Returns the enriched data of a threat data object using enrichment tools.",
-            "category": "remediation",
-            "annotation": "get_enriched_threat_data",
-            "parameters": [
-                {
-                    "title": "App Slug",
-                    "type": "text",
-                    "name": "app_slug",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the slug of an enrichment tool to retrieve its enriched data. To retrieve the slug of an enrichment tool, use the GET Enrichment Tools API endpoint."
-                },
-                {
-                    "title": "Value",
-                    "type": "text",
-                    "name": "value",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the value of the object. For example, sco, vulnerability, and more."
-                },
-                {
-                    "title": "Action Slug",
-                    "type": "text",
-                    "name": "action_slug",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the enrichment action name to retrieve specific details. For example, get_ip for IPs, get_domain for Domain, get_url for URL, get_cve for Vulnerability."
-                },
-                {
-                    "title": "Object ID",
-                    "type": "text",
-                    "name": "objectID",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the ID of an object id(sco object id for indicators and vulnerability object id for vulnerabilities)"
-                },
-                {
-                    "title": "Object Type",
-                    "type": "text",
-                    "name": "object_type",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the object type. sdo object type(indicator /or vulnerability)"
-                }
-            ],
-            "output_schema": {
-                "message": "",
-                "result": {}
-            },
-            "open": false
-        },
-        {
-            "title": "Add Note to Threat Data Object",
-            "operation": "add_note_to_threat_data_object",
-            "description": "Adds a note to a threat data object",
-            "category": "utilities",
-            "annotation": "add_note_to_threat_data_object",
-            "parameters": [
-                {
-                    "title": "Object Id",
-                    "type": "text",
-                    "name": "object_id",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the ID of the threat data object to create the notes. Else, the note is created as a global note."
-                },
-                {
-                    "title": "Text",
-                    "type": "text",
-                    "name": "text",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": null,
-                    "tooltip": "Pass the description for the notes."
-                },
-                {
-                    "title": "Type",
-                    "type": "text",
-                    "name": "type",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the type of the note."
-                },
-                {
-                    "title": "Meta Data",
-                    "type": "object",
-                    "name": "meta_data",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": null,
-                    "tooltip": "Pass the metadata associated with the note."
-                },
-                {
-                    "title": "Is Json",
-                    "type": "checkbox",
-                    "name": "is_json",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": false,
-                    "tooltip": "Pass true if you want to send the note in JSON format."
-                }
-            ],
-            "output_schema": {
-                "message": "",
-                "result": {
-                    "created": 0,
-                    "created_by": {
-                        "email": "",
-                        "first_name": "",
-                        "id": "",
-                        "last_name": ""
-                    },
-                    "id": "",
-                    "is_json": false,
-                    "meta_data": {},
-                    "modified": 0,
-                    "modified_by": {
-                        "email": "",
-                        "first_name": "",
-                        "id": "",
-                        "last_name": ""
-                    },
-                    "object_id": "",
-                    "text": "",
-                    "title": "",
-                    "type": ""
-                }
-            },
-            "open": false
-        },
-        {
-            "title": "Create Tag",
-            "operation": "create_tag",
-            "description": "Creates a tag in the CTIX platform",
-            "category": "utilities",
-            "annotation": "create_tag",
-            "parameters": [
-                {
-                    "title": "Name",
-                    "type": "text",
-                    "name": "name",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass a unique name for the tag within 50 characters."
-                },
-                {
-                    "title": "Colour Code",
-                    "type": "select",
-                    "name": "colour_code",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": null,
-                    "tooltip": "Pass the HEX key of a color code for the tag.",
-                    "options": [
-                        "#5236E2",
-                        "#0068FA",
-                        "#EB9C00",
-                        "#FF5330",
-                        "#27865F",
-                        "#C4C81D",
-                        "#00A2C2",
-                        "#C341E7",
-                        "#AD6B76",
-                        "#95A1B1"
-                    ]
-                }
-            ],
-            "output_schema": {
-                "message": "",
-                "result": {
-                    "id": "",
-                    "name": "",
-                    "colour_code": "",
-                    "created": 0,
-                    "created_by": "",
-                    "modified_by": "",
-                    "modified": 0,
-                    "type": ""
-                }
-            },
-            "open": false
-        },
-        {
-            "title": "Delete Tag",
-            "operation": "delete_tag",
-            "description": "Deletes a tag by the tag ID.",
-            "category": "utilities",
-            "annotation": "delete_tag",
-            "parameters": [
-                {
-                    "title": "Tag ID",
-                    "type": "text",
-                    "name": "tag_id",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the ID of a tag to delete."
-                }
-            ],
-            "output_schema": {},
-            "open": false
-        },
-        {
-            "title": "List Allowed Indicators",
-            "operation": "list_allowed_indicators",
-            "description": "Returns a list of allowed indicators from the CTIX platform.",
-            "category": "investigation",
-            "annotation": "list_allowed_indicators",
-            "parameters": [
-                {
-                    "title": "Type",
-                    "type": "text",
-                    "name": "type",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass an allowed indicator type to filter result. To retrieve the supported list of allowed indicator types, se the GET List Supported Allowed Indicator Types API."
-                },
-                {
-                    "title": "Page",
-                    "type": "integer",
-                    "name": "page",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": 1,
-                    "tooltip": "Pass the page number to retrieve indicators."
-                },
-                {
-                    "title": "Page Size",
-                    "type": "integer",
-                    "name": "page_size",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": 10,
-                    "tooltip": "Pass the number of records to retrieve per page."
-                },
-                {
-                    "title": "Created by Id",
-                    "type": "text",
-                    "name": "created_by_id",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the ID of a user to filter records by the creator."
-                },
-                {
-                    "title": "Modified by Id",
-                    "type": "text",
-                    "name": "modified_by_id",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the ID of a user to filter records by the modifier."
-                },
-                {
-                    "title": "Created From",
-                    "type": "text",
-                    "name": "created_from",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the created from time in EPOCH format to filter records based on the created time"
-                },
-                {
-                    "title": "Created To",
-                    "type": "text",
-                    "name": "created_to",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the created to time in EPOCH format to filter records based on the created time."
-                },
-                {
-                    "title": "Last Active From",
-                    "type": "text",
-                    "name": "last_active_from",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the last active from time in EPOCH format to filter records based on the last activity time."
-                },
-                {
-                    "title": "Last Active To",
-                    "type": "text",
-                    "name": "last_active_to",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the last active to time in EPOCH format to filter records based on the last activity time."
-                },
-                {
-                    "title": "Sort",
-                    "type": "text",
-                    "name": "sort",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": "-created",
-                    "tooltip": "Pass -created to sort result in descending order based on the created time. Pass created to sort result in ascending order."
-                }
-            ],
-            "output_schema": {
-                "next": "",
-                "page_size": 10,
-                "previous": "",
-                "results": [],
-                "total": 0
-            },
-            "open": false
-        },
-        {
-            "title": "Delete Allowed Indicator",
-            "operation": "delete_allowed_indicator",
-            "description": "Deletes a particular allowed indicator entry from the dashboard.",
-            "category": "containment",
-            "annotation": "delete_allowed_indicator",
-            "parameters": [
-                {
-                    "title": "Indicator Id",
-                    "type": "text",
-                    "name": "indicator_id",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the ID of an allowed indicator to delete."
-                }
-            ],
-            "output_schema": {
-                "details": {}
-            },
-            "open": false
-        },
-        {
-            "title": "List Reports",
-            "operation": "list_reports",
-            "description": "Retrieves a list of reports from the CTIX application.",
-            "category": "",
-            "annotation": "list_reports",
-            "parameters": [
-                {
-                    "title": "Type",
-                    "type": "text",
-                    "name": "type",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": "basic",
-                    "tooltip": "Pass the type of report to filter reports. Allowed values: basic, advanced"
-                },
-                {
-                    "title": "Page",
-                    "type": "integer",
-                    "name": "page",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": 1,
-                    "tooltip": "Pass the page number to retrieve reports."
-                },
-                {
-                    "title": "Page Size",
-                    "type": "integer",
-                    "name": "page_size",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": 10,
-                    "tooltip": "Pass the number of reports to retrieve per page."
-                },
-                {
-                    "title": "Repeat Type",
-                    "type": "text",
-                    "name": "repeat_type",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": "none",
-                    "tooltip": "Pass the frequency of the report run schedule. Allowed values: daily, weekly, monthly. Default: none "
-                },
-                {
-                    "title": "Shared Type",
-                    "type": "text",
-                    "name": "shared_type",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": "global",
-                    "tooltip": "Pass the visibility of the reports. Allowed values: private, global"
-                },
-                {
-                    "title": "Created By",
-                    "type": "text",
-                    "name": "created_by",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the ID of the user who created the reports."
-                },
-                {
-                    "title": "Modified By",
-                    "type": "text",
-                    "name": "modified_by",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the ID of the user who modified the reports."
-                },
-                {
-                    "title": "Created To",
-                    "type": "text",
-                    "name": "created_to",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the created from time of the reports in EPOCH format."
-                },
-                {
-                    "title": "Created From",
-                    "type": "text",
-                    "name": "created_from",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the created from time of the reports in EPOCH format."
-                },
-                {
-                    "title": "Modified From",
-                    "type": "text",
-                    "name": "modified_from",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the modified from time of the reports in EPOCH format."
-                },
-                {
-                    "title": "Modified To",
-                    "type": "text",
-                    "name": "modified_to",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": null,
-                    "tooltip": "Pass the modified to time of the reports in EPOCH format."
-                },
-                {
-                    "title": "Date Last Run From",
-                    "type": "text",
-                    "name": "date_last_run_from",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the last run from time of the reports in EPOCH format."
-                },
-                {
-                    "title": "Date Last Run To",
-                    "type": "text",
-                    "name": "date_last_run_to",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the last run to time of the reports in EPOCH format."
-                }
-            ],
-            "output_schema": {
-                "message": "",
-                "result": {}
-            },
-            "open": false
-        },
-        {
-            "title": "Create Report",
-            "operation": "create_report",
-            "description": "Creates a basic (standard) report in CTIX.",
-            "category": "utilities",
-            "annotation": "create_report",
-            "parameters": [
-                {
-                    "title": "Name",
-                    "type": "text",
-                    "name": "name",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the name of the report."
-                },
-                {
-                    "title": "Type",
-                    "type": "text",
-                    "name": "type",
-                    "required": false,
-                    "visible": true,
-                    "editable": false,
-                    "value": "basic",
-                    "tooltip": "Pass the type of report to be created, such as standard or advanced."
-                },
-                {
-                    "title": "Basic Report Type",
-                    "type": "text",
-                    "name": "basic_report_type",
-                    "required": false,
-                    "visible": true,
-                    "editable": false,
-                    "value": "custom",
-                    "tooltip": "Pass the type of basic report to be created."
-                },
-                {
-                    "title": "Shared Type",
-                    "type": "select",
-                    "name": "shared_type",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": null,
-                    "tooltip": "Pass the share type value. Allowed values: private, global.",
-                    "options": [
-                        "private",
-                        "global"
-                    ]
-                },
-                {
-                    "title": "Saved Search",
-                    "type": "object",
-                    "name": "saved_search",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": null,
-                    "tooltip": "Pass the saved search or custom query details used for generating the report."
-                },
-                {
-                    "title": "Schedule",
-                    "type": "object",
-                    "name": "schedule",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": null,
-                    "tooltip": "Pass the schedule details such as repeat type, start date and time, duration time, duration value, and repeat value."
-                },
-                {
-                    "title": "File Types",
-                    "type": "text",
-                    "name": "file_types",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": null,
-                    "tooltip": "Pass the report types as a comma separated list, such as csv, xls."
-                },
-                {
-                    "title": "Columns",
-                    "type": "object",
-                    "name": "columns",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": null,
-                    "tooltip": "Pass the list of columns to be displayed in a basic report."
-                },
-                {
-                    "title": "Internal Recipients",
-                    "type": "object",
-                    "name": "internal_recipients",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": null,
-                    "tooltip": "Pass the list of internal recipients with whom to share the report."
-                },
-                {
-                    "title": "Query Key",
-                    "type": "text",
-                    "name": "query_key",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": "ctix_created",
-                    "tooltip": "Pass the key to sort data in the report."
-                },
-                {
-                    "title": "External Recipients",
-                    "type": "object",
-                    "name": "external_recipients",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": null,
-                    "tooltip": "Pass the list of external recipients with whom to share the report."
-                }
-            ],
-            "output_schema": {
-                "message": "",
-                "result": {}
-            },
-            "open": false
-        },
-        {
-            "title": "Run Report",
-            "operation": "run_report",
-            "description": "Runs a report and sends the file to the recipients",
-            "category": "remediation",
-            "annotation": "run_report",
-            "parameters": [
-                {
-                    "title": "Report ID",
-                    "type": "text",
-                    "name": "report_id",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": ""
-                },
-                {
-                    "title": "Type",
-                    "type": "text",
-                    "name": "type",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": "basic",
-                    "tooltip": "Pass the type of the report to run. Allowed values: basic, advanced"
-                },
-                {
-                    "title": "Start Time",
-                    "type": "text",
-                    "name": "start_time",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the start date and time in EPOCH format from which the report captures data available in CTIX."
-                },
-                {
-                    "title": "End Time",
-                    "type": "text",
-                    "name": "end_time",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the end date and time in EPOCH format until which the report captures data available in CTIX."
-                },
-                {
-                    "title": "File Types",
-                    "type": "text",
-                    "name": "file_types",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass the report types. Allowed values: csv, xls"
-                },
-                {
-                    "title": "Internal Recipients",
-                    "type": "object",
-                    "name": "internal_recipients",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": {},
-                    "tooltip": "Pass the list of internal recipients with whom to share the report."
-                },
-                {
-                    "title": "External Recipients",
-                    "type": "object",
-                    "name": "external_recipients",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": {},
-                    "tooltip": "Pass the list of external recipients with whom to share the report."
-                }
-            ],
-            "output_schema": {
-                "result": ""
-            },
-            "open": false
-        },
-        {
-            "title": "Create Custom Attribute",
-            "operation": "create_custom_attribute",
-            "description": "Create a custom attribute in the platform.",
-            "category": "utilities",
-            "annotation": "create_custom_attribute",
-            "parameters": [
-                {
-                    "title": "Name",
-                    "type": "text",
-                    "name": "name",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass a name for the attribute within 100 characters."
-                },
-                {
-                    "title": "Description",
-                    "type": "text",
-                    "name": "description",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": "",
-                    "tooltip": "Pass a description for the attribute within 500 characters."
-                },
-                {
-                    "title": "Type",
-                    "type": "select",
-                    "name": "type",
-                    "required": true,
-                    "visible": true,
-                    "editable": true,
-                    "value": null,
-                    "tooltip": "Pass the number associated with the type. \n0: Boolean\n1: Integer\n2: String\n3: Single Select\n4: Date\n5: JSON\n6: Float",
-                    "options": [
-                        "Boolean",
-                        "Integer",
-                        "String",
-                        "Single Select",
-                        "Date",
-                        "JSON",
-                        "Float"
-                    ]
-                },
-                {
-                    "title": "Choices",
-                    "type": "text",
-                    "name": "choices",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": null,
-                    "tooltip": "Pass the list of choices for a single-select attribute."
-                },
-                {
-                    "title": "Is Actionable",
-                    "type": "checkbox",
-                    "name": "is_actionable",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": false,
-                    "tooltip": "Pass true to enable the custom attribute to be modified in threat data objects. Default value: false"
-                },
-                {
-                    "title": "Status",
-                    "type": "integer",
-                    "name": "status",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": "1",
-                    "tooltip": "Pass 1 to activate the attribute. Pass 0 to deactivate the attribute."
-                },
-                {
-                    "title": "Sdo Objects",
-                    "type": "text",
-                    "name": "sdo_objects",
-                    "required": false,
-                    "visible": true,
-                    "editable": true,
-                    "value": null,
-                    "tooltip": "Pass the list of SDOs on which you want to list this attribute as actionable."
-                }
-            ],
-            "output_schema": {
-                "message": "",
-                "result": {}
-            },
-            "open": false
+          "title": "Page Size",
+          "name": "page_size",
+          "type": "integer",
+          "description": "(Optional) Number of record requests that should be included per page. By default, this is set to 20.",
+          "tooltip": "Number of record requests that should be included per page. By default, this is set to 20.",
+          "required": false,
+          "editable": true,
+          "visible": true,
+          "value": ""
         }
-    ]
+      ],
+      "output_schema": {
+        "message": "",
+        "result": {
+          "package_count": "",
+          "whois_domain_report": "",
+          "stix_object_id": "",
+          "domain_data": "",
+          "created": "",
+          "package_details": [
+            {
+              "source_grading": "",
+              "intl_grading": "",
+              "package_timestamp": "",
+              "package_id": "",
+              "package_title": "",
+              "source_name": "",
+              "collection_name": ""
+            }
+          ],
+          "domain_tld_data": ".",
+          "packages_list": [],
+          "updated": "",
+          "url_data": [],
+          "score": ""
+        }
+      },
+      "enabled": true
+    },
+    {
+      "operation": "search_ip",
+      "title": "Search IP",
+      "description": "Searches for an IP address in the Cyware threat intelligence platform and retrieves relevant details from CTIX based on the IP address you have specified.",
+      "category": "investigation",
+      "annotation": "search_ip",
+      "endpoint": "/ctixapi/openapi/search/",
+      "parameters": [
+        {
+          "title": "IP Address",
+          "name": "ip",
+          "type": "text",
+          "description": "IP address whose information you want to retrieve from CTIX.",
+          "tooltip": "IP address whose information you want to retrieve from CTIX.",
+          "required": true,
+          "editable": true,
+          "visible": true,
+          "value": ""
+        },
+        {
+          "title": "Page Size",
+          "name": "page_size",
+          "type": "integer",
+          "description": "(Optional) Number of record requests that should be included per page. By default, this is set to 20.",
+          "tooltip": "Number of record requests that should be included per page. By default, this is set to 20.",
+          "required": false,
+          "editable": true,
+          "visible": true,
+          "value": ""
+        }
+      ],
+      "output_schema": {
+        "message": "",
+        "result": {
+          "package_count": "",
+          "stix_object_id": "",
+          "ip_data": "",
+          "maxmind_geoip_ip_report": "",
+          "geoip_report": {
+            "country": {
+              "country_code": "",
+              "country_name": ""
+            },
+            "city": {
+              "continent_name": "",
+              "country_code": "",
+              "city": "",
+              "latitude": "",
+              "country_name": "",
+              "dma_code": null,
+              "continent_code": "",
+              "postal_code": "",
+              "region": "",
+              "time_zone": "",
+              "longitude": ""
+            }
+          },
+          "created": "",
+          "whois_ip_report": "",
+          "package_details": [
+            {
+              "source_grading": "",
+              "intl_grading": "",
+              "package_timestamp": "",
+              "package_id": "",
+              "package_title": "",
+              "source_name": "",
+              "collection_name": ""
+            }
+          ],
+          "packages_list": [],
+          "updated": "",
+          "score": ""
+        }
+      },
+      "enabled": true
+    },
+    {
+      "operation": "search_url",
+      "title": "Search URL",
+      "description": "Searches for a URL in the Cyware threat intelligence platform and retrieves relevant details from CTIX based on the URL you have specified.",
+      "category": "investigation",
+      "annotation": "search_url",
+      "endpoint": "/ctixapi/openapi/search/",
+      "parameters": [
+        {
+          "title": "URL",
+          "name": "url",
+          "type": "text",
+          "description": "URL whose information you want to retrieve from CTIX.",
+          "tooltip": "URL whose information you want to retrieve from CTIX.",
+          "required": true,
+          "editable": true,
+          "visible": true,
+          "value": ""
+        },
+        {
+          "title": "Page Size",
+          "name": "page_size",
+          "type": "integer",
+          "description": "(Optional) Number of record requests that should be included per page. By default, this is set to 20.",
+          "tooltip": "Number of record requests that should be included per page. By default, this is set to 20.",
+          "required": false,
+          "editable": true,
+          "visible": true,
+          "value": ""
+        }
+      ],
+      "output_schema": {
+        "message": "",
+        "result": {
+          "package_count": "",
+          "stix_object_id": "",
+          "created": "",
+          "package_details": [
+            {
+              "source_grading": "",
+              "intl_grading": "",
+              "package_timestamp": "",
+              "package_id": "",
+              "package_title": "",
+              "source_name": "",
+              "collection_name": ""
+            }
+          ],
+          "uri_data": "",
+          "packages_list": [],
+          "updated": "",
+          "score": ""
+        }
+      },
+      "enabled": true
+    },
+    {
+      "operation": "search_hash",
+      "title": "Search Hash",
+      "description": "Searches for a hash in the Cyware threat intelligence platform and retrieves relevant details from CTIX based on the hash value you have specified.",
+      "category": "investigation",
+      "annotation": "search_hash",
+      "endpoint": "/ctixapi/openapi/search/",
+      "parameters": [
+        {
+          "title": "Hash",
+          "name": "hash",
+          "type": "text",
+          "description": "Value of the hash whose information you want to retrieve from CTIX.",
+          "tooltip": "Value of the hash whose information you want to retrieve from CTIX.",
+          "required": true,
+          "editable": true,
+          "visible": true,
+          "value": ""
+        },
+        {
+          "title": "Page Size",
+          "name": "page_size",
+          "type": "integer",
+          "description": "(Optional) Number of record requests that should be included per page. By default, this is set to 20.",
+          "tooltip": "Number of record requests that should be included per page. By default, this is set to 20.",
+          "required": false,
+          "editable": true,
+          "visible": true,
+          "value": ""
+        }
+      ],
+      "output_schema": {
+        "page_limit": "",
+        "results": [
+          {
+            "first_seen": "",
+            "last_seen": "",
+            "stix_object_id": "",
+            "deprecated": "",
+            "intel_grading": "",
+            "indicator_type": "",
+            "package_id": [],
+            "source": [],
+            "labels": [],
+            "source_grading": "",
+            "score": "",
+            "blocked_time": "",
+            "blocked": "",
+            "name2": "",
+            "deprecated_time": ""
+          }
+        ],
+        "total": ""
+      },
+      "enabled": true
+    },
+    {
+      "operation": "search_cve_id",
+      "title": "Search CVE ID",
+      "description": "Searches for a CVE ID in the Cyware threat intelligence platform and retrieves relevant details from CTIX based on the ID of the CVE you have specified.",
+      "category": "investigation",
+      "annotation": "search_cve_id",
+      "endpoint": "/ctixapi/openapi/search/",
+      "parameters": [
+        {
+          "title": "CVE ID",
+          "name": "cve_id",
+          "type": "text",
+          "description": "ID of the CVE whose information you want to retrieve from CTIX.",
+          "tooltip": "ID of the CVE whose information you want to retrieve from CTIX.",
+          "required": true,
+          "editable": true,
+          "visible": true,
+          "value": ""
+        },
+        {
+          "title": "Page Size",
+          "name": "page_size",
+          "type": "integer",
+          "description": "(Optional) Number of record requests that should be included per page. By default, this is set to 20.",
+          "tooltip": "Number of record requests that should be included per page. By default, this is set to 20.",
+          "required": false,
+          "editable": true,
+          "visible": true,
+          "value": ""
+        }
+      ],
+      "output_schema": {
+        "message": "",
+        "result": {
+          "package_count": "",
+          "stix_object_id": "",
+          "cve_id": "",
+          "created": "",
+          "package_details": [
+            {
+              "source_grading": "",
+              "intl_grading": "",
+              "package_timestamp": "",
+              "package_id": "",
+              "package_title": "",
+              "source_name": "",
+              "collection_name": ""
+            },
+            {
+              "source_grading": "",
+              "intl_grading": "",
+              "package_timestamp": "",
+              "package_id": "",
+              "package_title": "",
+              "source_name": "",
+              "collection_name": ""
+            }
+          ],
+          "packages_list": [],
+          "updated": "",
+          "score": ""
+        }
+      },
+      "enabled": true
+    },
+    {
+      "operation": "bulk_lookup_and_create",
+      "title": "Bulk Lookup and Create (Deprecated)",
+      "description": "Performs a bulk IOC lookup by fetching a list of threat data objects present in the CTIX application. If some IOCs are not present in the application, then you can choose to ingest the missing IOCs and create new records. NOTE: You can perform the lookup and further ingest a maximum of 1000 IOCs in the application at any moment.",
+      "category": "investigation",
+      "annotation": "bulk_lookup_and_create",
+      "endpoint": "/ingestion/threat-data/bulk-lookup-and-create/",
+      "parameters": [
+        {
+          "title": "Indicator Values",
+          "name": "ioc_values",
+          "type": "text",
+          "description": "Specify the list of values to be used by IOCs to perform the lookup.",
+          "tooltip": "Specify the list of values to be used by IOCs to perform the lookup.",
+          "required": true,
+          "editable": true,
+          "visible": true,
+          "placeholder": "1.1.1.1,fortinet.com"
+        },
+        {
+          "title": "Create Records",
+          "name": "create",
+          "type": "checkbox",
+          "description": "Select this checkbox, i.e., set it to 'True', if you want to create records of the IOCs that were not present in the CTIX platform while performing the lookup. By default this checkbox is not selected, i.e. it is set as 'False'.",
+          "tooltip": "Select this checkbox, i.e., set it to 'True', if you want to create records of the IOCs that were not present in the CTIX platform while performing the lookup. By default this checkbox is not selected, i.e. it is set as 'False'.",
+          "required": false,
+          "editable": true,
+          "visible": true
+        },
+        {
+          "title": "Enrich Records",
+          "name": "enrichment",
+          "type": "checkbox",
+          "description": "Select this checkbox, i.e., set it to 'True', to add the last enriched information for each enriched object found during the lookup. By default this checkbox is not selected, i.e. it is set as 'False'.",
+          "tooltip": "Select this checkbox, i.e., set it to 'True', to add the last enriched information for each enriched object found during the lookup. By default this checkbox is not selected, i.e. it is set as 'False'.",
+          "required": false,
+          "editable": true,
+          "visible": true
+        },
+        {
+          "title": "Metadata",
+          "name": "metadata",
+          "type": "json",
+          "description": "(Optional) Specify any additional information such as TLP, confidence score, etc., in the JSON format to be included with the object while creating records.",
+          "tooltip": "Specify any additional information such as TLP, confidence score, etc., in the JSON format to be included with the object while creating records.",
+          "required": false,
+          "editable": true,
+          "visible": true,
+          "value": {
+            "tlp": "RED",
+            "confidence": 100,
+            "tags": [
+              "Tagged"
+            ]
+          }
+        },
+        {
+          "title": "Source",
+          "name": "source",
+          "type": "text",
+          "description": "(Optional) Specify the source name that you want to map to the threat data objects.",
+          "tooltip": "Specify the source name that you want to map to the threat data objects.",
+          "required": false,
+          "editable": true,
+          "visible": true
+        },
+        {
+          "title": "Collection",
+          "name": "collection",
+          "type": "text",
+          "description": "(Optional) Specify the collection name that you want to map to the threat data objects.",
+          "tooltip": "Specify the collection name that you want to map to the threat data objects.",
+          "required": false,
+          "editable": true,
+          "visible": true
+        }
+      ],
+      "output_schema": {
+        "found_iocs": {
+          "results": [],
+          "total": ""
+        },
+        "values_not_found": {
+          "invalid_values": [],
+          "total_invalid": "",
+          "total_valid": "",
+          "valid_iocs": []
+        }
+      }
+    },
+    {
+      "title": "Create Intel via Open API",
+      "operation": "create_intel_via_open_api",
+      "description": "Create intel with additional details such as the source and collection. You can also include details for each object, such as description, notes, custom attributes, and more.",
+      "parameters": [
+        {
+          "title": "Title",
+          "type": "text",
+          "name": "title",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the title of the intel within 100 characters."
+        },
+        {
+          "title": "All SDOS",
+          "type": "object",
+          "name": "allSDOS",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": null,
+          "tooltip": "Pass the SDO and IOC objects to add to the intel. For more information, see The All SDOs Object."
+        },
+        {
+          "title": "Source",
+          "type": "text",
+          "name": "source",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": "Miscellaneous",
+          "tooltip": "Pass the name of the source to map the intel.If the passed source name does not exists in the platform, then a new source is automatically created in the Miscellaneous source category."
+        },
+        {
+          "title": "Collection",
+          "type": "text",
+          "name": "collection",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": "Free Text",
+          "tooltip": "Pass the name of the source collection to associate with the source.\nIf the passed collection name does not exists in the platform, then a new collection is automatically created."
+        },
+        {
+          "title": "Metadata",
+          "type": "object",
+          "name": "metadata",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": null,
+          "tooltip": "Pass additional information to associate with the intel."
+        }
+      ],
+      "open": false
+    },
+    {
+      "title": "Get Threat Data",
+      "operation": "list_threat_data",
+      "description": "Returns a list of threat data objects from the CTIX application. You can retrieve a maximum of 500,000 threat data objects using this API.",
+      "category": "",
+      "annotation": "list_threat_data",
+      "parameters": [
+        {
+          "title": "Query",
+          "type": "text",
+          "name": "query",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass a CQL query to filter and fetch results."
+        },
+        {
+          "title": "Page",
+          "type": "integer",
+          "name": "page",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": 1,
+          "tooltip": "Pass the page number to filter threat data objects by page number."
+        },
+        {
+          "title": "Page Size",
+          "type": "integer",
+          "name": "page_size",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": 1,
+          "tooltip": " Pass the number of records per page to filter the threat data objects by page size."
+        },
+        {
+          "title": "Page Limit",
+          "type": "integer",
+          "name": "page_limit",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": 10,
+          "tooltip": "Pass the number of threat data objects to be retrieved."
+        },
+        {
+          "title": "Enrichment",
+          "type": "checkbox",
+          "name": "enrichment",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": true,
+          "tooltip": "Pass true to retrieve the details of the last enrichment for the objects that can be enriched."
+        },
+        {
+          "title": "Sort",
+          "type": "text",
+          "name": "sort",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": "-ctix_created",
+          "tooltip": ""
+        }
+      ],
+      "output_schema": {
+        "message": "",
+        "result": {}
+      },
+      "open": false
+    },
+    {
+      "title": "Bulk Add Relation",
+      "operation": "bulk_add_relation",
+      "description": "Add a relation to multiple threat data objects.",
+      "category": "utilities",
+      "annotation": "bulk_add_relation",
+      "parameters": [
+        {
+          "title": "Object Ids",
+          "type": "text",
+          "name": "object_ids",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": null,
+          "tooltip": "Pass the list of threat data object IDs to perform the bulk action. To retrieve a list of object IDs, use the List Threat Data API under the Threat Data section."
+        },
+        {
+          "title": "Object Type",
+          "type": "text",
+          "name": "object_type",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the type of threat data objects. To get the list of supported object types, see Supported SDO Types in Threat Data > Miscellaneous."
+        },
+        {
+          "title": "Data",
+          "type": "object",
+          "name": "data",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": null,
+          "tooltip": "Pass the additional data to pass with the request."
+        }
+      ],
+      "output_schema": {
+        "message": "",
+        "result": {}
+      },
+      "open": false
+    },
+    {
+      "title": "Bulk Deprecate/Undeprecate Objects",
+      "operation": "bulk_deprecate_undeprecate_objects",
+      "description": "Deprecate or undeprecate multiple threat data objects with one API request.",
+      "category": "utilities",
+      "annotation": "bulk_deprecate_undeprecate_objects",
+      "parameters": [
+        {
+          "title": "Object Ids",
+          "type": "text",
+          "name": "object_ids",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the list of threat data object IDs to perform the bulk action. To retrieve a list of object IDs, use the List Threat Data API under the Threat Data section."
+        },
+        {
+          "title": "Object Type",
+          "type": "text",
+          "name": "object_type",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the type of threat data objects. To get the list of supported object types, see Supported SDO Types in Threat Data > Miscellaneous."
+        },
+        {
+          "title": "Action Type",
+          "type": "text",
+          "name": "action_type",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": "deprecate",
+          "tooltip": "Pass deprecate objects. Pass un_deprecate to undeprecate objects."
+        }
+      ],
+      "output_schema": {
+        "message": ""
+      },
+      "open": false
+    },
+    {
+      "title": "Bulk Mark/Unmark False Positive",
+      "operation": "bulk_mark_unmark_false_positive",
+      "description": "Mark or unmark multiple IOCs as false positives.",
+      "category": "remediation",
+      "annotation": "bulk_mark_unmark_false_positive",
+      "parameters": [
+        {
+          "title": "Object Ids",
+          "type": "text",
+          "name": "object_ids",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the list of threat data object IDs to perform the bulk action. To retrieve a list of object IDs, use the List Threat Data API under the Threat Data section"
+        },
+        {
+          "title": "Object Type",
+          "type": "text",
+          "name": "object_type",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the type of threat data objects. To get the list of supported object types, see Supported SDO Types in Threat Data > Miscellaneous."
+        },
+        {
+          "title": "Action Type",
+          "type": "text",
+          "name": "action_type",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": "false_positive",
+          "tooltip": "Pass false_positive to mark IOCs as false positives. Pass un_false_positive to unmark an IOCs as false positives."
+        }
+      ],
+      "output_schema": {
+        "message": ""
+      },
+      "open": false
+    },
+    {
+      "title": "Bulk IOC Lookup and Create Intel",
+      "operation": "bulk_ioc_lookup_and_create_intel",
+      "description": "Performs a bulk IOC lookup by fetching a list of threat data objects present in the CTIX application. If some IOCs are not present in the application, then you can choose to ingest the missing IOCs and create new records. NOTE: You can perform the lookup and further ingest a maximum of 1000 IOCs in the application at any moment.",
+      "category": "investigation",
+      "annotation": "bulk_lookup_and_create",
+      "parameters": [
+        {
+          "title": "Indicator Values",
+          "type": "text",
+          "name": "ioc_values",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "tooltip": "Specify a comma-separated list of values to be used by IOCs to perform the lookup."
+        },
+        {
+          "title": "Source",
+          "type": "text",
+          "name": "source",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": "OpenAPI Lookup (OpenAPI)",
+          "tooltip": "Specify the source name that you want to map to the threat data objects."
+        },
+        {
+          "title": "Collection",
+          "type": "text",
+          "name": "collection",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": "OpenAPI Lookup (OpenAPI)",
+          "tooltip": "Specify the collection name that you want to map to the threat data objects. If the passed source name does not exists in the platform, then a new source is automatically created with the suffix (OpenAPI) in the Miscellaneous source category."
+        },
+        {
+          "title": "Metadata",
+          "type": "object",
+          "name": "metadata",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": null,
+          "tooltip": "Specify any additional information such as TLP, confidence score, etc., in the JSON format to be included with the object while creating records."
+        },
+        {
+          "title": "Create Records",
+          "type": "checkbox",
+          "name": "create",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": false,
+          "tooltip": "Select this checkbox, i.e., set it to 'True', if you want to create records of the IOCs that were not present in the CTIX platform while performing the lookup. By default this checkbox is not selected, i.e. it is set as 'False'."
+        },
+        {
+          "title": "Enrich Records",
+          "type": "checkbox",
+          "name": "enrichment",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": false,
+          "tooltip": "Select this checkbox, i.e., set it to 'True', to add the last enriched information for each enriched object found during the lookup. By default this checkbox is not selected, i.e. it is set as 'False'."
+        }
+      ],
+      "output_schema": {
+        "found_iocs": {
+          "results": [],
+          "total": ""
+        },
+        "values_not_found": {
+          "invalid_values": [],
+          "total_invalid": "",
+          "total_valid": "",
+          "valid_iocs": []
+        }
+      },
+      "open": false
+    },
+    {
+      "title": "Bulk IOC Lookup (Advanced)",
+      "operation": "bulk_ioc_lookup_advanced",
+      "description": "Performs a lookup for threat data objects in the CTIX platform and retrieves the details of the objects, such as basic details, enriched data, and relations.",
+      "parameters": [
+        {
+          "title": "Object Type",
+          "type": "text",
+          "name": "object_type",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass an object type to lookup. For the list of supported object types, see Supported SDO Types in Threat Data > Miscellaneous."
+        },
+        {
+          "title": "Value",
+          "type": "text",
+          "name": "value",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass a list of up to 100 threat data object values to look up."
+        },
+        {
+          "title": "Object ID",
+          "type": "text",
+          "name": "objectID",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass a list of up to 100 threat data object IDs to look up."
+        },
+        {
+          "title": "Enrichment Data",
+          "type": "checkbox",
+          "name": "enrichment_data",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": false,
+          "tooltip": "Pass true to retrieve the latest five enrichment data objects."
+        },
+        {
+          "title": "Relation Data",
+          "type": "checkbox",
+          "name": "relation_data",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": false,
+          "tooltip": "Pass true to retrieve the latest 100 relations details."
+        },
+        {
+          "title": "Enrichment Tools",
+          "type": "text",
+          "name": "enrichment_tools",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the name of up to five enrichment tools separated by a comma."
+        },
+        {
+          "title": "Fields",
+          "type": "text",
+          "name": "fields",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass a comma-separated list of field names to retrieve specific details of the objects. By default, all fields are retrieved."
+        }
+      ],
+      "open": false
+    },
+    {
+      "title": "Get Threat Data Object Details List",
+      "operation": "list_threat_data_object_details",
+      "description": "Returns basic correlated details of a threat data object in Intel Exchange.",
+      "category": "investigation",
+      "annotation": "list_threat_data_object_details",
+      "parameters": [
+        {
+          "title": "Object Type",
+          "type": "text",
+          "name": "object_type",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the type of the object such as indicator, vulnerability, malware, and more."
+        },
+        {
+          "title": "Object ID",
+          "type": "text",
+          "name": "objectID",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the ID of the object to retrieve the details."
+        }
+      ],
+      "output_schema": {
+        "message": "",
+        "result": {}
+      },
+      "open": false
+    },
+    {
+      "title": "Get Threat Data Object Additional Details",
+      "operation": "threat_data_object_advanced_details",
+      "description": "Retrieves additional information of a threat data object, such as, kill chain phases and published collections.",
+      "category": "investigation",
+      "annotation": "threat_data_object_advanced_details",
+      "parameters": [
+        {
+          "title": "Object Type",
+          "type": "text",
+          "name": "object_type",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the type of the object such as indicator, vulnerability, malware, and more."
+        },
+        {
+          "title": "Object ID",
+          "type": "text",
+          "name": "object_id",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the ID of the object to retrieve the details."
+        }
+      ],
+      "output_schema": {
+        "message": "",
+        "result": {
+          "kill_chain_phases": [],
+          "published_collections": []
+        }
+      },
+      "open": false
+    },
+    {
+      "title": "Get Relations List of Threat Data Object",
+      "operation": "list_relations_of_threat_data_object",
+      "description": "Retrieves the list of relations and the relation details of a threat data object.",
+      "category": "",
+      "annotation": "list_relations_of_threat_data_object",
+      "parameters": [
+        {
+          "title": "Object ID",
+          "type": "text",
+          "name": "objectID",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": ""
+        },
+        {
+          "title": "Object Type",
+          "type": "text",
+          "name": "objectType",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": ""
+        },
+        {
+          "title": "Sources",
+          "type": "text",
+          "name": "sources",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the IDs of the sources to filter results."
+        },
+        {
+          "title": "Page",
+          "type": "integer",
+          "name": "page",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": 1,
+          "tooltip": "Pass the page number to retrieve relations."
+        },
+        {
+          "title": "Page Size",
+          "type": "integer",
+          "name": "page_size",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": 10,
+          "tooltip": "Pass the number of records to retrieve per page."
+        }
+      ],
+      "output_schema": {
+        "message": "",
+        "result": {}
+      },
+      "open": false
+    },
+    {
+      "title": "Create Threat Bulletin",
+      "operation": "create_threat_bulletin",
+      "description": "Creates a threat bulletin.",
+      "category": "utilities",
+      "annotation": "create_threat_bulletin",
+      "parameters": [
+        {
+          "title": "Title",
+          "type": "text",
+          "name": "title",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the title for the threat bulletin."
+        },
+        {
+          "title": "Description",
+          "type": "text",
+          "name": "description",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the description for the threat bulletin."
+        },
+        {
+          "title": "Status",
+          "type": "text",
+          "name": "status",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the status of the creation of the threat bulletin."
+        },
+        {
+          "title": "Tlp",
+          "type": "text",
+          "name": "tlp",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the TLP for the threat bulletin"
+        },
+        {
+          "title": "Server Collections",
+          "type": "object",
+          "name": "server_collections",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": null,
+          "tooltip": "Pass the list of server collections"
+        },
+        {
+          "title": "Tags",
+          "type": "object",
+          "name": "tags",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": null,
+          "tooltip": "Pass the list of tags"
+        },
+        {
+          "title": "Attachments",
+          "type": "object",
+          "name": "attachments",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": null,
+          "tooltip": "Pass the list of attachments"
+        }
+      ],
+      "output_schema": {
+        "message": "",
+        "result": {
+          "status": "",
+          "id": "",
+          "published": false
+        }
+      },
+      "open": false
+    },
+    {
+      "title": "Update Threat Bulletin",
+      "operation": "update_threat_bulletin",
+      "description": "Updates the threat bulletin.",
+      "category": "utilities",
+      "annotation": "update_threat_bulletin",
+      "parameters": [
+        {
+          "title": "Threat Bulletin Id",
+          "type": "text",
+          "name": "threat_bulletin_id",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Threat Bulletin ID"
+        },
+        {
+          "title": "Title",
+          "type": "text",
+          "name": "title",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the title for the threat bulletin."
+        },
+        {
+          "title": "Description",
+          "type": "text",
+          "name": "description",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": null,
+          "tooltip": "Pass the description for the threat bulletin."
+        },
+        {
+          "title": "Status",
+          "type": "text",
+          "name": "status",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the status of creation."
+        },
+        {
+          "title": "Tlp",
+          "type": "text",
+          "name": "tlp",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": null,
+          "tooltip": "Pass the TLP for the threat bulletin."
+        },
+        {
+          "title": "Server Collections",
+          "type": "object",
+          "name": "server_collections",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": null,
+          "tooltip": "Pass the list of server collections."
+        },
+        {
+          "title": "Tags",
+          "type": "object",
+          "name": "tags",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": null,
+          "tooltip": "Pass the comma-separated list of tags"
+        }
+      ],
+      "output_schema": {
+        "message": "",
+        "result": {
+          "id": "",
+          "title": "",
+          "created": 0,
+          "modified": 0,
+          "report_id": "",
+          "created_by": "",
+          "modified_by": "",
+          "status": "",
+          "tags": [],
+          "description": "",
+          "tlp": "",
+          "server_collections": "",
+          "client_collections": "",
+          "received": false,
+          "published_on": "",
+          "attachments": [],
+          "metadata": "",
+          "published": false,
+          "confidence": "="
+        }
+      },
+      "open": false
+    },
+    {
+      "title": "List Rules",
+      "operation": "list_rules",
+      "description": "Retrieves a list of rules from the platform.",
+      "parameters": [
+        {
+          "title": "Page",
+          "type": "integer",
+          "name": "page",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": 1,
+          "tooltip": "Pass the page number to retrieve rules."
+        },
+        {
+          "title": "Page Size",
+          "type": "integer",
+          "name": "pageSize",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": 10,
+          "tooltip": "Pass the number of rules to retrieve per page."
+        },
+        {
+          "title": "Source",
+          "type": "text",
+          "name": "source",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass a comma-separated list of source IDs to filter rules."
+        },
+        {
+          "title": "Created By ID",
+          "type": "text",
+          "name": "createdByID",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the ID of the creator of the rules to filter."
+        },
+        {
+          "title": "Status",
+          "type": "text",
+          "name": "status",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the status of the rules. Allowed values: DRAFT, ACTIVE, INACTIVE. By default, rules with all status are retrieved."
+        },
+        {
+          "title": "Last Active To",
+          "type": "datetime",
+          "name": "lastActiveTo",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": null,
+          "tooltip": "Pass the last active time in EPOCH format to filter rules."
+        },
+        {
+          "title": "Last Active From",
+          "type": "datetime",
+          "name": "lastActiveFrom",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": null,
+          "tooltip": "Pass the last active time in EPOCH format to filter rules."
+        },
+        {
+          "title": "Created From",
+          "type": "datetime",
+          "name": "createdFrom",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": null,
+          "tooltip": "Pass the creation time in EPOCH format to filter rules."
+        },
+        {
+          "title": "Created To",
+          "type": "text",
+          "name": "createdTo",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the creation time in EPOCH format to filter rules."
+        },
+        {
+          "title": "Is Manual Run",
+          "type": "checkbox",
+          "name": "isManualRun",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": false,
+          "tooltip": "Check to retrieve rules that are configured for manual execution only"
+        }
+      ],
+      "output_schema": {
+        "next": null,
+        "previous": null,
+        "page_size": 10,
+        "total": 1,
+        "results": [
+          {
+            "name": "",
+            "source": [],
+            "id": "",
+            "is_active": true,
+            "last_activity_on": 0,
+            "ctix_created": 1632767764,
+            "ctix_updated": 1632767764,
+            "is_follow": true,
+            "no_conditions": true,
+            "all_sources_and_collections": false,
+            "status": "",
+            "tags": [],
+            "created_by": {
+              "email": "",
+              "first_name": "",
+              "last_name": "",
+              "id": ""
+            },
+            "updated_by": {
+              "email": "",
+              "first_name": "",
+              "last_name": "",
+              "id": ""
+            },
+            "trigger_on_update": false
+          }
+        ]
+      },
+      "open": false,
+      "category": "investigation"
+    },
+    {
+      "title": "Run Rule",
+      "operation": "run_rule",
+      "description": "Runs a rule asynchronously on the existing threat data created in the specified time interval.",
+      "parameters": [
+        {
+          "title": "Rule",
+          "type": "text",
+          "name": "rule",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the unique ID of a rule."
+        },
+        {
+          "title": "Start Time",
+          "type": "text",
+          "name": "startTime",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": null,
+          "tooltip": "Filters threat data objects that are created after the passed timestamp value."
+        },
+        {
+          "title": "End Time",
+          "type": "text",
+          "name": "endTime",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": null,
+          "tooltip": "Filters threat data objects that are created before the passed timestamp value."
+        }
+      ],
+      "open": false,
+      "category": "remediation"
+    },
+    {
+      "title": "Get Enrichment Tool List",
+      "operation": "enrichment_tools",
+      "description": "Returns the list of enrichment tools configured in Intel Exchange.",
+      "category": "investigation",
+      "annotation": "enrichment_tools",
+      "parameters": [
+        {
+          "title": "Action Name",
+          "type": "text",
+          "name": "action_name",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": null,
+          "tooltip": "Specify a list of comma-separated action names, for example: get_ip for IPs, get_domain for Domain, get_url for URL, get_cve for Vulnerability"
+        },
+        {
+          "title": "Component",
+          "type": "text",
+          "name": "component",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Use this filter to get the enrichment tools list by a component. For example, if you specify the component as investigation, it returns only those apps whose enrichment is supported in threat-investigation"
+        },
+        {
+          "title": "Full List",
+          "type": "checkbox",
+          "name": "full_list",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": "true",
+          "tooltip": "Use this filter to get action separated tools together"
+        }
+      ],
+      "output_schema": {
+        "message": "",
+        "result": {}
+      },
+      "open": false
+    },
+    {
+      "title": "Get Enrichment Object Details",
+      "operation": "get_enrichment_object_details",
+      "description": "Retrieves the enrichment data for the given object and tool ID.",
+      "category": "investigation",
+      "annotation": "get_enrichment_object_details",
+      "parameters": [
+        {
+          "title": "Object Type",
+          "type": "text",
+          "name": "object_type",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the type of object to retrieve enrichment details."
+        },
+        {
+          "title": "Object ID",
+          "type": "text",
+          "name": "objectID",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the object ID to retrieve the enrichment details."
+        },
+        {
+          "title": "Tool ID",
+          "type": "text",
+          "name": "toolID",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the tool ID to retrieve the enrichment details."
+        }
+      ],
+      "output_schema": {
+        "message": "",
+        "result": {}
+      },
+      "open": false
+    },
+    {
+      "title": "Get Enriched Threat Data",
+      "operation": "get_enriched_threat_data",
+      "description": "Returns the enriched data of a threat data object using enrichment tools.",
+      "category": "remediation",
+      "annotation": "get_enriched_threat_data",
+      "parameters": [
+        {
+          "title": "App Slug",
+          "type": "text",
+          "name": "app_slug",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the slug of an enrichment tool to retrieve its enriched data. To retrieve the slug of an enrichment tool, use the GET Enrichment Tools API endpoint."
+        },
+        {
+          "title": "Value",
+          "type": "text",
+          "name": "value",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the value of the object. For example, sco, vulnerability, and more."
+        },
+        {
+          "title": "Action Slug",
+          "type": "text",
+          "name": "action_slug",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the enrichment action name to retrieve specific details. For example, get_ip for IPs, get_domain for Domain, get_url for URL, get_cve for Vulnerability."
+        },
+        {
+          "title": "Object ID",
+          "type": "text",
+          "name": "objectID",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the ID of an object id(sco object id for indicators and vulnerability object id for vulnerabilities)"
+        },
+        {
+          "title": "Object Type",
+          "type": "text",
+          "name": "object_type",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the object type. sdo object type(indicator /or vulnerability)"
+        }
+      ],
+      "output_schema": {
+        "message": "",
+        "result": {}
+      },
+      "open": false
+    },
+    {
+      "title": "Add Note to Threat Data Object",
+      "operation": "add_note_to_threat_data_object",
+      "description": "Adds a note to a threat data object",
+      "category": "utilities",
+      "annotation": "add_note_to_threat_data_object",
+      "parameters": [
+        {
+          "title": "Object Id",
+          "type": "text",
+          "name": "object_id",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the ID of the threat data object to create the notes. Else, the note is created as a global note."
+        },
+        {
+          "title": "Text",
+          "type": "text",
+          "name": "text",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": null,
+          "tooltip": "Pass the description for the notes."
+        },
+        {
+          "title": "Type",
+          "type": "text",
+          "name": "type",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the type of the note."
+        },
+        {
+          "title": "Meta Data",
+          "type": "object",
+          "name": "meta_data",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": null,
+          "tooltip": "Pass the metadata associated with the note."
+        },
+        {
+          "title": "Is Json",
+          "type": "checkbox",
+          "name": "is_json",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": false,
+          "tooltip": "Pass true if you want to send the note in JSON format."
+        }
+      ],
+      "output_schema": {
+        "message": "",
+        "result": {
+          "created": 0,
+          "created_by": {
+            "email": "",
+            "first_name": "",
+            "id": "",
+            "last_name": ""
+          },
+          "id": "",
+          "is_json": false,
+          "meta_data": {},
+          "modified": 0,
+          "modified_by": {
+            "email": "",
+            "first_name": "",
+            "id": "",
+            "last_name": ""
+          },
+          "object_id": "",
+          "text": "",
+          "title": "",
+          "type": ""
+        }
+      },
+      "open": false
+    },
+    {
+      "title": "Create Tag",
+      "operation": "create_tag",
+      "description": "Creates a tag in the CTIX platform",
+      "category": "utilities",
+      "annotation": "create_tag",
+      "parameters": [
+        {
+          "title": "Name",
+          "type": "text",
+          "name": "name",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass a unique name for the tag within 50 characters."
+        },
+        {
+          "title": "Colour Code",
+          "type": "select",
+          "name": "colour_code",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": null,
+          "tooltip": "Pass the HEX key of a color code for the tag.",
+          "options": [
+            "#5236E2",
+            "#0068FA",
+            "#EB9C00",
+            "#FF5330",
+            "#27865F",
+            "#C4C81D",
+            "#00A2C2",
+            "#C341E7",
+            "#AD6B76",
+            "#95A1B1"
+          ]
+        }
+      ],
+      "output_schema": {
+        "message": "",
+        "result": {
+          "id": "",
+          "name": "",
+          "colour_code": "",
+          "created": 0,
+          "created_by": "",
+          "modified_by": "",
+          "modified": 0,
+          "type": ""
+        }
+      },
+      "open": false
+    },
+    {
+      "title": "Delete Tag",
+      "operation": "delete_tag",
+      "description": "Deletes a tag by the tag ID.",
+      "category": "utilities",
+      "annotation": "delete_tag",
+      "parameters": [
+        {
+          "title": "Tag ID",
+          "type": "text",
+          "name": "tag_id",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the ID of a tag to delete."
+        }
+      ],
+      "output_schema": {},
+      "open": false
+    },
+    {
+      "title": "List Allowed Indicators",
+      "operation": "list_allowed_indicators",
+      "description": "Returns a list of allowed indicators from the CTIX platform.",
+      "category": "investigation",
+      "annotation": "list_allowed_indicators",
+      "parameters": [
+        {
+          "title": "Type",
+          "type": "text",
+          "name": "type",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass an allowed indicator type to filter result. To retrieve the supported list of allowed indicator types, se the GET List Supported Allowed Indicator Types API."
+        },
+        {
+          "title": "Page",
+          "type": "integer",
+          "name": "page",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": 1,
+          "tooltip": "Pass the page number to retrieve indicators."
+        },
+        {
+          "title": "Page Size",
+          "type": "integer",
+          "name": "page_size",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": 10,
+          "tooltip": "Pass the number of records to retrieve per page."
+        },
+        {
+          "title": "Created by Id",
+          "type": "text",
+          "name": "created_by_id",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the ID of a user to filter records by the creator."
+        },
+        {
+          "title": "Modified by Id",
+          "type": "text",
+          "name": "modified_by_id",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the ID of a user to filter records by the modifier."
+        },
+        {
+          "title": "Created From",
+          "type": "text",
+          "name": "created_from",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the created from time in EPOCH format to filter records based on the created time"
+        },
+        {
+          "title": "Created To",
+          "type": "text",
+          "name": "created_to",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the created to time in EPOCH format to filter records based on the created time."
+        },
+        {
+          "title": "Last Active From",
+          "type": "text",
+          "name": "last_active_from",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the last active from time in EPOCH format to filter records based on the last activity time."
+        },
+        {
+          "title": "Last Active To",
+          "type": "text",
+          "name": "last_active_to",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the last active to time in EPOCH format to filter records based on the last activity time."
+        },
+        {
+          "title": "Sort",
+          "type": "text",
+          "name": "sort",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": "-created",
+          "tooltip": "Pass -created to sort result in descending order based on the created time. Pass created to sort result in ascending order."
+        }
+      ],
+      "output_schema": {
+        "next": "",
+        "page_size": 10,
+        "previous": "",
+        "results": [],
+        "total": 0
+      },
+      "open": false
+    },
+    {
+      "title": "Delete Allowed Indicator",
+      "operation": "delete_allowed_indicator",
+      "description": "Deletes a particular allowed indicator entry from the dashboard.",
+      "category": "containment",
+      "annotation": "delete_allowed_indicator",
+      "parameters": [
+        {
+          "title": "Indicator Id",
+          "type": "text",
+          "name": "indicator_id",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the ID of an allowed indicator to delete."
+        }
+      ],
+      "output_schema": {
+        "details": {}
+      },
+      "open": false
+    },
+    {
+      "title": "List Reports",
+      "operation": "list_reports",
+      "description": "Retrieves a list of reports from the CTIX application.",
+      "category": "",
+      "annotation": "list_reports",
+      "parameters": [
+        {
+          "title": "Type",
+          "type": "text",
+          "name": "type",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": "basic",
+          "tooltip": "Pass the type of report to filter reports. Allowed values: basic, advanced"
+        },
+        {
+          "title": "Page",
+          "type": "integer",
+          "name": "page",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": 1,
+          "tooltip": "Pass the page number to retrieve reports."
+        },
+        {
+          "title": "Page Size",
+          "type": "integer",
+          "name": "page_size",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": 10,
+          "tooltip": "Pass the number of reports to retrieve per page."
+        },
+        {
+          "title": "Repeat Type",
+          "type": "text",
+          "name": "repeat_type",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": "none",
+          "tooltip": "Pass the frequency of the report run schedule. Allowed values: daily, weekly, monthly. Default: none "
+        },
+        {
+          "title": "Shared Type",
+          "type": "text",
+          "name": "shared_type",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": "global",
+          "tooltip": "Pass the visibility of the reports. Allowed values: private, global"
+        },
+        {
+          "title": "Created By",
+          "type": "text",
+          "name": "created_by",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the ID of the user who created the reports."
+        },
+        {
+          "title": "Modified By",
+          "type": "text",
+          "name": "modified_by",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the ID of the user who modified the reports."
+        },
+        {
+          "title": "Created To",
+          "type": "text",
+          "name": "created_to",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the created from time of the reports in EPOCH format."
+        },
+        {
+          "title": "Created From",
+          "type": "text",
+          "name": "created_from",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the created from time of the reports in EPOCH format."
+        },
+        {
+          "title": "Modified From",
+          "type": "text",
+          "name": "modified_from",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the modified from time of the reports in EPOCH format."
+        },
+        {
+          "title": "Modified To",
+          "type": "text",
+          "name": "modified_to",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": null,
+          "tooltip": "Pass the modified to time of the reports in EPOCH format."
+        },
+        {
+          "title": "Date Last Run From",
+          "type": "text",
+          "name": "date_last_run_from",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the last run from time of the reports in EPOCH format."
+        },
+        {
+          "title": "Date Last Run To",
+          "type": "text",
+          "name": "date_last_run_to",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the last run to time of the reports in EPOCH format."
+        }
+      ],
+      "output_schema": {
+        "message": "",
+        "result": {}
+      },
+      "open": false
+    },
+    {
+      "title": "Create Report",
+      "operation": "create_report",
+      "description": "Creates a basic (standard) report in CTIX.",
+      "category": "utilities",
+      "annotation": "create_report",
+      "parameters": [
+        {
+          "title": "Name",
+          "type": "text",
+          "name": "name",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the name of the report."
+        },
+        {
+          "title": "Type",
+          "type": "text",
+          "name": "type",
+          "required": false,
+          "visible": true,
+          "editable": false,
+          "value": "basic",
+          "tooltip": "Pass the type of report to be created, such as standard or advanced."
+        },
+        {
+          "title": "Basic Report Type",
+          "type": "text",
+          "name": "basic_report_type",
+          "required": false,
+          "visible": true,
+          "editable": false,
+          "value": "custom",
+          "tooltip": "Pass the type of basic report to be created."
+        },
+        {
+          "title": "Shared Type",
+          "type": "select",
+          "name": "shared_type",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": null,
+          "tooltip": "Pass the share type value. Allowed values: private, global.",
+          "options": [
+            "private",
+            "global"
+          ]
+        },
+        {
+          "title": "Saved Search",
+          "type": "object",
+          "name": "saved_search",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": null,
+          "tooltip": "Pass the saved search or custom query details used for generating the report."
+        },
+        {
+          "title": "Schedule",
+          "type": "object",
+          "name": "schedule",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": null,
+          "tooltip": "Pass the schedule details such as repeat type, start date and time, duration time, duration value, and repeat value."
+        },
+        {
+          "title": "File Types",
+          "type": "text",
+          "name": "file_types",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": null,
+          "tooltip": "Pass the report types as a comma separated list, such as csv, xls."
+        },
+        {
+          "title": "Columns",
+          "type": "object",
+          "name": "columns",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": null,
+          "tooltip": "Pass the list of columns to be displayed in a basic report."
+        },
+        {
+          "title": "Internal Recipients",
+          "type": "object",
+          "name": "internal_recipients",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": null,
+          "tooltip": "Pass the list of internal recipients with whom to share the report."
+        },
+        {
+          "title": "Query Key",
+          "type": "text",
+          "name": "query_key",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": "ctix_created",
+          "tooltip": "Pass the key to sort data in the report."
+        },
+        {
+          "title": "External Recipients",
+          "type": "object",
+          "name": "external_recipients",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": null,
+          "tooltip": "Pass the list of external recipients with whom to share the report."
+        }
+      ],
+      "output_schema": {
+        "message": "",
+        "result": {}
+      },
+      "open": false
+    },
+    {
+      "title": "Run Report",
+      "operation": "run_report",
+      "description": "Runs a report and sends the file to the recipients",
+      "category": "remediation",
+      "annotation": "run_report",
+      "parameters": [
+        {
+          "title": "Report ID",
+          "type": "text",
+          "name": "report_id",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": ""
+        },
+        {
+          "title": "Type",
+          "type": "text",
+          "name": "type",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": "basic",
+          "tooltip": "Pass the type of the report to run. Allowed values: basic, advanced"
+        },
+        {
+          "title": "Start Time",
+          "type": "text",
+          "name": "start_time",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the start date and time in EPOCH format from which the report captures data available in CTIX."
+        },
+        {
+          "title": "End Time",
+          "type": "text",
+          "name": "end_time",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the end date and time in EPOCH format until which the report captures data available in CTIX."
+        },
+        {
+          "title": "File Types",
+          "type": "text",
+          "name": "file_types",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass the report types. Allowed values: csv, xls"
+        },
+        {
+          "title": "Internal Recipients",
+          "type": "object",
+          "name": "internal_recipients",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": {},
+          "tooltip": "Pass the list of internal recipients with whom to share the report."
+        },
+        {
+          "title": "External Recipients",
+          "type": "object",
+          "name": "external_recipients",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": {},
+          "tooltip": "Pass the list of external recipients with whom to share the report."
+        }
+      ],
+      "output_schema": {
+        "result": ""
+      },
+      "open": false
+    },
+    {
+      "title": "Create Custom Attribute",
+      "operation": "create_custom_attribute",
+      "description": "Create a custom attribute in the platform.",
+      "category": "utilities",
+      "annotation": "create_custom_attribute",
+      "parameters": [
+        {
+          "title": "Name",
+          "type": "text",
+          "name": "name",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass a name for the attribute within 100 characters."
+        },
+        {
+          "title": "Description",
+          "type": "text",
+          "name": "description",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "tooltip": "Pass a description for the attribute within 500 characters."
+        },
+        {
+          "title": "Type",
+          "type": "select",
+          "name": "type",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": null,
+          "tooltip": "Pass the number associated with the type. \n0: Boolean\n1: Integer\n2: String\n3: Single Select\n4: Date\n5: JSON\n6: Float",
+          "options": [
+            "Boolean",
+            "Integer",
+            "String",
+            "Single Select",
+            "Date",
+            "JSON",
+            "Float"
+          ]
+        },
+        {
+          "title": "Choices",
+          "type": "text",
+          "name": "choices",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": null,
+          "tooltip": "Pass the list of choices for a single-select attribute."
+        },
+        {
+          "title": "Is Actionable",
+          "type": "checkbox",
+          "name": "is_actionable",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": false,
+          "tooltip": "Pass true to enable the custom attribute to be modified in threat data objects. Default value: false"
+        },
+        {
+          "title": "Status",
+          "type": "integer",
+          "name": "status",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": "1",
+          "tooltip": "Pass 1 to activate the attribute. Pass 0 to deactivate the attribute."
+        },
+        {
+          "title": "Sdo Objects",
+          "type": "text",
+          "name": "sdo_objects",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "value": null,
+          "tooltip": "Pass the list of SDOs on which you want to list this attribute as actionable."
+        }
+      ],
+      "output_schema": {
+        "message": "",
+        "result": {}
+      },
+      "open": false
+    }
+  ]
 }
