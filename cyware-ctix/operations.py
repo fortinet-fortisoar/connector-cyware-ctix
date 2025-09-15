@@ -1,15 +1,16 @@
-""" Copyright start
-  Copyright (C) 2008 - 2023 Fortinet Inc.
-  All rights reserved.
-  FORTINET CONFIDENTIAL & FORTINET PROPRIETARY SOURCE CODE
-  Copyright end """
+"""
+Copyright start
+MIT License
+Copyright (c) 2025 Fortinet Inc
+Copyright end
+"""
 
-import requests
-import json
-import time
 import base64
 import hashlib
 import hmac
+import json
+import requests
+import time
 from connectors.core.connector import get_logger, ConnectorError
 
 logger = get_logger('cyware-ctix')
@@ -33,12 +34,12 @@ error_msg = {
 
 class CywareCTIX:
     def __init__(self, config):
-        self.base_url = config.get('server').strip('/')
-        if not self.base_url.startswith('https://'):
+        self.base_url = config.get('server', '').strip('/')
+        if not self.base_url.startswith('https://') and not self.base_url.startswith('http://'):
             self.base_url = 'https://{0}'.format(self.base_url)
-        self.access_id = config['access_id']
-        self.secret_key = config['secret_key']
-        self.verify_ssl = config['verify_ssl']
+        self.access_id = config.get('access_id')
+        self.secret_key = config.get('secret_key')
+        self.verify_ssl = config.get('verify_ssl')
         self.headers = {'content-type': 'application/json'}
 
     def get_signature(self, expires):
@@ -47,7 +48,7 @@ class CywareCTIX:
                                          hashlib.sha1).digest()).decode('utf-8')
 
     def make_rest_call(self, endpoint, query_params={}, body_params={}, method='GET'):
-        service_endpoint = '{0}/ctixapi/{1}'.format(self.base_url, endpoint)
+        service_endpoint = '{0}{1}'.format(self.base_url, endpoint)
         expires = int(time.time() + 30)
         query_params['AccessID'] = self.access_id
         query_params['Expires'] = expires
@@ -55,20 +56,14 @@ class CywareCTIX:
         logger.info('Request URL {}'.format(service_endpoint))
 
         try:
-            response = requests.request(
-                method,
-                service_endpoint,
-                verify=self.verify_ssl,
-                params=query_params,
-                json=body_params
-            )
+            response = requests.request(method, service_endpoint, verify=self.verify_ssl, params=query_params,
+                                        json=body_params)
             if response.ok:
                 if response.status_code == 204:
                     return {"status": "success", "message": "No content returned"}
                 return response.json()
-            if error_msg[response.status_code]:
-                raise ConnectorError('{}'.format(
-                    error_msg[response.status_code]))
+            if error_msg.get(response.status_code):
+                raise ConnectorError('{}'.format(error_msg.get(response.status_code)))
             response.raise_for_status()
         except requests.exceptions.SSLError as e:
             logger.exception('{}'.format(e))
@@ -83,7 +78,7 @@ class CywareCTIX:
 
 def _check_health(config):
     cyware = CywareCTIX(config)
-    resp = cyware.make_rest_call(endpoint='openapi/source/')
+    resp = cyware.make_rest_call(endpoint='/ctixapi/openapi/source')
     if resp:
         logger.info('connector available')
         return True
@@ -95,15 +90,13 @@ def get_boolean_string(value):
 
 
 def filter_params(params):
-    filtered_params = {k: v for k,
-                       v in params.items() if v is not None and v != ''}
+    filtered_params = {k: v for k, v in params.items() if v is not None and v != ''}
     return filtered_params
 
 
 def bulk_ioc_lookup_and_create_intel(config, params):
     cyware = CywareCTIX(config)
-    endpoint = "ingestion/threat-data/bulk-lookup-and-create/"
-    method = 'POST'
+    endpoint = "/ctixapi/ingestion/threat-data/bulk-lookup-and-create/"
     body_req_params = {
         'ioc_values': str(params.get('ioc_values')).split(','),
         'source': {'source_name': params.get('source')},
@@ -115,15 +108,13 @@ def bulk_ioc_lookup_and_create_intel(config, params):
         'enrichment': 'true' if params.get('enrichment') else 'false',
         'create': 'true' if params.get('create') else 'false',
     }
-    response = cyware.make_rest_call(
-        endpoint=endpoint, method=method, query_params=query_params, body_params=body_req_params)
-    return response
+    return cyware.make_rest_call(endpoint=endpoint, method='POST', query_params=query_params,
+                                 body_params=body_req_params)
 
 
 def list_threat_data(config, params):
     cyware = CywareCTIX(config)
-    endpoint = "ingestion/threat-data/list/"
-    method = 'POST'
+    endpoint = "/ctixapi/ingestion/threat-data/list/"
     body_req_params = {
         'query': params.get('query')
     }
@@ -135,16 +126,14 @@ def list_threat_data(config, params):
         'sort': params.get('sort'),
     }
     query_params = filter_params(query_params)
-    response = cyware.make_rest_call(endpoint=endpoint, method=method, query_params=query_params,
-                                     body_params=body_req_params)
-    return response
+    return cyware.make_rest_call(endpoint=endpoint, method='POST', query_params=query_params,
+                                 body_params=body_req_params)
 
 
 def bulk_ioc_lookup_advanced(config, params):
     cyware = CywareCTIX(config)
     object_type = params.get('object_type')
-    endpoint = f'ingestion/openapi/bulk-lookup/{object_type}/'
-    method = 'POST'
+    endpoint = f'/ctixapi/ingestion/openapi/bulk-lookup/{object_type}/'
     if params.get('value'):
         body_req_params = {'value': params.get('value').split(',')}
     elif params.get('objectID'):
@@ -158,15 +147,13 @@ def bulk_ioc_lookup_advanced(config, params):
         'fields': params.get('fields').split(',')
     }
     query_params = filter_params(query_params)
-    response = cyware.make_rest_call(endpoint=endpoint, method=method, query_params=query_params,
-                                     body_params=body_req_params)
-    return response
+    return cyware.make_rest_call(endpoint=endpoint, method='POST', query_params=query_params,
+                                 body_params=body_req_params)
 
 
 def create_intel_via_open_api(config, params):
     cyware = CywareCTIX(config)
-    endpoint = 'conversion/quick-intel/open-api/'
-    method = 'POST'
+    endpoint = '/ctixapi/conversion/quick-intel/open-api/'
     body_req_params = {
         'title': params.get('title'),
         'source': params.get('source'),
@@ -175,15 +162,12 @@ def create_intel_via_open_api(config, params):
         'all_sdos': params.get('allSDOS')
     }
     body_req_params = filter_params(body_req_params)
-    response = cyware.make_rest_call(
-        endpoint=endpoint, method=method, body_params=body_req_params)
-    return response
+    return cyware.make_rest_call(endpoint=endpoint, method='POST', body_params=body_req_params)
 
 
 def list_rules(config, params):
     cyware = CywareCTIX(config)
-    endpoint = "ingestion/rules/"
-    method = 'GET'
+    endpoint = "/ctixapi/ingestion/rules/"
     query_params = {
         'page': params.get('page', 1),
         'page_size': params.get('pageSize', 10),
@@ -197,61 +181,49 @@ def list_rules(config, params):
         'is_manual_run': params.get('isManualRun'),
     }
     query_params = filter_params(query_params)
-    response = cyware.make_rest_call(
-        endpoint=endpoint, method=method, query_params=query_params)
-    return response
+    return cyware.make_rest_call(endpoint=endpoint, method='GET', query_params=query_params)
 
 
 def run_rule(config, params):
     cyware = CywareCTIX(config)
-    endpoint = 'ingestion/rules/one-rule/'
-    method = 'GET'
+    endpoint = '/ctixapi/ingestion/rules/one-rule/'
     query_params = {
         'end_time': params.get('endTime'),
         'rule': params.get('rule'),
         'start_time': params.get('startTime'),
     }
     query_params = filter_params(query_params)
-    response = cyware.make_rest_call(
-        endpoint=endpoint, method=method, query_params=query_params)
-    return response
+    return cyware.make_rest_call(endpoint=endpoint, method='GET', query_params=query_params)
 
 
 # Get Enrichment Tool List
 def enrichment_tools(config, params):
     cyware = CywareCTIX(config)
-    endpoint = 'integration/apps/actions/'
-    method = 'GET'
+    endpoint = '/ctixapi/integration/apps/actions/'
     query_params = {
         'action_name': params.get('action_name').split(','),
         'component': params.get('component'),
         'full_list': get_boolean_string(params.get('full_list'))
     }
     query_params = filter_params(query_params)
-    response = cyware.make_rest_call(
-        endpoint=endpoint, method=method, query_params=query_params)
-    return response
+    return cyware.make_rest_call(endpoint=endpoint, method='GET', query_params=query_params)
 
 
 def get_enrichment_object_details(config, params):
     cyware = CywareCTIX(config)
-    endpoint = 'ingestion/enrichment/enrichment-object-detail/'
-    method = 'GET'
+    endpoint = '/ctixapi/ingestion/enrichment/enrichment-object-detail/'
     query_params = {
         'object_id': params.get('objectID'),
         'object_type': params.get('object_type'),
         'tool_id': params.get('toolID')
     }
     query_params = filter_params(query_params)
-    response = cyware.make_rest_call(
-        endpoint=endpoint, method=method, query_params=query_params)
-    return response
+    return cyware.make_rest_call(endpoint=endpoint, method='GET', query_params=query_params)
 
 
 def get_enriched_threat_data(config, params):
     cyware = CywareCTIX(config)
-    endpoint = 'integration/apps/update/threatdata/'
-    method = 'GET'
+    endpoint = '/ctixapi/integration/apps/update/threatdata/'
     query_params = {
         'app_slug': params.get('app_slug'),
         'value': params.get('value'),
@@ -260,35 +232,28 @@ def get_enriched_threat_data(config, params):
         'object_type': params.get('object_type')
     }
     query_params = filter_params(query_params)
-    response = cyware.make_rest_call(
-        endpoint=endpoint, method=method, query_params=query_params)
-    return response
+    return cyware.make_rest_call(endpoint=endpoint, method='GET', query_params=query_params)
 
 
 def list_threat_data_object_details(config, params):
     cyware = CywareCTIX(config)
     object_type = params.get('object_type')
     object_id = params.get('objectID')
-    endpoint = f'ingestion/threat-data/{object_type}/{object_id}/basic/'
-    method = 'GET'
-    response = cyware.make_rest_call(endpoint=endpoint, method=method)
-    return response
+    endpoint = f'/ctixapi/ingestion/threat-data/{object_type}/{object_id}/basic/'
+    return cyware.make_rest_call(endpoint=endpoint, method='GET')
 
 
 def threat_data_object_advanced_details(config, params):
     cyware = CywareCTIX(config)
     object_type = params.get('object_type')
     object_id = params.get('object_id')
-    endpoint = f'ingestion/threat-data/{object_type}/{object_id}/advanced-details/'
-    method = 'GET'
-    response = cyware.make_rest_call(endpoint=endpoint, method=method)
-    return response
+    endpoint = f'/ctixapi/ingestion/threat-data/{object_type}/{object_id}/advanced-details/'
+    return cyware.make_rest_call(endpoint=endpoint, method='GET')
 
 
 def create_threat_bulletin(config, params):
     cyware = CywareCTIX(config)
-    endpoint = 'conversion/threat-bulletin/'
-    method = 'POST'
+    endpoint = '/ctixapi/conversion/threat-bulletin/'
     body_req_params = {
         'title': params.get('title'),
         'description': params.get('description'),
@@ -299,16 +264,13 @@ def create_threat_bulletin(config, params):
         'attachments': params.get('attachments'),
     }
     body_req_params = filter_params(body_req_params)
-    response = cyware.make_rest_call(
-        endpoint=endpoint, method=method, body_params=body_req_params)
-    return response
+    return cyware.make_rest_call(endpoint=endpoint, method='POST', body_params=body_req_params)
 
 
 def update_threat_bulletin(config, params):
     cyware = CywareCTIX(config)
     threat_bulletin_id = params.get('threat_bulletin_id')
-    endpoint = f'conversion/threat-bulletin/{threat_bulletin_id}/'
-    method = 'PUT'
+    endpoint = f'/ctixapi/conversion/threat-bulletin/{threat_bulletin_id}/'
     body_req_params = {
         'title': params.get('title'),
         'description': params.get('description'),
@@ -318,15 +280,12 @@ def update_threat_bulletin(config, params):
         'tags': params.get('tags'),
     }
     body_req_params = filter_params(body_req_params)
-    response = cyware.make_rest_call(
-        endpoint=endpoint, method=method, body_params=body_req_params)
-    return response
+    return cyware.make_rest_call(endpoint=endpoint, method='PUT', body_params=body_req_params)
 
 
 def add_note_to_threat_data_object(config, params):
     cyware = CywareCTIX(config)
-    endpoint = 'ingestion/notes/'
-    method = 'POST'
+    endpoint = '/ctixapi/ingestion/notes/'
     body_req_params = {
         'object_id': params.get('object_id'),
         'text': params.get('text'),
@@ -335,54 +294,44 @@ def add_note_to_threat_data_object(config, params):
         'is_json': params.get('is_json')
     }
     body_req_params = filter_params(body_req_params)
-    response = cyware.make_rest_call(
-        endpoint=endpoint, method=method, body_params=body_req_params)
-    return response
+    return cyware.make_rest_call(endpoint=endpoint, method='POST', body_params=body_req_params)
 
 
 def list_relations_of_threat_data_object(config, params):
     cyware = CywareCTIX(config)
     object_id = params.get('objectID')
     object_type = params.get('objectType')
-    endpoint = f'ingestion/threat-data/{object_type}/{object_id}/relations/'
-    method = 'GET'
+    endpoint = f'/ctixapi/ingestion/threat-data/{object_type}/{object_id}/relations/'
     query_params = {
         'page': params.get('page'),
         'page_size': params.get('page_size'),
         'sources': params.get('sources')
     }
     query_params = filter_params(query_params)
-    response = cyware.make_rest_call(
-        endpoint=endpoint, method=method, query_params=query_params)
-    return response
+    return cyware.make_rest_call(endpoint=endpoint, method='GET', query_params=query_params)
 
 
 def create_tag(config, params):
     cyware = CywareCTIX(config)
-    endpoint = 'ingestion/tags/'
-    method = 'POST'
+    endpoint = '/ctixapi/ingestion/tags/'
     body_req_params = {
         'name': params.get('name'),
         'colour_code': params.get('colour_code')
     }
     body_req_params = filter_params(body_req_params)
-    response = cyware.make_rest_call(
-        endpoint=endpoint, method=method, body_params=body_req_params)
-    return response
+    return cyware.make_rest_call(endpoint=endpoint, method='POST', body_params=body_req_params)
 
 
 def delete_tag(config, params):
     cyware = CywareCTIX(config)
     tag_id = params.get('tag_id').strip()
-    endpoint = f'ingestion/tags/{tag_id}/'
-    method = 'DELETE'
-    response = cyware.make_rest_call(endpoint=endpoint, method=method)
-    return response
+    endpoint = f'/ctixapi/ingestion/tags/{tag_id}/'
+    return cyware.make_rest_call(endpoint=endpoint, method='DELETE')
 
 
 def list_allowed_indicators(config, params):
     cyware = CywareCTIX(config)
-    endpoint = 'conversion/allowed_indicators/'
+    endpoint = '/ctixapi/conversion/allowed_indicators/'
     method = 'GET'
     query_params = {
         'page': params.get('page'),
@@ -397,69 +346,55 @@ def list_allowed_indicators(config, params):
         'sort': params.get('sort')
     }
     query_params = filter_params(query_params)
-    response = cyware.make_rest_call(
-        endpoint=endpoint, method=method, query_params=query_params)
-    return response
+    return cyware.make_rest_call(endpoint=endpoint, method='GET', query_params=query_params)
 
 
 def add_indicators_to_allowed_list(config, params):
     cyware = CywareCTIX(config)
-    endpoint = 'conversion/allowed_indicators/'
-    method = 'POST'
+    endpoint = '/ctixapi/conversion/allowed_indicators/'
     body_req_params = {
         'type': params.get('type'),
         'values': params.get('values').split(','),
         'reason': params.get('reason')
     }
     body_req_params = filter_params(body_req_params)
-    response = cyware.make_rest_call(
-        endpoint=endpoint, method=method, body_params=body_req_params)
-    return response
+    return cyware.make_rest_call(endpoint=endpoint, method='POST', body_params=body_req_params)
 
 
 def delete_allowed_indicator(config, params):
     cyware = CywareCTIX(config)
     indicator_id = params.get('indicator_id')
-    endpoint = f'conversion/allowed_indicators/{indicator_id}/'
-    method = 'DELETE'
-    response = cyware.make_rest_call(endpoint=endpoint, method=method)
-    return response
+    endpoint = f'/ctixapi/conversion/allowed_indicators/{indicator_id}/'
+    return cyware.make_rest_call(endpoint=endpoint, method='DELETE')
 
 
 def bulk_deprecate_undeprecate_objects(config, params):
     cyware = CywareCTIX(config)
     action_type = params.get('action_type')
-    endpoint = f'ingestion/threat-data/bulk-action/{action_type}/'
-    method = 'POST'
+    endpoint = f'/ctixapi/ingestion/threat-data/bulk-action/{action_type}/'
     body_req_params = {
         'object_ids': params.get('object_ids').split(','),
         'object_type': params.get('object_type')
     }
     body_req_params = filter_params(body_req_params)
-    response = cyware.make_rest_call(
-        endpoint=endpoint, method=method, body_params=body_req_params)
-    return response
+    return cyware.make_rest_call(endpoint=endpoint, method='POST', body_params=body_req_params)
 
 
 def bulk_mark_unmark_false_positive(config, params):
     cyware = CywareCTIX(config)
     action_type = params.get('action_type')
-    endpoint = f'ingestion/threat-data/bulk-action/{action_type}/'
-    method = 'POST'
+    endpoint = f'/ctixapi/ingestion/threat-data/bulk-action/{action_type}/'
     body_req_params = {
         'object_ids': params.get('object_ids').split(','),
         'object_type': params.get('object_type')
     }
     body_req_params = filter_params(body_req_params)
-    response = cyware.make_rest_call(
-        endpoint=endpoint, method=method, body_params=body_req_params)
-    return response
+    return cyware.make_rest_call(endpoint=endpoint, method='POST', body_params=body_req_params)
 
 
 def list_reports(config, params):
     cyware = CywareCTIX(config)
-    endpoint = 'ingestion/reports/'
-    method = 'GET'
+    endpoint = '/ctixapi/ingestion/reports/'
     query_params = {
         'type': params.get('type'),
         'page': params.get('page'),
@@ -476,15 +411,12 @@ def list_reports(config, params):
         'date_last_run_to': params.get('date_last_run_to')
     }
     query_params = filter_params(query_params)
-    response = cyware.make_rest_call(
-        endpoint=endpoint, method=method, query_params=query_params)
-    return response
+    return cyware.make_rest_call(endpoint=endpoint, method='GET', query_params=query_params)
 
 
 def create_report(config, params):
     cyware = CywareCTIX(config)
-    endpoint = 'ingestion/reports/'
-    method = 'POST'
+    endpoint = '/ctixapi/ingestion/reports/'
     query_params = {'type': 'basic'}
     body_req_params = {
         'name': params.get('name'),
@@ -500,15 +432,14 @@ def create_report(config, params):
         'external_recipients': params.get('external_recipients')
     }
     body_req_params = filter_params(body_req_params)
-    response = cyware.make_rest_call(endpoint=endpoint, method=method, query_params=query_params, body_params=body_req_params)
-    return response
+    return cyware.make_rest_call(endpoint=endpoint, method='POST', query_params=query_params,
+                                 body_params=body_req_params)
 
 
 def run_report(config, params):
     cyware = CywareCTIX(config)
     report_id = params.get('report_id')
-    endpoint = f'ingestion/reports/{report_id}/run/'
-    method = 'POST'
+    endpoint = f'/ctixapi/ingestion/reports/{report_id}/run/'
     query_params = {
         'type': params.get('type')
     }
@@ -521,15 +452,13 @@ def run_report(config, params):
         'external_recipients': params.get('external_recipients')
     }
     body_req_params = filter_params(body_req_params)
-    response = cyware.make_rest_call(endpoint=endpoint, method=method, query_params=query_params,
-                                     body_params=body_req_params)
-    return response
+    return cyware.make_rest_call(endpoint=endpoint, method='POST', query_params=query_params,
+                                 body_params=body_req_params)
 
 
 def create_custom_attribute(config, params):
     cyware = CywareCTIX(config)
-    endpoint = 'ingestion/configuration/custom-attribute/'
-    method = 'POST'
+    endpoint = '/ctixapi/ingestion/configuration/custom-attribute/'
     # Extract type
     type_mapping = {
         "boolean": 0,
@@ -553,24 +482,77 @@ def create_custom_attribute(config, params):
         'sdo_objects': params.get('sdo_objects').split(',') if params.get('sdo_objects') else [],
     }
     body_req_params = filter_params(body_req_params)
-    response = cyware.make_rest_call(
-        endpoint=endpoint, method=method, body_params=body_req_params)
-    return response
+    return cyware.make_rest_call(endpoint=endpoint, method='POST', body_params=body_req_params)
 
 
 def bulk_add_relation(config, params):
     cyware = CywareCTIX(config)
-    endpoint = 'ingestion/threat-data/bulk-action/add_relation/'
-    method = 'POST'
+    endpoint = '/ctixapi/ingestion/threat-data/bulk-action/add_relation/'
     body_req_params = {
         'object_ids': params.get('object_ids').split(','),
         'object_type': params.get('object_type'),
         'data': params.get('data')
     }
     body_req_params = filter_params(body_req_params)
-    response = cyware.make_rest_call(
-        endpoint=endpoint, method=method, body_params=body_req_params)
-    return response
+    return cyware.make_rest_call(endpoint=endpoint, method='POST', body_params=body_req_params)
+
+
+def build_params(params):
+    new_params = dict()
+    for k, v in params.items():
+        if v is not None and v != '':
+            if k == "ioc_values":
+                new_params[k] = v.split(",")
+            elif k == "source":
+                new_params[k] = {"source_name": v}
+            elif k == "collection":
+                new_params[k] = {"collection_name": v}
+            else:
+                new_params[k] = v
+    return new_params
+
+
+def convert_json_response(resp):
+    for k, v in resp.items():
+        try:
+            resp.update({k: json.loads(v)})
+        except:
+            pass
+    return resp
+
+
+def execute_search_indicator(config, params):
+    cyware = CywareCTIX(config)
+    params = build_params(params)
+    resp = cyware.make_rest_call(endpoint='/ctixapi/openapi/search/', query_params=params)
+    result = resp.get('result')
+    if result:
+        convert_json_response(result)
+    return resp
+
+
+def search_domain(config, params):
+    return execute_search_indicator(config, params)
+
+
+def search_ip(config, params):
+    return execute_search_indicator(config, params)
+
+
+def search_url(config, params):
+    return execute_search_indicator(config, params)
+
+
+def search_hash(config, params):
+    return execute_search_indicator(config, params)
+
+
+def search_cve_id(config, params):
+    return execute_search_indicator(config, params)
+
+
+def bulk_lookup_and_create(config, params):
+    return execute_search_indicator(config, params)
 
 
 operations = {
@@ -601,4 +583,10 @@ operations = {
     'run_report': run_report,
     'create_custom_attribute': create_custom_attribute,
     'bulk_add_relation': bulk_add_relation,
+    'search_domain': search_domain,
+    'search_ip': search_ip,
+    'search_url': search_url,
+    'search_hash': search_hash,
+    'search_cve_id': search_cve_id,
+    'bulk_lookup_and_create': bulk_lookup_and_create
 }

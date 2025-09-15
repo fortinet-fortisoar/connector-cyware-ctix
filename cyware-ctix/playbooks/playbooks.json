@@ -1552,6 +1552,2196 @@
             "Cyware",
             "cyware-ctix"
           ]
+        },
+        {
+          "@type": "Workflow",
+          "uuid": "17606a9b-6be1-401f-a781-599507eb0a21",
+          "collection": "/api/3/workflow_collections/675d21d5-03ec-4286-a40a-f7a02fcedab3",
+          "triggerLimit": null,
+          "description": "Create intel with additional details such as the source and collection. You can also include details for each object, such as description, notes, custom attributes, and more.",
+          "name": "Create Intel via Open API",
+          "tag": "#Cyware CTIX",
+          "recordTags": [
+            "Cyware",
+            "cyware-ctix"
+          ],
+          "isActive": false,
+          "debug": false,
+          "singleRecordExecution": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/12b33eb8-d935-4c37-b748-670cff917010",
+          "steps": [
+            {
+              "uuid": "12b33eb8-d935-4c37-b748-670cff917010",
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "route": "22f1c19f-a216-4077-abd5-a96a42259f89",
+                "title": "Cyware CTIX: Create Intel via Open API",
+                "resources": [
+                  "alerts"
+                ],
+                "inputVariables": [],
+                "step_variables": {
+                  "input": {
+                    "records": "{{vars.input.records[0]}}"
+                  }
+                },
+                "singleRecordExecution": false,
+                "noRecordExecution": true,
+                "executeButtonText": "Execute"
+              },
+              "left": "20",
+              "top": "20",
+              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a"
+            },
+            {
+              "uuid": "461ccb1c-42b8-48e6-9819-f01cd3769d7d",
+              "@type": "WorkflowStep",
+              "name": "Create Intel via Open API",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "name": "Cyware CTIX",
+                "config": "''",
+                "params": {
+                  "title": "",
+                  "allSDOS": null,
+                  "source": "Miscellaneous",
+                  "collection": "Free Text",
+                  "metadata": null
+                },
+                "version": "2.0.0",
+                "connector": "cyware-ctix",
+                "operation": "create_intel_via_open_api",
+                "operationTitle": "Create Intel via Open API",
+                "step_variables": {}
+              },
+              "left": "188",
+              "top": "120",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "445741ba-be9a-49c6-a0b6-31bab66b66e6",
+              "label": null,
+              "isExecuted": false,
+              "name": "Start-> Create Intel via Open API",
+              "sourceStep": "/api/3/workflow_steps/12b33eb8-d935-4c37-b748-670cff917010",
+              "targetStep": "/api/3/workflow_steps/461ccb1c-42b8-48e6-9819-f01cd3769d7d"
+            }
+          ]
+        },
+        {
+          "@type": "Workflow",
+          "uuid": "462fc98e-a501-458d-aa48-82ced1c04cbb",
+          "collection": "/api/3/workflow_collections/675d21d5-03ec-4286-a40a-f7a02fcedab3",
+          "triggerLimit": null,
+          "description": "Returns a list of threat data objects from the CTIX application. You can retrieve a maximum of 500,000 threat data objects using this API.",
+          "name": "Get Threat Data",
+          "tag": "#Cyware CTIX",
+          "recordTags": [
+            "Cyware",
+            "cyware-ctix"
+          ],
+          "isActive": false,
+          "debug": false,
+          "singleRecordExecution": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/e8182d84-23fb-49d2-b3a5-e4e667805317",
+          "steps": [
+            {
+              "uuid": "e8182d84-23fb-49d2-b3a5-e4e667805317",
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "route": "e49302c6-1cd1-4a54-aa89-102f0ba20270",
+                "title": "Cyware CTIX: Get Threat Data",
+                "resources": [
+                  "alerts"
+                ],
+                "inputVariables": [],
+                "step_variables": {
+                  "input": {
+                    "records": "{{vars.input.records[0]}}"
+                  }
+                },
+                "singleRecordExecution": false,
+                "noRecordExecution": true,
+                "executeButtonText": "Execute"
+              },
+              "left": "20",
+              "top": "20",
+              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a"
+            },
+            {
+              "uuid": "c991224a-d8e6-4e8a-899a-1d19a6c044ed",
+              "@type": "WorkflowStep",
+              "name": "Get Threat Data",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "name": "Cyware CTIX",
+                "config": "''",
+                "params": {
+                  "query": "",
+                  "page": 1,
+                  "page_size": 1,
+                  "page_limit": 10,
+                  "enrichment": true,
+                  "sort": "-ctix_created"
+                },
+                "version": "2.0.0",
+                "connector": "cyware-ctix",
+                "operation": "list_threat_data",
+                "operationTitle": "Get Threat Data",
+                "step_variables": {}
+              },
+              "left": "188",
+              "top": "120",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "7d30aec0-7b39-4a1a-88ea-2c4fdb5c28b7",
+              "label": null,
+              "isExecuted": false,
+              "name": "Start-> Get Threat Data",
+              "sourceStep": "/api/3/workflow_steps/e8182d84-23fb-49d2-b3a5-e4e667805317",
+              "targetStep": "/api/3/workflow_steps/c991224a-d8e6-4e8a-899a-1d19a6c044ed"
+            }
+          ]
+        },
+        {
+          "@type": "Workflow",
+          "uuid": "0d6f62c1-7319-46b5-a3bc-d68a81530971",
+          "collection": "/api/3/workflow_collections/675d21d5-03ec-4286-a40a-f7a02fcedab3",
+          "triggerLimit": null,
+          "description": "Add a relation to multiple threat data objects.",
+          "name": "Bulk Add Relation",
+          "tag": "#Cyware CTIX",
+          "recordTags": [
+            "Cyware",
+            "cyware-ctix"
+          ],
+          "isActive": false,
+          "debug": false,
+          "singleRecordExecution": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/d9e6e097-ebc4-40f0-9065-4a1c94085c87",
+          "steps": [
+            {
+              "uuid": "d9e6e097-ebc4-40f0-9065-4a1c94085c87",
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "route": "d6ea9f24-ed76-4f3b-bdc1-98f8f77575d1",
+                "title": "Cyware CTIX: Bulk Add Relation",
+                "resources": [
+                  "alerts"
+                ],
+                "inputVariables": [],
+                "step_variables": {
+                  "input": {
+                    "records": "{{vars.input.records[0]}}"
+                  }
+                },
+                "singleRecordExecution": false,
+                "noRecordExecution": true,
+                "executeButtonText": "Execute"
+              },
+              "left": "20",
+              "top": "20",
+              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a"
+            },
+            {
+              "uuid": "75dd68de-2466-4f93-aadf-635af1d7717f",
+              "@type": "WorkflowStep",
+              "name": "Bulk Add Relation",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "name": "Cyware CTIX",
+                "config": "''",
+                "params": {
+                  "object_ids": null,
+                  "object_type": "",
+                  "data": null
+                },
+                "version": "2.0.0",
+                "connector": "cyware-ctix",
+                "operation": "bulk_add_relation",
+                "operationTitle": "Bulk Add Relation",
+                "step_variables": {}
+              },
+              "left": "188",
+              "top": "120",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "915550bf-d8e8-4e24-9fb9-c71da7f59fa6",
+              "label": null,
+              "isExecuted": false,
+              "name": "Start-> Bulk Add Relation",
+              "sourceStep": "/api/3/workflow_steps/d9e6e097-ebc4-40f0-9065-4a1c94085c87",
+              "targetStep": "/api/3/workflow_steps/75dd68de-2466-4f93-aadf-635af1d7717f"
+            }
+          ]
+        },
+        {
+          "@type": "Workflow",
+          "uuid": "f68c4531-84a3-497e-8183-4caba6b7d89f",
+          "collection": "/api/3/workflow_collections/675d21d5-03ec-4286-a40a-f7a02fcedab3",
+          "triggerLimit": null,
+          "description": "Deprecate or undeprecate multiple threat data objects with one API request.",
+          "name": "Bulk Deprecate/Undeprecate Objects",
+          "tag": "#Cyware CTIX",
+          "recordTags": [
+            "Cyware",
+            "cyware-ctix"
+          ],
+          "isActive": false,
+          "debug": false,
+          "singleRecordExecution": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/39a52948-2877-431c-91a9-552ad03a9f0a",
+          "steps": [
+            {
+              "uuid": "39a52948-2877-431c-91a9-552ad03a9f0a",
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "route": "075779ac-5a74-4bee-9bc6-a67ec7f1aad0",
+                "title": "Cyware CTIX: Bulk Deprecate/Undeprecate Objects",
+                "resources": [
+                  "alerts"
+                ],
+                "inputVariables": [],
+                "step_variables": {
+                  "input": {
+                    "records": "{{vars.input.records[0]}}"
+                  }
+                },
+                "singleRecordExecution": false,
+                "noRecordExecution": true,
+                "executeButtonText": "Execute"
+              },
+              "left": "20",
+              "top": "20",
+              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a"
+            },
+            {
+              "uuid": "5cbd830c-d609-4aac-b617-d373d9ddedeb",
+              "@type": "WorkflowStep",
+              "name": "Bulk Deprecate/Undeprecate Objects",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "name": "Cyware CTIX",
+                "config": "''",
+                "params": {
+                  "object_ids": "",
+                  "object_type": "",
+                  "action_type": "deprecate"
+                },
+                "version": "2.0.0",
+                "connector": "cyware-ctix",
+                "operation": "bulk_deprecate_undeprecate_objects",
+                "operationTitle": "Bulk Deprecate/Undeprecate Objects",
+                "step_variables": {}
+              },
+              "left": "188",
+              "top": "120",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "968ef713-86b1-4df2-889a-d06c02999b50",
+              "label": null,
+              "isExecuted": false,
+              "name": "Start-> Bulk Deprecate/Undeprecate Objects",
+              "sourceStep": "/api/3/workflow_steps/39a52948-2877-431c-91a9-552ad03a9f0a",
+              "targetStep": "/api/3/workflow_steps/5cbd830c-d609-4aac-b617-d373d9ddedeb"
+            }
+          ]
+        },
+        {
+          "@type": "Workflow",
+          "uuid": "4d5d3dd3-4a53-4b15-9c48-c66a83413369",
+          "collection": "/api/3/workflow_collections/675d21d5-03ec-4286-a40a-f7a02fcedab3",
+          "triggerLimit": null,
+          "description": "Mark or unmark multiple IOCs as false positives.",
+          "name": "Bulk Mark/Unmark False Positive",
+          "tag": "#Cyware CTIX",
+          "recordTags": [
+            "Cyware",
+            "cyware-ctix"
+          ],
+          "isActive": false,
+          "debug": false,
+          "singleRecordExecution": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/30676854-1901-4644-8a7d-de9d42082c51",
+          "steps": [
+            {
+              "uuid": "30676854-1901-4644-8a7d-de9d42082c51",
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "route": "e6501d7e-f80b-4216-a1e0-5a56cf640ecc",
+                "title": "Cyware CTIX: Bulk Mark/Unmark False Positive",
+                "resources": [
+                  "alerts"
+                ],
+                "inputVariables": [],
+                "step_variables": {
+                  "input": {
+                    "records": "{{vars.input.records[0]}}"
+                  }
+                },
+                "singleRecordExecution": false,
+                "noRecordExecution": true,
+                "executeButtonText": "Execute"
+              },
+              "left": "20",
+              "top": "20",
+              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a"
+            },
+            {
+              "uuid": "406df572-71ac-45c2-9b56-3456019fce42",
+              "@type": "WorkflowStep",
+              "name": "Bulk Mark/Unmark False Positive",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "name": "Cyware CTIX",
+                "config": "''",
+                "params": {
+                  "object_ids": "",
+                  "object_type": "",
+                  "action_type": "false_positive"
+                },
+                "version": "2.0.0",
+                "connector": "cyware-ctix",
+                "operation": "bulk_mark_unmark_false_positive",
+                "operationTitle": "Bulk Mark/Unmark False Positive",
+                "step_variables": {}
+              },
+              "left": "188",
+              "top": "120",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "216e2b38-34c0-4d65-b380-56b61fce5ab2",
+              "label": null,
+              "isExecuted": false,
+              "name": "Start-> Bulk Mark/Unmark False Positive",
+              "sourceStep": "/api/3/workflow_steps/30676854-1901-4644-8a7d-de9d42082c51",
+              "targetStep": "/api/3/workflow_steps/406df572-71ac-45c2-9b56-3456019fce42"
+            }
+          ]
+        },
+        {
+          "@type": "Workflow",
+          "uuid": "95604b1a-0032-41c0-9dbe-09d9c592965c",
+          "collection": "/api/3/workflow_collections/675d21d5-03ec-4286-a40a-f7a02fcedab3",
+          "triggerLimit": null,
+          "description": "Performs a bulk IOC lookup by fetching a list of threat data objects present in the CTIX application. If some IOCs are not present in the application, then you can choose to ingest the missing IOCs and create new records. NOTE: You can perform the lookup and further ingest a maximum of 1000 IOCs in the application at any moment.",
+          "name": "Bulk IOC Lookup and Create Intel",
+          "tag": "#Cyware CTIX",
+          "recordTags": [
+            "Cyware",
+            "cyware-ctix"
+          ],
+          "isActive": false,
+          "debug": false,
+          "singleRecordExecution": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/b6966c3b-b850-4b99-9eb5-4bf828d5e933",
+          "steps": [
+            {
+              "uuid": "b6966c3b-b850-4b99-9eb5-4bf828d5e933",
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "route": "1fe62d2c-37ed-488e-a540-3fe9f98cf04e",
+                "title": "Cyware CTIX: Bulk IOC Lookup and Create Intel",
+                "resources": [
+                  "alerts"
+                ],
+                "inputVariables": [],
+                "step_variables": {
+                  "input": {
+                    "records": "{{vars.input.records[0]}}"
+                  }
+                },
+                "singleRecordExecution": false,
+                "noRecordExecution": true,
+                "executeButtonText": "Execute"
+              },
+              "left": "20",
+              "top": "20",
+              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a"
+            },
+            {
+              "uuid": "d4d79127-211c-4b5a-b2e9-1b2852ed6091",
+              "@type": "WorkflowStep",
+              "name": "Bulk IOC Lookup and Create Intel",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "name": "Cyware CTIX",
+                "config": "''",
+                "params": {
+                  "source": "OpenAPI Lookup (OpenAPI)",
+                  "collection": "OpenAPI Lookup (OpenAPI)",
+                  "metadata": null,
+                  "create": false,
+                  "enrichment": false
+                },
+                "version": "2.0.0",
+                "connector": "cyware-ctix",
+                "operation": "bulk_ioc_lookup_and_create_intel",
+                "operationTitle": "Bulk IOC Lookup and Create Intel",
+                "step_variables": {}
+              },
+              "left": "188",
+              "top": "120",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "5676af15-2fdd-4628-9eba-97061608b5ac",
+              "label": null,
+              "isExecuted": false,
+              "name": "Start-> Bulk IOC Lookup and Create Intel",
+              "sourceStep": "/api/3/workflow_steps/b6966c3b-b850-4b99-9eb5-4bf828d5e933",
+              "targetStep": "/api/3/workflow_steps/d4d79127-211c-4b5a-b2e9-1b2852ed6091"
+            }
+          ]
+        },
+        {
+          "@type": "Workflow",
+          "uuid": "0c4d0419-b3af-4040-a957-d1a234a4866f",
+          "collection": "/api/3/workflow_collections/675d21d5-03ec-4286-a40a-f7a02fcedab3",
+          "triggerLimit": null,
+          "description": "Performs a lookup for threat data objects in the CTIX platform and retrieves the details of the objects, such as basic details, enriched data, and relations.",
+          "name": "Bulk IOC Lookup (Advanced)",
+          "tag": "#Cyware CTIX",
+          "recordTags": [
+            "Cyware",
+            "cyware-ctix"
+          ],
+          "isActive": false,
+          "debug": false,
+          "singleRecordExecution": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/8aaf9da4-e46e-4533-b202-5b9968cac674",
+          "steps": [
+            {
+              "uuid": "8aaf9da4-e46e-4533-b202-5b9968cac674",
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "route": "4aedea24-79b4-4f2a-8879-2280af47a066",
+                "title": "Cyware CTIX: Bulk IOC Lookup (Advanced)",
+                "resources": [
+                  "alerts"
+                ],
+                "inputVariables": [],
+                "step_variables": {
+                  "input": {
+                    "records": "{{vars.input.records[0]}}"
+                  }
+                },
+                "singleRecordExecution": false,
+                "noRecordExecution": true,
+                "executeButtonText": "Execute"
+              },
+              "left": "20",
+              "top": "20",
+              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a"
+            },
+            {
+              "uuid": "a3a8c955-77e3-4a4d-a8c9-ddf3a9d79443",
+              "@type": "WorkflowStep",
+              "name": "Bulk IOC Lookup (Advanced)",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "name": "Cyware CTIX",
+                "config": "''",
+                "params": {
+                  "object_type": "",
+                  "value": "",
+                  "objectID": "",
+                  "enrichment_data": false,
+                  "relation_data": false,
+                  "enrichment_tools": "",
+                  "fields": ""
+                },
+                "version": "2.0.0",
+                "connector": "cyware-ctix",
+                "operation": "bulk_ioc_lookup_advanced",
+                "operationTitle": "Bulk IOC Lookup (Advanced)",
+                "step_variables": {}
+              },
+              "left": "188",
+              "top": "120",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "677da33e-b0c7-4876-a767-2efd4b36e3f3",
+              "label": null,
+              "isExecuted": false,
+              "name": "Start-> Bulk IOC Lookup (Advanced)",
+              "sourceStep": "/api/3/workflow_steps/8aaf9da4-e46e-4533-b202-5b9968cac674",
+              "targetStep": "/api/3/workflow_steps/a3a8c955-77e3-4a4d-a8c9-ddf3a9d79443"
+            }
+          ]
+        },
+        {
+          "@type": "Workflow",
+          "uuid": "a2c8f737-9362-41bc-bd96-c28ef36d6aa9",
+          "collection": "/api/3/workflow_collections/675d21d5-03ec-4286-a40a-f7a02fcedab3",
+          "triggerLimit": null,
+          "description": "Returns basic correlated details of a threat data object in Intel Exchange.",
+          "name": "Get Threat Data Object Details List",
+          "tag": "#Cyware CTIX",
+          "recordTags": [
+            "Cyware",
+            "cyware-ctix"
+          ],
+          "isActive": false,
+          "debug": false,
+          "singleRecordExecution": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/8ab52509-3b6e-4061-a5c8-aa70069cdcd7",
+          "steps": [
+            {
+              "uuid": "8ab52509-3b6e-4061-a5c8-aa70069cdcd7",
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "route": "e46dd51c-cef1-4b4d-a99e-19fb758521b0",
+                "title": "Cyware CTIX: Get Threat Data Object Details List",
+                "resources": [
+                  "alerts"
+                ],
+                "inputVariables": [],
+                "step_variables": {
+                  "input": {
+                    "records": "{{vars.input.records[0]}}"
+                  }
+                },
+                "singleRecordExecution": false,
+                "noRecordExecution": true,
+                "executeButtonText": "Execute"
+              },
+              "left": "20",
+              "top": "20",
+              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a"
+            },
+            {
+              "uuid": "eaf99e70-7564-443d-b8f4-91d9d9fa8e34",
+              "@type": "WorkflowStep",
+              "name": "Get Threat Data Object Details List",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "name": "Cyware CTIX",
+                "config": "''",
+                "params": {
+                  "object_type": "",
+                  "objectID": ""
+                },
+                "version": "2.0.0",
+                "connector": "cyware-ctix",
+                "operation": "list_threat_data_object_details",
+                "operationTitle": "Get Threat Data Object Details List",
+                "step_variables": {}
+              },
+              "left": "188",
+              "top": "120",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "add1c8b3-a134-4d2f-8882-cfa30e5458df",
+              "label": null,
+              "isExecuted": false,
+              "name": "Start-> Get Threat Data Object Details List",
+              "sourceStep": "/api/3/workflow_steps/8ab52509-3b6e-4061-a5c8-aa70069cdcd7",
+              "targetStep": "/api/3/workflow_steps/eaf99e70-7564-443d-b8f4-91d9d9fa8e34"
+            }
+          ]
+        },
+        {
+          "@type": "Workflow",
+          "uuid": "d2d91d00-298d-4f44-8cb1-a09d02f1c8ed",
+          "collection": "/api/3/workflow_collections/675d21d5-03ec-4286-a40a-f7a02fcedab3",
+          "triggerLimit": null,
+          "description": "Retrieves additional information of a threat data object, such as, kill chain phases and published collections.",
+          "name": "Get Threat Data Object Additional Details",
+          "tag": "#Cyware CTIX",
+          "recordTags": [
+            "Cyware",
+            "cyware-ctix"
+          ],
+          "isActive": false,
+          "debug": false,
+          "singleRecordExecution": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/57d582bc-4760-4f98-b8ce-071c28ff453a",
+          "steps": [
+            {
+              "uuid": "57d582bc-4760-4f98-b8ce-071c28ff453a",
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "route": "835ba3db-60a6-4ac2-b60d-f3e093cd564a",
+                "title": "Cyware CTIX: Get Threat Data Object Additional Details",
+                "resources": [
+                  "alerts"
+                ],
+                "inputVariables": [],
+                "step_variables": {
+                  "input": {
+                    "records": "{{vars.input.records[0]}}"
+                  }
+                },
+                "singleRecordExecution": false,
+                "noRecordExecution": true,
+                "executeButtonText": "Execute"
+              },
+              "left": "20",
+              "top": "20",
+              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a"
+            },
+            {
+              "uuid": "9efacd7a-ac12-495a-8f84-0084ed90d85e",
+              "@type": "WorkflowStep",
+              "name": "Get Threat Data Object Additional Details",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "name": "Cyware CTIX",
+                "config": "''",
+                "params": {
+                  "object_type": "",
+                  "object_id": ""
+                },
+                "version": "2.0.0",
+                "connector": "cyware-ctix",
+                "operation": "threat_data_object_advanced_details",
+                "operationTitle": "Get Threat Data Object Additional Details",
+                "step_variables": {}
+              },
+              "left": "188",
+              "top": "120",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "b493f880-a934-421b-8c06-036a5d6f2c86",
+              "label": null,
+              "isExecuted": false,
+              "name": "Start-> Get Threat Data Object Additional Details",
+              "sourceStep": "/api/3/workflow_steps/57d582bc-4760-4f98-b8ce-071c28ff453a",
+              "targetStep": "/api/3/workflow_steps/9efacd7a-ac12-495a-8f84-0084ed90d85e"
+            }
+          ]
+        },
+        {
+          "@type": "Workflow",
+          "uuid": "1ffc2ed0-bca6-4da6-a837-14f759df8528",
+          "collection": "/api/3/workflow_collections/675d21d5-03ec-4286-a40a-f7a02fcedab3",
+          "triggerLimit": null,
+          "description": "Retrieves the list of relations and the relation details of a threat data object.",
+          "name": "Get Relations List of Threat Data Object",
+          "tag": "#Cyware CTIX",
+          "recordTags": [
+            "Cyware",
+            "cyware-ctix"
+          ],
+          "isActive": false,
+          "debug": false,
+          "singleRecordExecution": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/2f506458-448c-4d02-920f-36f85891b77a",
+          "steps": [
+            {
+              "uuid": "2f506458-448c-4d02-920f-36f85891b77a",
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "route": "c4ddb8fc-074d-4245-be48-2e45a30fe084",
+                "title": "Cyware CTIX: Get Relations List of Threat Data Object",
+                "resources": [
+                  "alerts"
+                ],
+                "inputVariables": [],
+                "step_variables": {
+                  "input": {
+                    "records": "{{vars.input.records[0]}}"
+                  }
+                },
+                "singleRecordExecution": false,
+                "noRecordExecution": true,
+                "executeButtonText": "Execute"
+              },
+              "left": "20",
+              "top": "20",
+              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a"
+            },
+            {
+              "uuid": "150dfde0-96dd-4968-be11-930e779ca424",
+              "@type": "WorkflowStep",
+              "name": "Get Relations List of Threat Data Object",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "name": "Cyware CTIX",
+                "config": "''",
+                "params": {
+                  "objectID": "",
+                  "objectType": "",
+                  "sources": "",
+                  "page": 1,
+                  "page_size": 10
+                },
+                "version": "2.0.0",
+                "connector": "cyware-ctix",
+                "operation": "list_relations_of_threat_data_object",
+                "operationTitle": "Get Relations List of Threat Data Object",
+                "step_variables": {}
+              },
+              "left": "188",
+              "top": "120",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "00e8ea2d-c2d6-407a-a711-e6b61bc587d1",
+              "label": null,
+              "isExecuted": false,
+              "name": "Start-> Get Relations List of Threat Data Object",
+              "sourceStep": "/api/3/workflow_steps/2f506458-448c-4d02-920f-36f85891b77a",
+              "targetStep": "/api/3/workflow_steps/150dfde0-96dd-4968-be11-930e779ca424"
+            }
+          ]
+        },
+        {
+          "@type": "Workflow",
+          "uuid": "d5003a4e-e685-4f21-b747-646129700c9a",
+          "collection": "/api/3/workflow_collections/675d21d5-03ec-4286-a40a-f7a02fcedab3",
+          "triggerLimit": null,
+          "description": "Creates a threat bulletin.",
+          "name": "Create Threat Bulletin",
+          "tag": "#Cyware CTIX",
+          "recordTags": [
+            "Cyware",
+            "cyware-ctix"
+          ],
+          "isActive": false,
+          "debug": false,
+          "singleRecordExecution": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/c77ce3a9-3be3-42f8-ac54-8e9f4dfe91a6",
+          "steps": [
+            {
+              "uuid": "c77ce3a9-3be3-42f8-ac54-8e9f4dfe91a6",
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "route": "6c86f4d7-4d1d-4291-a07e-135eaee871f0",
+                "title": "Cyware CTIX: Create Threat Bulletin",
+                "resources": [
+                  "alerts"
+                ],
+                "inputVariables": [],
+                "step_variables": {
+                  "input": {
+                    "records": "{{vars.input.records[0]}}"
+                  }
+                },
+                "singleRecordExecution": false,
+                "noRecordExecution": true,
+                "executeButtonText": "Execute"
+              },
+              "left": "20",
+              "top": "20",
+              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a"
+            },
+            {
+              "uuid": "ea9a6fe8-dff1-473a-a243-fc670fdde5b7",
+              "@type": "WorkflowStep",
+              "name": "Create Threat Bulletin",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "name": "Cyware CTIX",
+                "config": "''",
+                "params": {
+                  "title": "",
+                  "description": "",
+                  "status": "",
+                  "tlp": "",
+                  "server_collections": null,
+                  "tags": null,
+                  "attachments": null
+                },
+                "version": "2.0.0",
+                "connector": "cyware-ctix",
+                "operation": "create_threat_bulletin",
+                "operationTitle": "Create Threat Bulletin",
+                "step_variables": {}
+              },
+              "left": "188",
+              "top": "120",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "e7423d39-7d82-4499-a03a-bb73de9cdeb2",
+              "label": null,
+              "isExecuted": false,
+              "name": "Start-> Create Threat Bulletin",
+              "sourceStep": "/api/3/workflow_steps/c77ce3a9-3be3-42f8-ac54-8e9f4dfe91a6",
+              "targetStep": "/api/3/workflow_steps/ea9a6fe8-dff1-473a-a243-fc670fdde5b7"
+            }
+          ]
+        },
+        {
+          "@type": "Workflow",
+          "uuid": "f3375b20-7ff8-46c7-9da8-36fac07a11f3",
+          "collection": "/api/3/workflow_collections/675d21d5-03ec-4286-a40a-f7a02fcedab3",
+          "triggerLimit": null,
+          "description": "Updates the threat bulletin.",
+          "name": "Update Threat Bulletin",
+          "tag": "#Cyware CTIX",
+          "recordTags": [
+            "Cyware",
+            "cyware-ctix"
+          ],
+          "isActive": false,
+          "debug": false,
+          "singleRecordExecution": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/003a159b-50e9-4955-9db2-1e9313714a54",
+          "steps": [
+            {
+              "uuid": "003a159b-50e9-4955-9db2-1e9313714a54",
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "route": "849b9697-0b40-423f-8e65-b26e54b31f88",
+                "title": "Cyware CTIX: Update Threat Bulletin",
+                "resources": [
+                  "alerts"
+                ],
+                "inputVariables": [],
+                "step_variables": {
+                  "input": {
+                    "records": "{{vars.input.records[0]}}"
+                  }
+                },
+                "singleRecordExecution": false,
+                "noRecordExecution": true,
+                "executeButtonText": "Execute"
+              },
+              "left": "20",
+              "top": "20",
+              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a"
+            },
+            {
+              "uuid": "09faea18-403e-4b95-aaf7-e98ff31e23cb",
+              "@type": "WorkflowStep",
+              "name": "Update Threat Bulletin",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "name": "Cyware CTIX",
+                "config": "''",
+                "params": {
+                  "threat_bulletin_id": "",
+                  "title": "",
+                  "description": null,
+                  "status": "",
+                  "tlp": null,
+                  "server_collections": null,
+                  "tags": null
+                },
+                "version": "2.0.0",
+                "connector": "cyware-ctix",
+                "operation": "update_threat_bulletin",
+                "operationTitle": "Update Threat Bulletin",
+                "step_variables": {}
+              },
+              "left": "188",
+              "top": "120",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "056a67a5-4b71-4e34-b480-0a6c8b25de2d",
+              "label": null,
+              "isExecuted": false,
+              "name": "Start-> Update Threat Bulletin",
+              "sourceStep": "/api/3/workflow_steps/003a159b-50e9-4955-9db2-1e9313714a54",
+              "targetStep": "/api/3/workflow_steps/09faea18-403e-4b95-aaf7-e98ff31e23cb"
+            }
+          ]
+        },
+        {
+          "@type": "Workflow",
+          "uuid": "849ac877-2ef3-4191-9bae-f163b8fb60b3",
+          "collection": "/api/3/workflow_collections/675d21d5-03ec-4286-a40a-f7a02fcedab3",
+          "triggerLimit": null,
+          "description": "Retrieves a list of rules from the platform.",
+          "name": "List Rules",
+          "tag": "#Cyware CTIX",
+          "recordTags": [
+            "Cyware",
+            "cyware-ctix"
+          ],
+          "isActive": false,
+          "debug": false,
+          "singleRecordExecution": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/584a7d59-dd7f-41da-a1f9-3fae89dd299e",
+          "steps": [
+            {
+              "uuid": "584a7d59-dd7f-41da-a1f9-3fae89dd299e",
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "route": "762f6fe7-5905-4c5d-b09d-bdd309455cc6",
+                "title": "Cyware CTIX: List Rules",
+                "resources": [
+                  "alerts"
+                ],
+                "inputVariables": [],
+                "step_variables": {
+                  "input": {
+                    "records": "{{vars.input.records[0]}}"
+                  }
+                },
+                "singleRecordExecution": false,
+                "noRecordExecution": true,
+                "executeButtonText": "Execute"
+              },
+              "left": "20",
+              "top": "20",
+              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a"
+            },
+            {
+              "uuid": "9e1904de-a0f0-4f18-a985-a762c3572769",
+              "@type": "WorkflowStep",
+              "name": "List Rules",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "name": "Cyware CTIX",
+                "config": "''",
+                "params": {
+                  "page": 1,
+                  "pageSize": 10,
+                  "source": "",
+                  "createdByID": "",
+                  "status": "",
+                  "lastActiveTo": null,
+                  "lastActiveFrom": null,
+                  "createdFrom": null,
+                  "createdTo": "",
+                  "isManualRun": false
+                },
+                "version": "2.0.0",
+                "connector": "cyware-ctix",
+                "operation": "list_rules",
+                "operationTitle": "List Rules",
+                "step_variables": {}
+              },
+              "left": "188",
+              "top": "120",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "11a5e686-c872-4070-ac68-4244707c77fb",
+              "label": null,
+              "isExecuted": false,
+              "name": "Start-> List Rules",
+              "sourceStep": "/api/3/workflow_steps/584a7d59-dd7f-41da-a1f9-3fae89dd299e",
+              "targetStep": "/api/3/workflow_steps/9e1904de-a0f0-4f18-a985-a762c3572769"
+            }
+          ]
+        },
+        {
+          "@type": "Workflow",
+          "uuid": "bfa159d7-1070-44ab-8b86-b54eb8796ba7",
+          "collection": "/api/3/workflow_collections/675d21d5-03ec-4286-a40a-f7a02fcedab3",
+          "triggerLimit": null,
+          "description": "Runs a rule asynchronously on the existing threat data created in the specified time interval.",
+          "name": "Run Rule",
+          "tag": "#Cyware CTIX",
+          "recordTags": [
+            "Cyware",
+            "cyware-ctix"
+          ],
+          "isActive": false,
+          "debug": false,
+          "singleRecordExecution": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/cb5fcc9f-ee02-4778-bbdb-dd7df17d5024",
+          "steps": [
+            {
+              "uuid": "cb5fcc9f-ee02-4778-bbdb-dd7df17d5024",
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "route": "312fba2a-6147-418d-9416-12f079612ebf",
+                "title": "Cyware CTIX: Run Rule",
+                "resources": [
+                  "alerts"
+                ],
+                "inputVariables": [],
+                "step_variables": {
+                  "input": {
+                    "records": "{{vars.input.records[0]}}"
+                  }
+                },
+                "singleRecordExecution": false,
+                "noRecordExecution": true,
+                "executeButtonText": "Execute"
+              },
+              "left": "20",
+              "top": "20",
+              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a"
+            },
+            {
+              "uuid": "b8ace1ed-878e-43e9-8d56-dce9a6a3741d",
+              "@type": "WorkflowStep",
+              "name": "Run Rule",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "name": "Cyware CTIX",
+                "config": "''",
+                "params": {
+                  "rule": "",
+                  "startTime": null,
+                  "endTime": null
+                },
+                "version": "2.0.0",
+                "connector": "cyware-ctix",
+                "operation": "run_rule",
+                "operationTitle": "Run Rule",
+                "step_variables": {}
+              },
+              "left": "188",
+              "top": "120",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "b077788b-16fa-4616-9222-02d82f34571b",
+              "label": null,
+              "isExecuted": false,
+              "name": "Start-> Run Rule",
+              "sourceStep": "/api/3/workflow_steps/cb5fcc9f-ee02-4778-bbdb-dd7df17d5024",
+              "targetStep": "/api/3/workflow_steps/b8ace1ed-878e-43e9-8d56-dce9a6a3741d"
+            }
+          ]
+        },
+        {
+          "@type": "Workflow",
+          "uuid": "be15a88d-f046-42c8-a3e3-c18b393a4e2e",
+          "collection": "/api/3/workflow_collections/675d21d5-03ec-4286-a40a-f7a02fcedab3",
+          "triggerLimit": null,
+          "description": "Returns the list of enrichment tools configured in Intel Exchange.",
+          "name": "Get Enrichment Tool List",
+          "tag": "#Cyware CTIX",
+          "recordTags": [
+            "Cyware",
+            "cyware-ctix"
+          ],
+          "isActive": false,
+          "debug": false,
+          "singleRecordExecution": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/70f960fb-c5a4-4c1f-89f8-b2bbda3fe0ae",
+          "steps": [
+            {
+              "uuid": "70f960fb-c5a4-4c1f-89f8-b2bbda3fe0ae",
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "route": "97d61075-ec15-4a93-a266-a01cf3882560",
+                "title": "Cyware CTIX: Get Enrichment Tool List",
+                "resources": [
+                  "alerts"
+                ],
+                "inputVariables": [],
+                "step_variables": {
+                  "input": {
+                    "records": "{{vars.input.records[0]}}"
+                  }
+                },
+                "singleRecordExecution": false,
+                "noRecordExecution": true,
+                "executeButtonText": "Execute"
+              },
+              "left": "20",
+              "top": "20",
+              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a"
+            },
+            {
+              "uuid": "00ae2c38-63d7-4877-b2e1-f5f0396e3c03",
+              "@type": "WorkflowStep",
+              "name": "Get Enrichment Tool List",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "name": "Cyware CTIX",
+                "config": "''",
+                "params": {
+                  "action_name": null,
+                  "component": "",
+                  "full_list": "true"
+                },
+                "version": "2.0.0",
+                "connector": "cyware-ctix",
+                "operation": "enrichment_tools",
+                "operationTitle": "Get Enrichment Tool List",
+                "step_variables": {}
+              },
+              "left": "188",
+              "top": "120",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "407f70d8-9b81-42f1-b33a-dfe33c622aa9",
+              "label": null,
+              "isExecuted": false,
+              "name": "Start-> Get Enrichment Tool List",
+              "sourceStep": "/api/3/workflow_steps/70f960fb-c5a4-4c1f-89f8-b2bbda3fe0ae",
+              "targetStep": "/api/3/workflow_steps/00ae2c38-63d7-4877-b2e1-f5f0396e3c03"
+            }
+          ]
+        },
+        {
+          "@type": "Workflow",
+          "uuid": "1144dfef-ea89-4019-8b42-e9f69c4998a8",
+          "collection": "/api/3/workflow_collections/675d21d5-03ec-4286-a40a-f7a02fcedab3",
+          "triggerLimit": null,
+          "description": "Retrieves the enrichment data for the given object and tool ID.",
+          "name": "Get Enrichment Object Details",
+          "tag": "#Cyware CTIX",
+          "recordTags": [
+            "Cyware",
+            "cyware-ctix"
+          ],
+          "isActive": false,
+          "debug": false,
+          "singleRecordExecution": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/58131ae5-efdc-4af8-ae64-8fe1ad418271",
+          "steps": [
+            {
+              "uuid": "58131ae5-efdc-4af8-ae64-8fe1ad418271",
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "route": "29154edb-7d57-4c5c-9ce8-3da1d2ab0602",
+                "title": "Cyware CTIX: Get Enrichment Object Details",
+                "resources": [
+                  "alerts"
+                ],
+                "inputVariables": [],
+                "step_variables": {
+                  "input": {
+                    "records": "{{vars.input.records[0]}}"
+                  }
+                },
+                "singleRecordExecution": false,
+                "noRecordExecution": true,
+                "executeButtonText": "Execute"
+              },
+              "left": "20",
+              "top": "20",
+              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a"
+            },
+            {
+              "uuid": "fb0a3c58-87f8-4743-a181-066f75d3d628",
+              "@type": "WorkflowStep",
+              "name": "Get Enrichment Object Details",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "name": "Cyware CTIX",
+                "config": "''",
+                "params": {
+                  "object_type": "",
+                  "objectID": "",
+                  "toolID": ""
+                },
+                "version": "2.0.0",
+                "connector": "cyware-ctix",
+                "operation": "get_enrichment_object_details",
+                "operationTitle": "Get Enrichment Object Details",
+                "step_variables": {}
+              },
+              "left": "188",
+              "top": "120",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "ac5ba736-be1d-494a-9c05-e03a0aa487ec",
+              "label": null,
+              "isExecuted": false,
+              "name": "Start-> Get Enrichment Object Details",
+              "sourceStep": "/api/3/workflow_steps/58131ae5-efdc-4af8-ae64-8fe1ad418271",
+              "targetStep": "/api/3/workflow_steps/fb0a3c58-87f8-4743-a181-066f75d3d628"
+            }
+          ]
+        },
+        {
+          "@type": "Workflow",
+          "uuid": "294a2d19-515a-4f01-b276-0b57a3837341",
+          "collection": "/api/3/workflow_collections/675d21d5-03ec-4286-a40a-f7a02fcedab3",
+          "triggerLimit": null,
+          "description": "Returns the enriched data of a threat data object using enrichment tools.",
+          "name": "Get Enriched Threat Data",
+          "tag": "#Cyware CTIX",
+          "recordTags": [
+            "Cyware",
+            "cyware-ctix"
+          ],
+          "isActive": false,
+          "debug": false,
+          "singleRecordExecution": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/d979691a-38e1-4c97-9367-d3a15678b336",
+          "steps": [
+            {
+              "uuid": "d979691a-38e1-4c97-9367-d3a15678b336",
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "route": "d3a5138d-208c-4105-9f89-0962cd79619b",
+                "title": "Cyware CTIX: Get Enriched Threat Data",
+                "resources": [
+                  "alerts"
+                ],
+                "inputVariables": [],
+                "step_variables": {
+                  "input": {
+                    "records": "{{vars.input.records[0]}}"
+                  }
+                },
+                "singleRecordExecution": false,
+                "noRecordExecution": true,
+                "executeButtonText": "Execute"
+              },
+              "left": "20",
+              "top": "20",
+              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a"
+            },
+            {
+              "uuid": "da28f12e-0553-4073-9398-ff3b54b66cd7",
+              "@type": "WorkflowStep",
+              "name": "Get Enriched Threat Data",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "name": "Cyware CTIX",
+                "config": "''",
+                "params": {
+                  "app_slug": "",
+                  "value": "",
+                  "action_slug": "",
+                  "objectID": "",
+                  "object_type": ""
+                },
+                "version": "2.0.0",
+                "connector": "cyware-ctix",
+                "operation": "get_enriched_threat_data",
+                "operationTitle": "Get Enriched Threat Data",
+                "step_variables": {}
+              },
+              "left": "188",
+              "top": "120",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "10cccc6b-df48-4c0d-9708-0a9db9bcc490",
+              "label": null,
+              "isExecuted": false,
+              "name": "Start-> Get Enriched Threat Data",
+              "sourceStep": "/api/3/workflow_steps/d979691a-38e1-4c97-9367-d3a15678b336",
+              "targetStep": "/api/3/workflow_steps/da28f12e-0553-4073-9398-ff3b54b66cd7"
+            }
+          ]
+        },
+        {
+          "@type": "Workflow",
+          "uuid": "fe203c27-23c9-47e1-97f8-13ac6a62717d",
+          "collection": "/api/3/workflow_collections/675d21d5-03ec-4286-a40a-f7a02fcedab3",
+          "triggerLimit": null,
+          "description": "Adds a note to a threat data object",
+          "name": "Add Note to Threat Data Object",
+          "tag": "#Cyware CTIX",
+          "recordTags": [
+            "Cyware",
+            "cyware-ctix"
+          ],
+          "isActive": false,
+          "debug": false,
+          "singleRecordExecution": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/230226d3-1f88-4b3b-a9f4-2e483ee24dc1",
+          "steps": [
+            {
+              "uuid": "230226d3-1f88-4b3b-a9f4-2e483ee24dc1",
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "route": "8f149fc7-77d6-48be-a447-d798efb94f9d",
+                "title": "Cyware CTIX: Add Note to Threat Data Object",
+                "resources": [
+                  "alerts"
+                ],
+                "inputVariables": [],
+                "step_variables": {
+                  "input": {
+                    "records": "{{vars.input.records[0]}}"
+                  }
+                },
+                "singleRecordExecution": false,
+                "noRecordExecution": true,
+                "executeButtonText": "Execute"
+              },
+              "left": "20",
+              "top": "20",
+              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a"
+            },
+            {
+              "uuid": "7a3f4b48-503e-47ac-80a2-4f77f39098c9",
+              "@type": "WorkflowStep",
+              "name": "Add Note to Threat Data Object",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "name": "Cyware CTIX",
+                "config": "''",
+                "params": {
+                  "object_id": "",
+                  "text": null,
+                  "type": "",
+                  "meta_data": null,
+                  "is_json": false
+                },
+                "version": "2.0.0",
+                "connector": "cyware-ctix",
+                "operation": "add_note_to_threat_data_object",
+                "operationTitle": "Add Note to Threat Data Object",
+                "step_variables": {}
+              },
+              "left": "188",
+              "top": "120",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "2e026b0b-4e05-47c9-8bb9-3393cd9f68f8",
+              "label": null,
+              "isExecuted": false,
+              "name": "Start-> Add Note to Threat Data Object",
+              "sourceStep": "/api/3/workflow_steps/230226d3-1f88-4b3b-a9f4-2e483ee24dc1",
+              "targetStep": "/api/3/workflow_steps/7a3f4b48-503e-47ac-80a2-4f77f39098c9"
+            }
+          ]
+        },
+        {
+          "@type": "Workflow",
+          "uuid": "3ae5a416-301d-4f16-991a-0c995eda3834",
+          "collection": "/api/3/workflow_collections/675d21d5-03ec-4286-a40a-f7a02fcedab3",
+          "triggerLimit": null,
+          "description": "Creates a tag in the CTIX platform",
+          "name": "Create Tag",
+          "tag": "#Cyware CTIX",
+          "recordTags": [
+            "Cyware",
+            "cyware-ctix"
+          ],
+          "isActive": false,
+          "debug": false,
+          "singleRecordExecution": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/2ef8a1a6-6003-4a8d-88b4-1d7750e2f54c",
+          "steps": [
+            {
+              "uuid": "2ef8a1a6-6003-4a8d-88b4-1d7750e2f54c",
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "route": "abfecd99-8498-4ca8-8b24-397218b0ed4f",
+                "title": "Cyware CTIX: Create Tag",
+                "resources": [
+                  "alerts"
+                ],
+                "inputVariables": [],
+                "step_variables": {
+                  "input": {
+                    "records": "{{vars.input.records[0]}}"
+                  }
+                },
+                "singleRecordExecution": false,
+                "noRecordExecution": true,
+                "executeButtonText": "Execute"
+              },
+              "left": "20",
+              "top": "20",
+              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a"
+            },
+            {
+              "uuid": "65ae4074-0539-4fde-b8e7-ff0b6c11b161",
+              "@type": "WorkflowStep",
+              "name": "Create Tag",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "name": "Cyware CTIX",
+                "config": "''",
+                "params": {
+                  "name": "",
+                  "colour_code": null
+                },
+                "version": "2.0.0",
+                "connector": "cyware-ctix",
+                "operation": "create_tag",
+                "operationTitle": "Create Tag",
+                "step_variables": {}
+              },
+              "left": "188",
+              "top": "120",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "f672d2b9-f080-4991-892d-f30168e9c2b4",
+              "label": null,
+              "isExecuted": false,
+              "name": "Start-> Create Tag",
+              "sourceStep": "/api/3/workflow_steps/2ef8a1a6-6003-4a8d-88b4-1d7750e2f54c",
+              "targetStep": "/api/3/workflow_steps/65ae4074-0539-4fde-b8e7-ff0b6c11b161"
+            }
+          ]
+        },
+        {
+          "@type": "Workflow",
+          "uuid": "b3021d4d-a33e-404c-bfa7-9f64908be8b4",
+          "collection": "/api/3/workflow_collections/675d21d5-03ec-4286-a40a-f7a02fcedab3",
+          "triggerLimit": null,
+          "description": "Deletes a tag by the tag ID.",
+          "name": "Delete Tag",
+          "tag": "#Cyware CTIX",
+          "recordTags": [
+            "Cyware",
+            "cyware-ctix"
+          ],
+          "isActive": false,
+          "debug": false,
+          "singleRecordExecution": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/36daa82f-1517-465e-b7cf-213e4cdbe372",
+          "steps": [
+            {
+              "uuid": "36daa82f-1517-465e-b7cf-213e4cdbe372",
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "route": "efd85552-d140-4fb6-9d6a-7e30352d606b",
+                "title": "Cyware CTIX: Delete Tag",
+                "resources": [
+                  "alerts"
+                ],
+                "inputVariables": [],
+                "step_variables": {
+                  "input": {
+                    "records": "{{vars.input.records[0]}}"
+                  }
+                },
+                "singleRecordExecution": false,
+                "noRecordExecution": true,
+                "executeButtonText": "Execute"
+              },
+              "left": "20",
+              "top": "20",
+              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a"
+            },
+            {
+              "uuid": "8a541a16-51a0-47b1-8191-9913930f6f92",
+              "@type": "WorkflowStep",
+              "name": "Delete Tag",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "name": "Cyware CTIX",
+                "config": "''",
+                "params": {
+                  "tag_id": ""
+                },
+                "version": "2.0.0",
+                "connector": "cyware-ctix",
+                "operation": "delete_tag",
+                "operationTitle": "Delete Tag",
+                "step_variables": {}
+              },
+              "left": "188",
+              "top": "120",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "e2bb8d12-9114-4138-a55f-6ed1bdee4c9f",
+              "label": null,
+              "isExecuted": false,
+              "name": "Start-> Delete Tag",
+              "sourceStep": "/api/3/workflow_steps/36daa82f-1517-465e-b7cf-213e4cdbe372",
+              "targetStep": "/api/3/workflow_steps/8a541a16-51a0-47b1-8191-9913930f6f92"
+            }
+          ]
+        },
+        {
+          "@type": "Workflow",
+          "uuid": "eee7d6e9-9bc1-4bfb-86ca-9176df1f5e50",
+          "collection": "/api/3/workflow_collections/675d21d5-03ec-4286-a40a-f7a02fcedab3",
+          "triggerLimit": null,
+          "description": "Returns a list of allowed indicators from the CTIX platform.",
+          "name": "List Allowed Indicators",
+          "tag": "#Cyware CTIX",
+          "recordTags": [
+            "Cyware",
+            "cyware-ctix"
+          ],
+          "isActive": false,
+          "debug": false,
+          "singleRecordExecution": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/ae2d7cff-7a2c-4516-aa1a-7af2deed0dba",
+          "steps": [
+            {
+              "uuid": "ae2d7cff-7a2c-4516-aa1a-7af2deed0dba",
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "route": "084c8dd6-ffc5-4d2f-b288-05684e68c5ea",
+                "title": "Cyware CTIX: List Allowed Indicators",
+                "resources": [
+                  "alerts"
+                ],
+                "inputVariables": [],
+                "step_variables": {
+                  "input": {
+                    "records": "{{vars.input.records[0]}}"
+                  }
+                },
+                "singleRecordExecution": false,
+                "noRecordExecution": true,
+                "executeButtonText": "Execute"
+              },
+              "left": "20",
+              "top": "20",
+              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a"
+            },
+            {
+              "uuid": "f78b6c15-b9c6-48ba-b702-f5cfe6bbe8fa",
+              "@type": "WorkflowStep",
+              "name": "List Allowed Indicators",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "name": "Cyware CTIX",
+                "config": "''",
+                "params": {
+                  "type": "",
+                  "page": 1,
+                  "page_size": 10,
+                  "created_by_id": "",
+                  "modified_by_id": "",
+                  "created_from": "",
+                  "created_to": "",
+                  "last_active_from": "",
+                  "last_active_to": "",
+                  "sort": "-created"
+                },
+                "version": "2.0.0",
+                "connector": "cyware-ctix",
+                "operation": "list_allowed_indicators",
+                "operationTitle": "List Allowed Indicators",
+                "step_variables": {}
+              },
+              "left": "188",
+              "top": "120",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "c18fa87b-da39-4a20-85f3-9f504fefc6a5",
+              "label": null,
+              "isExecuted": false,
+              "name": "Start-> List Allowed Indicators",
+              "sourceStep": "/api/3/workflow_steps/ae2d7cff-7a2c-4516-aa1a-7af2deed0dba",
+              "targetStep": "/api/3/workflow_steps/f78b6c15-b9c6-48ba-b702-f5cfe6bbe8fa"
+            }
+          ]
+        },
+        {
+          "@type": "Workflow",
+          "uuid": "9af96fbf-140c-4908-a67f-9af1b0607cb8",
+          "collection": "/api/3/workflow_collections/675d21d5-03ec-4286-a40a-f7a02fcedab3",
+          "triggerLimit": null,
+          "description": "Deletes a particular allowed indicator entry from the dashboard.",
+          "name": "Delete Allowed Indicator",
+          "tag": "#Cyware CTIX",
+          "recordTags": [
+            "Cyware",
+            "cyware-ctix"
+          ],
+          "isActive": false,
+          "debug": false,
+          "singleRecordExecution": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/978984bb-a783-4073-a806-16bac646f3af",
+          "steps": [
+            {
+              "uuid": "978984bb-a783-4073-a806-16bac646f3af",
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "route": "bc186358-2464-45cb-87c9-fc015a2a2470",
+                "title": "Cyware CTIX: Delete Allowed Indicator",
+                "resources": [
+                  "alerts"
+                ],
+                "inputVariables": [],
+                "step_variables": {
+                  "input": {
+                    "records": "{{vars.input.records[0]}}"
+                  }
+                },
+                "singleRecordExecution": false,
+                "noRecordExecution": true,
+                "executeButtonText": "Execute"
+              },
+              "left": "20",
+              "top": "20",
+              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a"
+            },
+            {
+              "uuid": "bc4af83e-7715-40b8-ac25-09c8a65f84fe",
+              "@type": "WorkflowStep",
+              "name": "Delete Allowed Indicator",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "name": "Cyware CTIX",
+                "config": "''",
+                "params": {
+                  "indicator_id": ""
+                },
+                "version": "2.0.0",
+                "connector": "cyware-ctix",
+                "operation": "delete_allowed_indicator",
+                "operationTitle": "Delete Allowed Indicator",
+                "step_variables": {}
+              },
+              "left": "188",
+              "top": "120",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "642acc85-8317-4538-85b5-45345abd1b3b",
+              "label": null,
+              "isExecuted": false,
+              "name": "Start-> Delete Allowed Indicator",
+              "sourceStep": "/api/3/workflow_steps/978984bb-a783-4073-a806-16bac646f3af",
+              "targetStep": "/api/3/workflow_steps/bc4af83e-7715-40b8-ac25-09c8a65f84fe"
+            }
+          ]
+        },
+        {
+          "@type": "Workflow",
+          "uuid": "d220ed76-a724-4f06-8d14-9a7354cbb6e7",
+          "collection": "/api/3/workflow_collections/675d21d5-03ec-4286-a40a-f7a02fcedab3",
+          "triggerLimit": null,
+          "description": "Retrieves a list of reports from the CTIX application.",
+          "name": "List Reports",
+          "tag": "#Cyware CTIX",
+          "recordTags": [
+            "Cyware",
+            "cyware-ctix"
+          ],
+          "isActive": false,
+          "debug": false,
+          "singleRecordExecution": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/3522148c-eea1-4db4-acd2-b52e852609b4",
+          "steps": [
+            {
+              "uuid": "3522148c-eea1-4db4-acd2-b52e852609b4",
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "route": "7972f834-e2d9-4821-af4c-17a9f9324cc8",
+                "title": "Cyware CTIX: List Reports",
+                "resources": [
+                  "alerts"
+                ],
+                "inputVariables": [],
+                "step_variables": {
+                  "input": {
+                    "records": "{{vars.input.records[0]}}"
+                  }
+                },
+                "singleRecordExecution": false,
+                "noRecordExecution": true,
+                "executeButtonText": "Execute"
+              },
+              "left": "20",
+              "top": "20",
+              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a"
+            },
+            {
+              "uuid": "288f7f88-b405-459d-9ddc-528db60a1cb4",
+              "@type": "WorkflowStep",
+              "name": "List Reports",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "name": "Cyware CTIX",
+                "config": "''",
+                "params": {
+                  "type": "basic",
+                  "page": 1,
+                  "page_size": 10,
+                  "repeat_type": "none",
+                  "shared_type": "global",
+                  "created_by": "",
+                  "modified_by": "",
+                  "created_to": "",
+                  "created_from": "",
+                  "modified_from": "",
+                  "modified_to": null,
+                  "date_last_run_from": "",
+                  "date_last_run_to": ""
+                },
+                "version": "2.0.0",
+                "connector": "cyware-ctix",
+                "operation": "list_reports",
+                "operationTitle": "List Reports",
+                "step_variables": {}
+              },
+              "left": "188",
+              "top": "120",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "3a56a75b-3dd3-454b-9692-237368367587",
+              "label": null,
+              "isExecuted": false,
+              "name": "Start-> List Reports",
+              "sourceStep": "/api/3/workflow_steps/3522148c-eea1-4db4-acd2-b52e852609b4",
+              "targetStep": "/api/3/workflow_steps/288f7f88-b405-459d-9ddc-528db60a1cb4"
+            }
+          ]
+        },
+        {
+          "@type": "Workflow",
+          "uuid": "a64fb8b5-48d2-4b34-b145-d7967d348d66",
+          "collection": "/api/3/workflow_collections/675d21d5-03ec-4286-a40a-f7a02fcedab3",
+          "triggerLimit": null,
+          "description": "Creates a basic (standard) report in CTIX.",
+          "name": "Create Report",
+          "tag": "#Cyware CTIX",
+          "recordTags": [
+            "Cyware",
+            "cyware-ctix"
+          ],
+          "isActive": false,
+          "debug": false,
+          "singleRecordExecution": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/96978eeb-ddef-4e2e-9c31-32ea46f70a39",
+          "steps": [
+            {
+              "uuid": "96978eeb-ddef-4e2e-9c31-32ea46f70a39",
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "route": "586b1d8e-f76b-478e-af14-7e6ca158e152",
+                "title": "Cyware CTIX: Create Report",
+                "resources": [
+                  "alerts"
+                ],
+                "inputVariables": [],
+                "step_variables": {
+                  "input": {
+                    "records": "{{vars.input.records[0]}}"
+                  }
+                },
+                "singleRecordExecution": false,
+                "noRecordExecution": true,
+                "executeButtonText": "Execute"
+              },
+              "left": "20",
+              "top": "20",
+              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a"
+            },
+            {
+              "uuid": "4a77c083-a64c-4a5d-8b84-34143f037dd0",
+              "@type": "WorkflowStep",
+              "name": "Create Report",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "name": "Cyware CTIX",
+                "config": "''",
+                "params": {
+                  "name": "",
+                  "type": "basic",
+                  "basic_report_type": "custom",
+                  "shared_type": null,
+                  "saved_search": null,
+                  "schedule": null,
+                  "file_types": null,
+                  "columns": null,
+                  "internal_recipients": null,
+                  "query_key": "ctix_created",
+                  "external_recipients": null
+                },
+                "version": "2.0.0",
+                "connector": "cyware-ctix",
+                "operation": "create_report",
+                "operationTitle": "Create Report",
+                "step_variables": {}
+              },
+              "left": "188",
+              "top": "120",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "8c7bb499-5a9e-4838-a785-f59a357f32cf",
+              "label": null,
+              "isExecuted": false,
+              "name": "Start-> Create Report",
+              "sourceStep": "/api/3/workflow_steps/96978eeb-ddef-4e2e-9c31-32ea46f70a39",
+              "targetStep": "/api/3/workflow_steps/4a77c083-a64c-4a5d-8b84-34143f037dd0"
+            }
+          ]
+        },
+        {
+          "@type": "Workflow",
+          "uuid": "31ebf40d-51c5-42f6-8842-8a29e400554c",
+          "collection": "/api/3/workflow_collections/675d21d5-03ec-4286-a40a-f7a02fcedab3",
+          "triggerLimit": null,
+          "description": "Runs a report and sends the file to the recipients",
+          "name": "Run Report",
+          "tag": "#Cyware CTIX",
+          "recordTags": [
+            "Cyware",
+            "cyware-ctix"
+          ],
+          "isActive": false,
+          "debug": false,
+          "singleRecordExecution": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/6484dad8-6d99-452b-be98-da868bdf92b5",
+          "steps": [
+            {
+              "uuid": "6484dad8-6d99-452b-be98-da868bdf92b5",
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "route": "c8fc8006-a853-4dc4-84b6-230e9300f4a6",
+                "title": "Cyware CTIX: Run Report",
+                "resources": [
+                  "alerts"
+                ],
+                "inputVariables": [],
+                "step_variables": {
+                  "input": {
+                    "records": "{{vars.input.records[0]}}"
+                  }
+                },
+                "singleRecordExecution": false,
+                "noRecordExecution": true,
+                "executeButtonText": "Execute"
+              },
+              "left": "20",
+              "top": "20",
+              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a"
+            },
+            {
+              "uuid": "70195abc-dffc-42f9-a697-f3dc53012c20",
+              "@type": "WorkflowStep",
+              "name": "Run Report",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "name": "Cyware CTIX",
+                "config": "''",
+                "params": {
+                  "report_id": "",
+                  "type": "basic",
+                  "start_time": "",
+                  "end_time": "",
+                  "file_types": "",
+                  "internal_recipients": {},
+                  "external_recipients": {}
+                },
+                "version": "2.0.0",
+                "connector": "cyware-ctix",
+                "operation": "run_report",
+                "operationTitle": "Run Report",
+                "step_variables": {}
+              },
+              "left": "188",
+              "top": "120",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "36ec5d54-5997-4eb2-a110-ecf7d77e1082",
+              "label": null,
+              "isExecuted": false,
+              "name": "Start-> Run Report",
+              "sourceStep": "/api/3/workflow_steps/6484dad8-6d99-452b-be98-da868bdf92b5",
+              "targetStep": "/api/3/workflow_steps/70195abc-dffc-42f9-a697-f3dc53012c20"
+            }
+          ]
+        },
+        {
+          "@type": "Workflow",
+          "uuid": "89c9002d-57c6-42f0-be8b-73477d03ac9d",
+          "collection": "/api/3/workflow_collections/675d21d5-03ec-4286-a40a-f7a02fcedab3",
+          "triggerLimit": null,
+          "description": "Create a custom attribute in the platform.",
+          "name": "Create Custom Attribute",
+          "tag": "#Cyware CTIX",
+          "recordTags": [
+            "Cyware",
+            "cyware-ctix"
+          ],
+          "isActive": false,
+          "debug": false,
+          "singleRecordExecution": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/f3e07787-018b-4303-8b7f-64a56683ec7c",
+          "steps": [
+            {
+              "uuid": "f3e07787-018b-4303-8b7f-64a56683ec7c",
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "route": "1fbf3177-7d1b-47c7-b8de-4b897efe8a77",
+                "title": "Cyware CTIX: Create Custom Attribute",
+                "resources": [
+                  "alerts"
+                ],
+                "inputVariables": [],
+                "step_variables": {
+                  "input": {
+                    "records": "{{vars.input.records[0]}}"
+                  }
+                },
+                "singleRecordExecution": false,
+                "noRecordExecution": true,
+                "executeButtonText": "Execute"
+              },
+              "left": "20",
+              "top": "20",
+              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a"
+            },
+            {
+              "uuid": "3c3262e5-65d9-453c-b22a-a849c4797567",
+              "@type": "WorkflowStep",
+              "name": "Create Custom Attribute",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "name": "Cyware CTIX",
+                "config": "''",
+                "params": {
+                  "name": "",
+                  "description": "",
+                  "type": null,
+                  "choices": null,
+                  "is_actionable": false,
+                  "status": "1",
+                  "sdo_objects": null
+                },
+                "version": "2.0.0",
+                "connector": "cyware-ctix",
+                "operation": "create_custom_attribute",
+                "operationTitle": "Create Custom Attribute",
+                "step_variables": {}
+              },
+              "left": "188",
+              "top": "120",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "cd5eade3-1a74-4c34-b476-79f888ce572b",
+              "label": null,
+              "isExecuted": false,
+              "name": "Start-> Create Custom Attribute",
+              "sourceStep": "/api/3/workflow_steps/f3e07787-018b-4303-8b7f-64a56683ec7c",
+              "targetStep": "/api/3/workflow_steps/3c3262e5-65d9-453c-b22a-a849c4797567"
+            }
+          ]
         }
       ]
     }

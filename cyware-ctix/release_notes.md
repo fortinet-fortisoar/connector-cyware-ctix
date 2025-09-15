@@ -1,8 +1,28 @@
 #### What's Improved
-- Added a new action named "Bulk Lookup and Create".
-- Added the following pluggable enrichment playbooks that automatically enrich data such as domains, URLs, IP addresses, etc. when you install and configure the Cyware CTIX connector: Added the following enrichment playbooks  
-  - Domain > Cyware CTIX > Enrichment
-  - FileHash > Cyware CTIX > Enrichment
-  - IP > Cyware CTIX > Enrichment
-  - URL > Cyware CTIX > Enrichment
-  For more information, see the Pluggable Enrichment topic.
+- Added the following new operations and playbooks:
+    - Create Intel via Open API
+    - Get Threat Data
+    - Bulk Add Relation
+    - Bulk Deprecate/Undeprecate Objects
+    - Bulk Mark/Unmark False Positive
+    - Bulk IOC Lookup and Create Intel
+    - Bulk IOC Lookup (Advanced)
+    - Get Threat Data Object Details List
+    - Get Threat Data Object Additional Details
+    - Get Relations List of Threat Data Object
+    - Create Threat Bulletin
+    - Update Threat Bulletin
+    - List Rules
+    - Run Rule
+    - Get Enrichment Tool List
+    - Get Enrichment Object Details
+    - Get Enriched Threat Data
+    - Add Note to Threat Data Object
+    - Create Tag
+    - Delete Tag
+    - List Allowed Indicators
+    - Delete Allowed Indicator
+    - List Reports
+    - Create Report
+    - Run Report
+    - Create Custom Attribute
