@@ -7,10 +7,10 @@
   "contributor": "Reem Moustafa",
   "cs_approved": false,
   "cs_compatible": true,
-  "category": "Threat Intelligence Exchange",
+  "category": "Threat Intelligence",
   "icon_small_name": "cyware_ctix_small.png",
   "icon_large_name": "cyware_ctix_large.png",
-  "help_online": "https://docs.fortinet.com/document/fortisoar/1.1.0/cyware-ctix/640/cyware-ctix-v1-1-0",
+  "help_online": "",
   "configuration": {
     "fields": [
       {
@@ -465,6 +465,8 @@
     {
       "title": "Create Intel via Open API",
       "operation": "create_intel_via_open_api",
+      "category": "investigation",
+      "annotation": "create_intel_via_open_api",
       "description": "Create intel with additional details such as the source and collection. You can also include details for each object, such as description, notes, custom attributes, and more.",
       "parameters": [
         {
@@ -475,7 +477,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the title of the intel within 100 characters."
+          "tooltip": "Specify the title of the intel within 100 characters.",
+          "description": "Specify the title of the intel within 100 characters."
         },
         {
           "title": "All SDOS",
@@ -485,7 +488,8 @@
           "visible": true,
           "editable": true,
           "value": null,
-          "tooltip": "Pass the SDO and IOC objects to add to the intel. For more information, see The All SDOs Object."
+          "tooltip": "Specify the SDO and IOC objects to add to the intel. For more information, see The All SDOs Object.",
+          "description": "Specify the SDO and IOC objects to add to the intel. For more information, see The All SDOs Object."
         },
         {
           "title": "Source",
@@ -495,7 +499,8 @@
           "visible": true,
           "editable": true,
           "value": "Miscellaneous",
-          "tooltip": "Pass the name of the source to map the intel.If the passed source name does not exists in the platform, then a new source is automatically created in the Miscellaneous source category."
+          "description": "Specify the name of the source to map the intel.If the passed source name does not exists in the platform, then a new source is automatically created in the Miscellaneous source category.",
+          "tooltip": "Specify the name of the source to map the intel.If the passed source name does not exists in the platform, then a new source is automatically created in the Miscellaneous source category."
         },
         {
           "title": "Collection",
@@ -505,7 +510,8 @@
           "visible": true,
           "editable": true,
           "value": "Free Text",
-          "tooltip": "Pass the name of the source collection to associate with the source.\nIf the passed collection name does not exists in the platform, then a new collection is automatically created."
+          "description": "Specify the name of the source collection to associate with the source.\nIf the passed collection name does not exists in the platform, then a new collection is automatically created.",
+          "tooltip": "Specify the name of the source collection to associate with the source.\nIf the passed collection name does not exists in the platform, then a new collection is automatically created."
         },
         {
           "title": "Metadata",
@@ -515,16 +521,17 @@
           "visible": true,
           "editable": true,
           "value": null,
-          "tooltip": "Pass additional information to associate with the intel."
+          "description": "Specify the additional information to associate with the intel.",
+          "tooltip": "Specify the additional information to associate with the intel."
         }
       ],
-      "open": false
+      "output_schema": {}
     },
     {
       "title": "Get Threat Data",
       "operation": "list_threat_data",
       "description": "Returns a list of threat data objects from the CTIX application. You can retrieve a maximum of 500,000 threat data objects using this API.",
-      "category": "",
+      "category": "investigation",
       "annotation": "list_threat_data",
       "parameters": [
         {
@@ -535,7 +542,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass a CQL query to filter and fetch results."
+          "description": "Specify a CQL query to filter and fetch results.",
+          "tooltip": "Specify a CQL query to filter and fetch results."
         },
         {
           "title": "Page",
@@ -545,7 +553,8 @@
           "visible": true,
           "editable": true,
           "value": 1,
-          "tooltip": "Pass the page number to filter threat data objects by page number."
+          "description": "Specify the page number to filter threat data objects by page number.",
+          "tooltip": "Specify the page number to filter threat data objects by page number."
         },
         {
           "title": "Page Size",
@@ -555,7 +564,8 @@
           "visible": true,
           "editable": true,
           "value": 1,
-          "tooltip": " Pass the number of records per page to filter the threat data objects by page size."
+          "description": " Specify the number of records per page to filter the threat data objects by page size.",
+          "tooltip": " Specify the number of records per page to filter the threat data objects by page size."
         },
         {
           "title": "Page Limit",
@@ -565,7 +575,8 @@
           "visible": true,
           "editable": true,
           "value": 10,
-          "tooltip": "Pass the number of threat data objects to be retrieved."
+          "description": "Specify the number of threat data objects to be retrieved.",
+          "tooltip": "Specify the number of threat data objects to be retrieved."
         },
         {
           "title": "Enrichment",
@@ -575,7 +586,8 @@
           "visible": true,
           "editable": true,
           "value": true,
-          "tooltip": "Pass true to retrieve the details of the last enrichment for the objects that can be enriched."
+          "description": "Selecting this parameter retrieves the details of the last enrichment for objects that can be enriched.",
+          "tooltip": "Selecting this parameter retrieves the details of the last enrichment for objects that can be enriched."
         },
         {
           "title": "Sort",
@@ -585,7 +597,8 @@
           "visible": true,
           "editable": true,
           "value": "-ctix_created",
-          "tooltip": ""
+          "description": "Specify the sort field you want to use for sorting the threat data response.",
+          "tooltip": "Specify the sort field you want to use for sorting the threat data response."
         }
       ],
       "output_schema": {
@@ -598,7 +611,7 @@
       "title": "Bulk Add Relation",
       "operation": "bulk_add_relation",
       "description": "Add a relation to multiple threat data objects.",
-      "category": "utilities",
+      "category": "investigation",
       "annotation": "bulk_add_relation",
       "parameters": [
         {
@@ -609,7 +622,8 @@
           "visible": true,
           "editable": true,
           "value": null,
-          "tooltip": "Pass the list of threat data object IDs to perform the bulk action. To retrieve a list of object IDs, use the List Threat Data API under the Threat Data section."
+          "description": "Specify the list of threat data object IDs to perform the bulk action. To retrieve a list of object IDs, use the List Threat Data API under the Threat Data section.",
+          "tooltip": "Specify the list of threat data object IDs to perform the bulk action. To retrieve a list of object IDs, use the List Threat Data API under the Threat Data section."
         },
         {
           "title": "Object Type",
@@ -619,7 +633,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the type of threat data objects. To get the list of supported object types, see Supported SDO Types in Threat Data > Miscellaneous."
+          "tooltip": "Specify the type of threat data objects. To get the list of supported object types, see Supported SDO Types in Threat Data > Miscellaneous.",
+          "description": "Specify the type of threat data objects. To get the list of supported object types, see Supported SDO Types in Threat Data > Miscellaneous."
         },
         {
           "title": "Data",
@@ -629,7 +644,8 @@
           "visible": true,
           "editable": true,
           "value": null,
-          "tooltip": "Pass the additional data to pass with the request."
+          "tooltip": "Specify the additional data to pass with the request.",
+          "description": "Specify the additional data to pass with the request."
         }
       ],
       "output_schema": {
@@ -642,7 +658,7 @@
       "title": "Bulk Deprecate/Undeprecate Objects",
       "operation": "bulk_deprecate_undeprecate_objects",
       "description": "Deprecate or undeprecate multiple threat data objects with one API request.",
-      "category": "utilities",
+      "category": "investigation",
       "annotation": "bulk_deprecate_undeprecate_objects",
       "parameters": [
         {
@@ -653,7 +669,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the list of threat data object IDs to perform the bulk action. To retrieve a list of object IDs, use the List Threat Data API under the Threat Data section."
+          "description": "Specify the list of threat data object IDs to perform the bulk action. To retrieve a list of object IDs, use the List Threat Data API under the Threat Data section.",
+          "tooltip": "Specify the list of threat data object IDs to perform the bulk action. To retrieve a list of object IDs, use the List Threat Data API under the Threat Data section."
         },
         {
           "title": "Object Type",
@@ -663,7 +680,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the type of threat data objects. To get the list of supported object types, see Supported SDO Types in Threat Data > Miscellaneous."
+          "description": "Specify the type of threat data objects. To get the list of supported object types, see Supported SDO Types in Threat Data > Miscellaneous.",
+          "tooltip": "Specify the type of threat data objects. To get the list of supported object types, see Supported SDO Types in Threat Data > Miscellaneous."
         },
         {
           "title": "Action Type",
@@ -673,7 +691,8 @@
           "visible": true,
           "editable": true,
           "value": "deprecate",
-          "tooltip": "Pass deprecate objects. Pass un_deprecate to undeprecate objects."
+          "description": "Specify deprecate objects. Pass un_deprecate to undeprecate objects.",
+          "tooltip": "Specify deprecate objects. Pass un_deprecate to undeprecate objects."
         }
       ],
       "output_schema": {
@@ -696,7 +715,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the list of threat data object IDs to perform the bulk action. To retrieve a list of object IDs, use the List Threat Data API under the Threat Data section"
+          "description": "Specify the list of threat data object IDs to perform the bulk action. To retrieve a list of object IDs, use the List Threat Data API under the Threat Data section",
+          "tooltip": "Specify the list of threat data object IDs to perform the bulk action. To retrieve a list of object IDs, use the List Threat Data API under the Threat Data section"
         },
         {
           "title": "Object Type",
@@ -706,7 +726,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the type of threat data objects. To get the list of supported object types, see Supported SDO Types in Threat Data > Miscellaneous."
+          "description": "Specify the type of threat data objects. To get the list of supported object types, see Supported SDO Types in Threat Data > Miscellaneous.",
+          "tooltip": "Specify the type of threat data objects. To get the list of supported object types, see Supported SDO Types in Threat Data > Miscellaneous."
         },
         {
           "title": "Action Type",
@@ -716,7 +737,8 @@
           "visible": true,
           "editable": true,
           "value": "false_positive",
-          "tooltip": "Pass false_positive to mark IOCs as false positives. Pass un_false_positive to unmark an IOCs as false positives."
+          "description": "Specify false_positive to mark IOCs as false positives. Pass un_false_positive to unmark an IOCs as false positives.",
+          "tooltip": "Specify false_positive to mark IOCs as false positives. Pass un_false_positive to unmark an IOCs as false positives."
         }
       ],
       "output_schema": {
@@ -738,7 +760,8 @@
           "required": true,
           "visible": true,
           "editable": true,
-          "tooltip": "Specify a comma-separated list of values to be used by IOCs to perform the lookup."
+          "tooltip": "Specify a comma-separated list of values to be used by IOCs to perform the lookup.",
+          "description": "Specify a comma-separated list of values to be used by IOCs to perform the lookup."
         },
         {
           "title": "Source",
@@ -748,7 +771,8 @@
           "visible": true,
           "editable": true,
           "value": "OpenAPI Lookup (OpenAPI)",
-          "tooltip": "Specify the source name that you want to map to the threat data objects."
+          "tooltip": "Specify the source name that you want to map to the threat data objects.",
+          "description": "Specify the source name that you want to map to the threat data objects."
         },
         {
           "title": "Collection",
@@ -758,7 +782,8 @@
           "visible": true,
           "editable": true,
           "value": "OpenAPI Lookup (OpenAPI)",
-          "tooltip": "Specify the collection name that you want to map to the threat data objects. If the passed source name does not exists in the platform, then a new source is automatically created with the suffix (OpenAPI) in the Miscellaneous source category."
+          "tooltip": "Specify the collection name that you want to map to the threat data objects. If the passed source name does not exists in the platform, then a new source is automatically created with the suffix (OpenAPI) in the Miscellaneous source category.",
+          "description": "Specify the collection name that you want to map to the threat data objects. If the passed source name does not exists in the platform, then a new source is automatically created with the suffix (OpenAPI) in the Miscellaneous source category."
         },
         {
           "title": "Metadata",
@@ -768,7 +793,8 @@
           "visible": true,
           "editable": true,
           "value": null,
-          "tooltip": "Specify any additional information such as TLP, confidence score, etc., in the JSON format to be included with the object while creating records."
+          "tooltip": "Specify any additional information such as TLP, confidence score, etc., in the JSON format to be included with the object while creating records.",
+          "description": "Specify any additional information such as TLP, confidence score, etc., in the JSON format to be included with the object while creating records."
         },
         {
           "title": "Create Records",
@@ -778,7 +804,8 @@
           "visible": true,
           "editable": true,
           "value": false,
-          "tooltip": "Select this checkbox, i.e., set it to 'True', if you want to create records of the IOCs that were not present in the CTIX platform while performing the lookup. By default this checkbox is not selected, i.e. it is set as 'False'."
+          "tooltip": "Select this checkbox, i.e., set it to 'True', if you want to create records of the IOCs that were not present in the CTIX platform while performing the lookup. By default this checkbox is not selected, i.e. it is set as 'False'.",
+          "description": "Select this checkbox, i.e., set it to 'True', if you want to create records of the IOCs that were not present in the CTIX platform while performing the lookup. By default this checkbox is not selected, i.e. it is set as 'False'."
         },
         {
           "title": "Enrich Records",
@@ -788,7 +815,8 @@
           "visible": true,
           "editable": true,
           "value": false,
-          "tooltip": "Select this checkbox, i.e., set it to 'True', to add the last enriched information for each enriched object found during the lookup. By default this checkbox is not selected, i.e. it is set as 'False'."
+          "tooltip": "Select this checkbox, i.e., set it to 'True', to add the last enriched information for each enriched object found during the lookup. By default this checkbox is not selected, i.e. it is set as 'False'.",
+          "description": "Select this checkbox, i.e., set it to 'True', to add the last enriched information for each enriched object found during the lookup. By default this checkbox is not selected, i.e. it is set as 'False'."
         }
       ],
       "output_schema": {
@@ -808,6 +836,8 @@
     {
       "title": "Bulk IOC Lookup (Advanced)",
       "operation": "bulk_ioc_lookup_advanced",
+      "category": "investigation",
+      "annotation": "bulk_ioc_lookup_advanced",
       "description": "Performs a lookup for threat data objects in the CTIX platform and retrieves the details of the objects, such as basic details, enriched data, and relations.",
       "parameters": [
         {
@@ -818,7 +848,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass an object type to lookup. For the list of supported object types, see Supported SDO Types in Threat Data > Miscellaneous."
+          "tooltip": "Specify an object type to lookup. For the list of supported object types, see Supported SDO Types in Threat Data > Miscellaneous.",
+          "description": "Specify an object type to lookup. For the list of supported object types, see Supported SDO Types in Threat Data > Miscellaneous."
         },
         {
           "title": "Value",
@@ -828,7 +859,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass a list of up to 100 threat data object values to look up."
+          "tooltip": "Specify a list of up to 100 threat data object values to look up.",
+          "description": "Specify a list of up to 100 threat data object values to look up."
         },
         {
           "title": "Object ID",
@@ -838,7 +870,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass a list of up to 100 threat data object IDs to look up."
+          "tooltip": "Specify a list of up to 100 threat data object IDs to look up.",
+          "description": "Specify a list of up to 100 threat data object IDs to look up."
         },
         {
           "title": "Enrichment Data",
@@ -848,7 +881,8 @@
           "visible": true,
           "editable": true,
           "value": false,
-          "tooltip": "Pass true to retrieve the latest five enrichment data objects."
+          "tooltip": "Selecting this option true to retrieve the latest five enrichment data objects.",
+          "description": "Selecting this option true to retrieve the latest five enrichment data objects."
         },
         {
           "title": "Relation Data",
@@ -858,7 +892,8 @@
           "visible": true,
           "editable": true,
           "value": false,
-          "tooltip": "Pass true to retrieve the latest 100 relations details."
+          "tooltip": "Selecting this option true to retrieve the latest 100 relations details.",
+          "description": "Selecting this option true to retrieve the latest 100 relations details."
         },
         {
           "title": "Enrichment Tools",
@@ -868,7 +903,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the name of up to five enrichment tools separated by a comma."
+          "tooltip": "Specify the name of up to five enrichment tools separated by a comma.",
+          "description": "Specify the name of up to five enrichment tools separated by a comma."
         },
         {
           "title": "Fields",
@@ -878,9 +914,11 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass a comma-separated list of field names to retrieve specific details of the objects. By default, all fields are retrieved."
+          "tooltip": "Specify a comma-separated list of field names to retrieve specific details of the objects. By default, all fields are retrieved.",
+          "description": "Specify a comma-separated list of field names to retrieve specific details of the objects. By default, all fields are retrieved."
         }
       ],
+      "output_schema": {},
       "open": false
     },
     {
@@ -898,7 +936,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the type of the object such as indicator, vulnerability, malware, and more."
+          "tooltip": "Specify the type of the object such as indicator, vulnerability, malware, and more.",
+          "description": "Specify the type of the object such as indicator, vulnerability, malware, and more."
         },
         {
           "title": "Object ID",
@@ -908,7 +947,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the ID of the object to retrieve the details."
+          "tooltip": "Specify the ID of the object to retrieve the details.",
+          "description": "Specify the ID of the object to retrieve the details."
         }
       ],
       "output_schema": {
@@ -932,7 +972,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the type of the object such as indicator, vulnerability, malware, and more."
+          "tooltip": "Specify the type of the object such as indicator, vulnerability, malware, and more.",
+          "description": "Specify the type of the object such as indicator, vulnerability, malware, and more."
         },
         {
           "title": "Object ID",
@@ -942,7 +983,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the ID of the object to retrieve the details."
+          "tooltip": "Specify the ID of the object to retrieve the details.",
+          "description": "Specify the ID of the object to retrieve the details."
         }
       ],
       "output_schema": {
@@ -958,7 +1000,7 @@
       "title": "Get Relations List of Threat Data Object",
       "operation": "list_relations_of_threat_data_object",
       "description": "Retrieves the list of relations and the relation details of a threat data object.",
-      "category": "",
+      "category": "investigation",
       "annotation": "list_relations_of_threat_data_object",
       "parameters": [
         {
@@ -968,7 +1010,9 @@
           "required": true,
           "visible": true,
           "editable": true,
-          "value": ""
+          "value": "",
+          "description": "Specify the threat data object whose relations you want to retrieve",
+          "tooltip": "Specify the threat data object whose relations you want to retrieve"
         },
         {
           "title": "Object Type",
@@ -977,7 +1021,9 @@
           "required": true,
           "visible": true,
           "editable": true,
-          "value": ""
+          "value": "",
+          "description": "Specifies the category/type of the threat data object.",
+          "tooltip": "Specifies the category/type of the threat data object."
         },
         {
           "title": "Sources",
@@ -987,7 +1033,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the IDs of the sources to filter results."
+          "tooltip": "Specify the IDs of the sources to filter results.",
+          "description": "Specify the IDs of the sources to filter results."
         },
         {
           "title": "Page",
@@ -997,7 +1044,8 @@
           "visible": true,
           "editable": true,
           "value": 1,
-          "tooltip": "Pass the page number to retrieve relations."
+          "description": "Specify the page number to retrieve relations.",
+          "tooltip": "Specify the page number to retrieve relations."
         },
         {
           "title": "Page Size",
@@ -1007,7 +1055,8 @@
           "visible": true,
           "editable": true,
           "value": 10,
-          "tooltip": "Pass the number of records to retrieve per page."
+          "description": "Specify the number of records to retrieve per page.",
+          "tooltip": "Specify the number of records to retrieve per page."
         }
       ],
       "output_schema": {
@@ -1019,8 +1068,8 @@
     {
       "title": "Create Threat Bulletin",
       "operation": "create_threat_bulletin",
-      "description": "Creates a threat bulletin.",
-      "category": "utilities",
+      "description": "Creates a new Threat Bulletin within the Cyware CTIX platform.",
+      "category": "investigation",
       "annotation": "create_threat_bulletin",
       "parameters": [
         {
@@ -1031,7 +1080,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the title for the threat bulletin."
+          "tooltip": "Specify the headline or name of the threat bulletin.",
+          "description": "Specify the headline or name of the threat bulletin."
         },
         {
           "title": "Description",
@@ -1041,7 +1091,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the description for the threat bulletin."
+          "tooltip": "Specify the description for the threat bulletin.",
+          "description": "Specify the description for the threat bulletin."
         },
         {
           "title": "Status",
@@ -1051,7 +1102,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the status of the creation of the threat bulletin."
+          "tooltip": "Specify the status of the creation of the threat bulletin.",
+          "description": "Specify the status of the creation of the threat bulletin."
         },
         {
           "title": "Tlp",
@@ -1061,7 +1113,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the TLP for the threat bulletin"
+          "tooltip": "Specify the TLP for the threat bulletin",
+          "description": "Specify the TLP for the threat bulletin"
         },
         {
           "title": "Server Collections",
@@ -1071,7 +1124,8 @@
           "visible": true,
           "editable": true,
           "value": null,
-          "tooltip": "Pass the list of server collections"
+          "tooltip": "Specify the list of server collections",
+          "description": "Specify the list of server collections"
         },
         {
           "title": "Tags",
@@ -1081,7 +1135,8 @@
           "visible": true,
           "editable": true,
           "value": null,
-          "tooltip": "Pass the list of tags"
+          "tooltip": "Specify the CSV list of tags to be added to the threat bulletin.",
+          "description": "Specify the CSV list of tags to be added to the threat bulletin."
         },
         {
           "title": "Attachments",
@@ -1091,7 +1146,8 @@
           "visible": true,
           "editable": true,
           "value": null,
-          "tooltip": "Pass the list of attachments"
+          "tooltip": "Specify the CSV list of attachments to be added to the threat bulletin.",
+          "description": "Specify the CSV list of attachments to be added to the threat bulletin."
         }
       ],
       "output_schema": {
@@ -1099,7 +1155,7 @@
         "result": {
           "status": "",
           "id": "",
-          "published": false
+          "published": ""
         }
       },
       "open": false
@@ -1107,19 +1163,20 @@
     {
       "title": "Update Threat Bulletin",
       "operation": "update_threat_bulletin",
-      "description": "Updates the threat bulletin.",
-      "category": "utilities",
+      "description": "Update or modify the associated with a specific Threat Bulletin in Cyware CTIX",
+      "category": "investigation",
       "annotation": "update_threat_bulletin",
       "parameters": [
         {
-          "title": "Threat Bulletin Id",
+          "title": "Threat Bulletin ID",
           "type": "text",
           "name": "threat_bulletin_id",
           "required": true,
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Threat Bulletin ID"
+          "tooltip": "Specify the ID of the threat bulletin of Cyware CTIX",
+          "description": "Specify the ID of the threat bulletin of Cyware CTIX"
         },
         {
           "title": "Title",
@@ -1129,7 +1186,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the title for the threat bulletin."
+          "tooltip": "Specify the title for the threat bulletin.",
+          "description": "Specify the title for the threat bulletin."
         },
         {
           "title": "Description",
@@ -1139,7 +1197,8 @@
           "visible": true,
           "editable": true,
           "value": null,
-          "tooltip": "Pass the description for the threat bulletin."
+          "tooltip": "Specify the description for the threat bulletin.",
+          "description": "Specify the description for the threat bulletin."
         },
         {
           "title": "Status",
@@ -1149,7 +1208,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the status of creation."
+          "description": "Specify the status of creation for the threat bulletin.",
+          "tooltip": "Specify the status of creation for the threat bulletin."
         },
         {
           "title": "Tlp",
@@ -1159,7 +1219,8 @@
           "visible": true,
           "editable": true,
           "value": null,
-          "tooltip": "Pass the TLP for the threat bulletin."
+          "description": "Specify the TLP for the threat bulletin.",
+          "tooltip": "Specify the TLP for the threat bulletin."
         },
         {
           "title": "Server Collections",
@@ -1169,7 +1230,8 @@
           "visible": true,
           "editable": true,
           "value": null,
-          "tooltip": "Pass the list of server collections."
+          "tooltip": "Specify the list of server collections.",
+          "description": "Specify the list of server collections."
         },
         {
           "title": "Tags",
@@ -1179,7 +1241,8 @@
           "visible": true,
           "editable": true,
           "value": null,
-          "tooltip": "Pass the comma-separated list of tags"
+          "tooltip": "Specify the comma-separated list of tags which you want to add for threat bulletin.",
+          "description": "Specify the comma-separated list of tags which you want to add for threat bulletin."
         }
       ],
       "output_schema": {
@@ -1187,8 +1250,8 @@
         "result": {
           "id": "",
           "title": "",
-          "created": 0,
-          "modified": 0,
+          "created": "",
+          "modified": "",
           "report_id": "",
           "created_by": "",
           "modified_by": "",
@@ -1198,12 +1261,12 @@
           "tlp": "",
           "server_collections": "",
           "client_collections": "",
-          "received": false,
+          "received": "",
           "published_on": "",
           "attachments": [],
           "metadata": "",
-          "published": false,
-          "confidence": "="
+          "published": "",
+          "confidence": ""
         }
       },
       "open": false
@@ -1211,6 +1274,8 @@
     {
       "title": "List Rules",
       "operation": "list_rules",
+      "annotation": "list_rules",
+      "category": "investigation",
       "description": "Retrieves a list of rules from the platform.",
       "parameters": [
         {
@@ -1221,7 +1286,8 @@
           "visible": true,
           "editable": true,
           "value": 1,
-          "tooltip": "Pass the page number to retrieve rules."
+          "description": "Specify the page number to retrieve rules.",
+          "tooltip": "Specify the page number to retrieve rules."
         },
         {
           "title": "Page Size",
@@ -1231,7 +1297,8 @@
           "visible": true,
           "editable": true,
           "value": 10,
-          "tooltip": "Pass the number of rules to retrieve per page."
+          "tooltip": "Specify the number of rules to retrieve per page.",
+          "description": "Specify the number of rules to retrieve per page."
         },
         {
           "title": "Source",
@@ -1241,7 +1308,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass a comma-separated list of source IDs to filter rules."
+          "tooltip": "Specify a comma-separated list of source IDs to filter rules.",
+          "description": "Specify a comma-separated list of source IDs to filter rules."
         },
         {
           "title": "Created By ID",
@@ -1251,7 +1319,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the ID of the creator of the rules to filter."
+          "tooltip": "Specify the ID of the creator of the rules to filter.",
+          "description": "Specify the ID of the creator of the rules to filter."
         },
         {
           "title": "Status",
@@ -1261,7 +1330,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the status of the rules. Allowed values: DRAFT, ACTIVE, INACTIVE. By default, rules with all status are retrieved."
+          "tooltip": "Specify the status of the rules. Allowed values: DRAFT, ACTIVE, INACTIVE. By default, rules with all status are retrieved.",
+          "description": "Specify the status of the rules. Allowed values: DRAFT, ACTIVE, INACTIVE. By default, rules with all status are retrieved."
         },
         {
           "title": "Last Active To",
@@ -1271,7 +1341,8 @@
           "visible": true,
           "editable": true,
           "value": null,
-          "tooltip": "Pass the last active time in EPOCH format to filter rules."
+          "tooltip": "Specify the last active time in EPOCH format to filter rules.",
+          "description": "Specify the last active time in EPOCH format to filter rules."
         },
         {
           "title": "Last Active From",
@@ -1281,7 +1352,8 @@
           "visible": true,
           "editable": true,
           "value": null,
-          "tooltip": "Pass the last active time in EPOCH format to filter rules."
+          "tooltip": "Specify the last active time in EPOCH format to filter rules.",
+          "description": "Specify the last active time in EPOCH format to filter rules."
         },
         {
           "title": "Created From",
@@ -1291,7 +1363,8 @@
           "visible": true,
           "editable": true,
           "value": null,
-          "tooltip": "Pass the creation time in EPOCH format to filter rules."
+          "tooltip": "Specify the creation time in EPOCH format to filter rules.",
+          "description": "Specify the creation time in EPOCH format to filter rules."
         },
         {
           "title": "Created To",
@@ -1301,7 +1374,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the creation time in EPOCH format to filter rules."
+          "tooltip": "Specify the creation time in EPOCH format to filter rules.",
+          "description": "Specify the creation time in EPOCH format to filter rules."
         },
         {
           "title": "Is Manual Run",
@@ -1311,26 +1385,27 @@
           "visible": true,
           "editable": true,
           "value": false,
-          "tooltip": "Check to retrieve rules that are configured for manual execution only"
+          "tooltip": "Check to retrieve rules that are configured for manual execution only.",
+          "description": "Check to retrieve rules that are configured for manual execution only."
         }
       ],
       "output_schema": {
-        "next": null,
-        "previous": null,
-        "page_size": 10,
-        "total": 1,
+        "next": "",
+        "previous": "",
+        "page_size": "",
+        "total": "",
         "results": [
           {
             "name": "",
             "source": [],
             "id": "",
-            "is_active": true,
-            "last_activity_on": 0,
-            "ctix_created": 1632767764,
-            "ctix_updated": 1632767764,
-            "is_follow": true,
-            "no_conditions": true,
-            "all_sources_and_collections": false,
+            "is_active": "",
+            "last_activity_on": "",
+            "ctix_created": "",
+            "ctix_updated": "",
+            "is_follow": "",
+            "no_conditions": "",
+            "all_sources_and_collections": "",
             "status": "",
             "tags": [],
             "created_by": {
@@ -1345,16 +1420,17 @@
               "last_name": "",
               "id": ""
             },
-            "trigger_on_update": false
+            "trigger_on_update": ""
           }
         ]
       },
-      "open": false,
-      "category": "investigation"
+      "open": ""
     },
     {
       "title": "Run Rule",
       "operation": "run_rule",
+      "annotation": "run_rule",
+      "category": "investigation",
       "description": "Runs a rule asynchronously on the existing threat data created in the specified time interval.",
       "parameters": [
         {
@@ -1365,7 +1441,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the unique ID of a rule."
+          "tooltip": "Specify the unique ID of a rule which you want to run.",
+          "description": "Specify the unique ID of a rule which you want to run."
         },
         {
           "title": "Start Time",
@@ -1375,7 +1452,8 @@
           "visible": true,
           "editable": true,
           "value": null,
-          "tooltip": "Filters threat data objects that are created after the passed timestamp value."
+          "tooltip": "Filters threat data objects that are created after the passed timestamp value.",
+          "description": "Filters threat data objects that are created after the passed timestamp value."
         },
         {
           "title": "End Time",
@@ -1385,11 +1463,11 @@
           "visible": true,
           "editable": true,
           "value": null,
-          "tooltip": "Filters threat data objects that are created before the passed timestamp value."
+          "tooltip": "Filters threat data objects that are created before the passed timestamp value.",
+          "description": "Filters threat data objects that are created before the passed timestamp value."
         }
       ],
-      "open": false,
-      "category": "remediation"
+      "output_schema": {}
     },
     {
       "title": "Get Enrichment Tool List",
@@ -1406,7 +1484,8 @@
           "visible": true,
           "editable": true,
           "value": null,
-          "tooltip": "Specify a list of comma-separated action names, for example: get_ip for IPs, get_domain for Domain, get_url for URL, get_cve for Vulnerability"
+          "tooltip": "Specify a list of comma-separated action names, for example: get_ip for IPs, get_domain for Domain, get_url for URL, get_cve for Vulnerability",
+          "description": "Specify a list of comma-separated action names, for example: get_ip for IPs, get_domain for Domain, get_url for URL, get_cve for Vulnerability"
         },
         {
           "title": "Component",
@@ -1416,7 +1495,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Use this filter to get the enrichment tools list by a component. For example, if you specify the component as investigation, it returns only those apps whose enrichment is supported in threat-investigation"
+          "tooltip": "Use this filter to get the enrichment tools list by a component. For example, if you specify the component as investigation, it returns only those apps whose enrichment is supported in threat-investigation",
+          "description": "Use this filter to get the enrichment tools list by a component. For example, if you specify the component as investigation, it returns only those apps whose enrichment is supported in threat-investigation"
         },
         {
           "title": "Full List",
@@ -1426,7 +1506,8 @@
           "visible": true,
           "editable": true,
           "value": "true",
-          "tooltip": "Use this filter to get action separated tools together"
+          "tooltip": "Use this filter to get action separated tools together",
+          "description": "Use this filter to get action separated tools together"
         }
       ],
       "output_schema": {
@@ -1450,7 +1531,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the type of object to retrieve enrichment details."
+          "tooltip": "Specify the type of object to retrieve enrichment details.",
+          "description": "Specify the type of object to retrieve enrichment details."
         },
         {
           "title": "Object ID",
@@ -1460,7 +1542,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the object ID to retrieve the enrichment details."
+          "tooltip": "Specify the object ID to retrieve the enrichment details.",
+          "description": "Specify the object ID to retrieve the enrichment details."
         },
         {
           "title": "Tool ID",
@@ -1470,7 +1553,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the tool ID to retrieve the enrichment details."
+          "tooltip": "Specify the tool ID to retrieve the enrichment details.",
+          "description": "Specify the tool ID to retrieve the enrichment details."
         }
       ],
       "output_schema": {
@@ -1483,7 +1567,7 @@
       "title": "Get Enriched Threat Data",
       "operation": "get_enriched_threat_data",
       "description": "Returns the enriched data of a threat data object using enrichment tools.",
-      "category": "remediation",
+      "category": "investigation",
       "annotation": "get_enriched_threat_data",
       "parameters": [
         {
@@ -1494,7 +1578,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the slug of an enrichment tool to retrieve its enriched data. To retrieve the slug of an enrichment tool, use the GET Enrichment Tools API endpoint."
+          "tooltip": "Specify the slug of an enrichment tool to retrieve its enriched data. To retrieve the slug of an enrichment tool, use the GET Enrichment Tools API endpoint.",
+          "description": "Specify the slug of an enrichment tool to retrieve its enriched data. To retrieve the slug of an enrichment tool, use the GET Enrichment Tools API endpoint."
         },
         {
           "title": "Value",
@@ -1504,7 +1589,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the value of the object. For example, sco, vulnerability, and more."
+          "tooltip": "Specify the value of the object. For example, sco, vulnerability, and more.",
+          "description": "Specify the value of the object. For example, sco, vulnerability, and more."
         },
         {
           "title": "Action Slug",
@@ -1514,7 +1600,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the enrichment action name to retrieve specific details. For example, get_ip for IPs, get_domain for Domain, get_url for URL, get_cve for Vulnerability."
+          "tooltip": "Specify the enrichment action name to retrieve specific details. For example, get_ip for IPs, get_domain for Domain, get_url for URL, get_cve for Vulnerability.",
+          "description": "Specify the enrichment action name to retrieve specific details. For example, get_ip for IPs, get_domain for Domain, get_url for URL, get_cve for Vulnerability."
         },
         {
           "title": "Object ID",
@@ -1524,7 +1611,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the ID of an object id(sco object id for indicators and vulnerability object id for vulnerabilities)"
+          "tooltip": "Specify the ID of an object id(sco object id for indicators and vulnerability object id for vulnerabilities)",
+          "description": "Specify the ID of an object id(sco object id for indicators and vulnerability object id for vulnerabilities)"
         },
         {
           "title": "Object Type",
@@ -1534,7 +1622,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the object type. sdo object type(indicator /or vulnerability)"
+          "tooltip": "Specify the object type. sdo object type(indicator /or vulnerability)",
+          "description": "Specify the object type. sdo object type(indicator /or vulnerability)"
         }
       ],
       "output_schema": {
@@ -1547,7 +1636,7 @@
       "title": "Add Note to Threat Data Object",
       "operation": "add_note_to_threat_data_object",
       "description": "Adds a note to a threat data object",
-      "category": "utilities",
+      "category": "investigation",
       "annotation": "add_note_to_threat_data_object",
       "parameters": [
         {
@@ -1558,7 +1647,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the ID of the threat data object to create the notes. Else, the note is created as a global note."
+          "tooltip": "Specify the ID of the threat data object to create the notes. Else, the note is created as a global note.",
+          "description": "Specify the ID of the threat data object to create the notes. Else, the note is created as a global note."
         },
         {
           "title": "Text",
@@ -1568,7 +1658,8 @@
           "visible": true,
           "editable": true,
           "value": null,
-          "tooltip": "Pass the description for the notes."
+          "tooltip": "Specify the description for the notes.",
+          "description": "Specify the description for the notes."
         },
         {
           "title": "Type",
@@ -1578,7 +1669,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the type of the note."
+          "tooltip": "Specify the type of the note.",
+          "description": "Specify the type of the note."
         },
         {
           "title": "Meta Data",
@@ -1588,7 +1680,8 @@
           "visible": true,
           "editable": true,
           "value": null,
-          "tooltip": "Pass the metadata associated with the note."
+          "tooltip": "Specify the metadata associated with the note.",
+          "description": "Specify the metadata associated with the note."
         },
         {
           "title": "Is Json",
@@ -1598,13 +1691,14 @@
           "visible": true,
           "editable": true,
           "value": false,
-          "tooltip": "Pass true if you want to send the note in JSON format."
+          "tooltip": "Selecting this option true if you want to send the note in JSON format.",
+          "description": "Selecting this option true if you want to send the note in JSON format."
         }
       ],
       "output_schema": {
         "message": "",
         "result": {
-          "created": 0,
+          "created": "",
           "created_by": {
             "email": "",
             "first_name": "",
@@ -1612,9 +1706,9 @@
             "last_name": ""
           },
           "id": "",
-          "is_json": false,
-          "meta_data": {},
-          "modified": 0,
+          "is_json": "",
+          "meta_data": "",
+          "modified": "",
           "modified_by": {
             "email": "",
             "first_name": "",
@@ -1644,7 +1738,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass a unique name for the tag within 50 characters."
+          "tooltip": "Specify a unique name for the tag within 50 characters.",
+          "description": "Specify a unique name for the tag within 50 characters."
         },
         {
           "title": "Colour Code",
@@ -1654,7 +1749,8 @@
           "visible": true,
           "editable": true,
           "value": null,
-          "tooltip": "Pass the HEX key of a color code for the tag.",
+          "tooltip": "Select the HEX key of a color code for the tag.",
+          "description": "Select the HEX key of a color code for the tag.",
           "options": [
             "#5236E2",
             "#0068FA",
@@ -1675,10 +1771,10 @@
           "id": "",
           "name": "",
           "colour_code": "",
-          "created": 0,
+          "created": "",
           "created_by": "",
           "modified_by": "",
-          "modified": 0,
+          "modified": "",
           "type": ""
         }
       },
@@ -1699,7 +1795,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the ID of a tag to delete."
+          "tooltip": "Specify the ID of a tag to delete.",
+          "description": "Specify the ID of a tag to delete."
         }
       ],
       "output_schema": {},
@@ -1720,7 +1817,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass an allowed indicator type to filter result. To retrieve the supported list of allowed indicator types, se the GET List Supported Allowed Indicator Types API."
+          "tooltip": "Specify an allowed indicator type to filter result. To retrieve the supported list of allowed indicator types, se the GET List Supported Allowed Indicator Types API.",
+          "description": "Specify an allowed indicator type to filter result. To retrieve the supported list of allowed indicator types, se the GET List Supported Allowed Indicator Types API."
         },
         {
           "title": "Page",
@@ -1730,7 +1828,8 @@
           "visible": true,
           "editable": true,
           "value": 1,
-          "tooltip": "Pass the page number to retrieve indicators."
+          "tooltip": "Specify the page number to retrieve indicators.",
+          "description": "Specify the page number to retrieve indicators."
         },
         {
           "title": "Page Size",
@@ -1740,7 +1839,8 @@
           "visible": true,
           "editable": true,
           "value": 10,
-          "tooltip": "Pass the number of records to retrieve per page."
+          "tooltip": "Specify the number of records to retrieve per page.",
+          "description": "Specify the number of records to retrieve per page."
         },
         {
           "title": "Created by Id",
@@ -1750,7 +1850,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the ID of a user to filter records by the creator."
+          "tooltip": "Specify the ID of a user to filter records by the creator.",
+          "description": "Specify the ID of a user to filter records by the creator."
         },
         {
           "title": "Modified by Id",
@@ -1760,7 +1861,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the ID of a user to filter records by the modifier."
+          "tooltip": "Specify the ID of a user to filter records by the modifier.",
+          "description": "Specify the ID of a user to filter records by the modifier."
         },
         {
           "title": "Created From",
@@ -1770,7 +1872,9 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the created from time in EPOCH format to filter records based on the created time"
+          "tooltip": "Specify the created from time in EPOCH format to filter records based on the created time",
+          "description": "Specify the created from time in EPOCH format to filter records based on the created time"
+
         },
         {
           "title": "Created To",
@@ -1780,7 +1884,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the created to time in EPOCH format to filter records based on the created time."
+          "tooltip": "Specify the created to time in EPOCH format to filter records based on the created time.",
+          "description": "Specify the created to time in EPOCH format to filter records based on the created time."
         },
         {
           "title": "Last Active From",
@@ -1790,7 +1895,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the last active from time in EPOCH format to filter records based on the last activity time."
+          "tooltip": "Specify the last active from time in EPOCH format to filter records based on the last activity time.",
+          "description": "Specify the last active from time in EPOCH format to filter records based on the last activity time."
         },
         {
           "title": "Last Active To",
@@ -1800,7 +1906,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the last active to time in EPOCH format to filter records based on the last activity time."
+          "tooltip": "Specify the last active to time in EPOCH format to filter records based on the last activity time.",
+          "description": "Specify the last active to time in EPOCH format to filter records based on the last activity time."
         },
         {
           "title": "Sort",
@@ -1810,15 +1917,16 @@
           "visible": true,
           "editable": true,
           "value": "-created",
-          "tooltip": "Pass -created to sort result in descending order based on the created time. Pass created to sort result in ascending order."
+          "tooltip": "Specify -created to sort result in descending order based on the created time. Pass created to sort result in ascending order.",
+          "description": "Specify -created to sort result in descending order based on the created time. Pass created to sort result in ascending order."
         }
       ],
       "output_schema": {
         "next": "",
-        "page_size": 10,
+        "page_size": "",
         "previous": "",
         "results": [],
-        "total": 0
+        "total": ""
       },
       "open": false
     },
@@ -1837,7 +1945,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the ID of an allowed indicator to delete."
+          "tooltip": "Specify the ID of an allowed indicator to delete.",
+          "description": "Specify the ID of an allowed indicator to delete."
         }
       ],
       "output_schema": {
@@ -1860,7 +1969,8 @@
           "visible": true,
           "editable": true,
           "value": "basic",
-          "tooltip": "Pass the type of report to filter reports. Allowed values: basic, advanced"
+          "description": "Specify the type of report to filter reports. Allowed values: basic, advanced",
+          "tooltip": "Specify the type of report to filter reports. Allowed values: basic, advanced"
         },
         {
           "title": "Page",
@@ -1870,7 +1980,8 @@
           "visible": true,
           "editable": true,
           "value": 1,
-          "tooltip": "Pass the page number to retrieve reports."
+          "description": "Specify the page number to retrieve reports.",
+          "tooltip": "Specify the page number to retrieve reports."
         },
         {
           "title": "Page Size",
@@ -1880,7 +1991,8 @@
           "visible": true,
           "editable": true,
           "value": 10,
-          "tooltip": "Pass the number of reports to retrieve per page."
+          "description": "Specify the number of reports to retrieve per page.",
+          "tooltip": "Specify the number of reports to retrieve per page."
         },
         {
           "title": "Repeat Type",
@@ -1890,7 +2002,8 @@
           "visible": true,
           "editable": true,
           "value": "none",
-          "tooltip": "Pass the frequency of the report run schedule. Allowed values: daily, weekly, monthly. Default: none "
+          "description": "Specify the frequency of the report run schedule. Allowed values: daily, weekly, monthly. Default: none ",
+          "tooltip": "Specify the frequency of the report run schedule. Allowed values: daily, weekly, monthly. Default: none "
         },
         {
           "title": "Shared Type",
@@ -1900,7 +2013,8 @@
           "visible": true,
           "editable": true,
           "value": "global",
-          "tooltip": "Pass the visibility of the reports. Allowed values: private, global"
+          "description": "Specify the visibility of the reports. Allowed values: private, global",
+          "tooltip": "Specify the visibility of the reports. Allowed values: private, global"
         },
         {
           "title": "Created By",
@@ -1910,7 +2024,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the ID of the user who created the reports."
+          "description": "Specify the ID of the user who created the reports.",
+          "tooltip": "Specify the ID of the user who created the reports."
         },
         {
           "title": "Modified By",
@@ -1920,7 +2035,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the ID of the user who modified the reports."
+          "description": "Specify the ID of the user who modified the reports.",
+          "tooltip": "Specify the ID of the user who modified the reports."
         },
         {
           "title": "Created To",
@@ -1930,7 +2046,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the created from time of the reports in EPOCH format."
+          "description": "Specify the created from time of the reports in EPOCH format.",
+          "tooltip": "Specify the created from time of the reports in EPOCH format."
         },
         {
           "title": "Created From",
@@ -1940,7 +2057,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the created from time of the reports in EPOCH format."
+          "description": "Specify the created from time of the reports in EPOCH format.",
+          "tooltip": "Specify the created from time of the reports in EPOCH format."
         },
         {
           "title": "Modified From",
@@ -1950,7 +2068,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the modified from time of the reports in EPOCH format."
+          "description": "Specify the modified from time of the reports in EPOCH format.",
+          "tooltip": "Specify the modified from time of the reports in EPOCH format."
         },
         {
           "title": "Modified To",
@@ -1960,7 +2079,8 @@
           "visible": true,
           "editable": true,
           "value": null,
-          "tooltip": "Pass the modified to time of the reports in EPOCH format."
+          "description": "Specify the modified to time of the reports in EPOCH format.",
+          "tooltip": "Specify the modified to time of the reports in EPOCH format."
         },
         {
           "title": "Date Last Run From",
@@ -1970,7 +2090,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the last run from time of the reports in EPOCH format."
+          "description": "Specify the last run from time of the reports in EPOCH format.",
+          "tooltip": "Specify the last run from time of the reports in EPOCH format."
         },
         {
           "title": "Date Last Run To",
@@ -1980,7 +2101,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the last run to time of the reports in EPOCH format."
+          "tooltip": "Specify the last run to time of the reports in EPOCH format.",
+          "description": "Specify the last run to time of the reports in EPOCH format."
         }
       ],
       "output_schema": {
@@ -2004,7 +2126,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the name of the report."
+          "tooltip": "Specify the name of the report.",
+          "description": "Specify the name of the report."
         },
         {
           "title": "Type",
@@ -2014,7 +2137,8 @@
           "visible": true,
           "editable": false,
           "value": "basic",
-          "tooltip": "Pass the type of report to be created, such as standard or advanced."
+          "tooltip": "Specify the type of report to be created, such as standard or advanced.",
+          "description": "Specify the type of report to be created, such as standard or advanced."
         },
         {
           "title": "Basic Report Type",
@@ -2024,7 +2148,8 @@
           "visible": true,
           "editable": false,
           "value": "custom",
-          "tooltip": "Pass the type of basic report to be created."
+          "tooltip": "Specify the type of basic report to be created.",
+          "description": "Specify the type of basic report to be created."
         },
         {
           "title": "Shared Type",
@@ -2034,7 +2159,8 @@
           "visible": true,
           "editable": true,
           "value": null,
-          "tooltip": "Pass the share type value. Allowed values: private, global.",
+          "tooltip": "Specify the share type value. Allowed values: private, global.",
+          "description": "Specify the share type value. Allowed values: private, global.",
           "options": [
             "private",
             "global"
@@ -2048,7 +2174,8 @@
           "visible": true,
           "editable": true,
           "value": null,
-          "tooltip": "Pass the saved search or custom query details used for generating the report."
+          "tooltip": "Specify the saved search or custom query details used for generating the report.",
+          "description": "Specify the saved search or custom query details used for generating the report."
         },
         {
           "title": "Schedule",
@@ -2058,7 +2185,8 @@
           "visible": true,
           "editable": true,
           "value": null,
-          "tooltip": "Pass the schedule details such as repeat type, start date and time, duration time, duration value, and repeat value."
+          "tooltip": "Specify the schedule details such as repeat type, start date and time, duration time, duration value, and repeat value.",
+          "description": "Specify the schedule details such as repeat type, start date and time, duration time, duration value, and repeat value."
         },
         {
           "title": "File Types",
@@ -2068,7 +2196,8 @@
           "visible": true,
           "editable": true,
           "value": null,
-          "tooltip": "Pass the report types as a comma separated list, such as csv, xls."
+          "tooltip": "Specify the report types as a comma separated list, such as csv, xls.",
+          "description": "Specify the report types as a comma separated list, such as csv, xls."
         },
         {
           "title": "Columns",
@@ -2078,7 +2207,8 @@
           "visible": true,
           "editable": true,
           "value": null,
-          "tooltip": "Pass the list of columns to be displayed in a basic report."
+          "tooltip": "Specify the list of columns to be displayed in a basic report.",
+          "description": "Specify the list of columns to be displayed in a basic report."
         },
         {
           "title": "Internal Recipients",
@@ -2088,7 +2218,8 @@
           "visible": true,
           "editable": true,
           "value": null,
-          "tooltip": "Pass the list of internal recipients with whom to share the report."
+          "tooltip": "Specify the list of internal recipients with whom to share the report.",
+          "description": "Specify the list of internal recipients with whom to share the report."
         },
         {
           "title": "Query Key",
@@ -2098,7 +2229,8 @@
           "visible": true,
           "editable": true,
           "value": "ctix_created",
-          "tooltip": "Pass the key to sort data in the report."
+          "description": "Specify the key to sort data in the report.",
+          "tooltip": "Specify the key to sort data in the report."
         },
         {
           "title": "External Recipients",
@@ -2108,7 +2240,8 @@
           "visible": true,
           "editable": true,
           "value": null,
-          "tooltip": "Pass the list of external recipients with whom to share the report."
+          "tooltip": "Specify the list of external recipients with whom to share the report.",
+          "description": "Specify the list of external recipients with whom to share the report."
         }
       ],
       "output_schema": {
@@ -2131,7 +2264,9 @@
           "required": true,
           "visible": true,
           "editable": true,
-          "value": ""
+          "value": "",
+          "tooltip": "Specify the ID of the report which you want to and and send to the recipients.",
+          "description": "Specify the ID of the report which you want to and and send to the recipients."
         },
         {
           "title": "Type",
@@ -2141,7 +2276,8 @@
           "visible": true,
           "editable": true,
           "value": "basic",
-          "tooltip": "Pass the type of the report to run. Allowed values: basic, advanced"
+          "tooltip": "Specify the type of the report to run. Allowed values: basic, advanced",
+          "description": "Specify the type of the report to run. Allowed values: basic, advanced"
         },
         {
           "title": "Start Time",
@@ -2151,7 +2287,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the start date and time in EPOCH format from which the report captures data available in CTIX."
+          "tooltip": "Specify the start date and time in EPOCH format from which the report captures data available in CTIX.",
+          "description": "Specify the start date and time in EPOCH format from which the report captures data available in CTIX."
         },
         {
           "title": "End Time",
@@ -2161,7 +2298,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the end date and time in EPOCH format until which the report captures data available in CTIX."
+          "tooltip": "Specify the end date and time in EPOCH format until which the report captures data available in CTIX.",
+          "description": "Specify the end date and time in EPOCH format until which the report captures data available in CTIX."
         },
         {
           "title": "File Types",
@@ -2171,7 +2309,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass the report types. Allowed values: csv, xls"
+          "tooltip": "Specify the report types. Allowed values: csv, xls",
+          "description": "Specify the report types. Allowed values: csv, xls"
         },
         {
           "title": "Internal Recipients",
@@ -2181,7 +2320,8 @@
           "visible": true,
           "editable": true,
           "value": {},
-          "tooltip": "Pass the list of internal recipients with whom to share the report."
+          "tooltip": "Specify the list of internal recipients with whom to share the report.",
+          "description": "Specify the list of internal recipients with whom to share the report."
         },
         {
           "title": "External Recipients",
@@ -2191,7 +2331,8 @@
           "visible": true,
           "editable": true,
           "value": {},
-          "tooltip": "Pass the list of external recipients with whom to share the report."
+          "tooltip": "Specify the list of external recipients with whom to share the report.",
+          "description": "Specify the list of external recipients with whom to share the report."
         }
       ],
       "output_schema": {
@@ -2214,7 +2355,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass a name for the attribute within 100 characters."
+          "tooltip": "Specify a name for the attribute within 100 characters.",
+          "description": "Specify a name for the attribute within 100 characters."
         },
         {
           "title": "Description",
@@ -2224,7 +2366,8 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "tooltip": "Pass a description for the attribute within 500 characters."
+          "tooltip": "Specify a description for the attribute within 500 characters.",
+          "description": "Specify a name for the attribute within 100 characters."
         },
         {
           "title": "Type",
@@ -2234,7 +2377,8 @@
           "visible": true,
           "editable": true,
           "value": null,
-          "tooltip": "Pass the number associated with the type. \n0: Boolean\n1: Integer\n2: String\n3: Single Select\n4: Date\n5: JSON\n6: Float",
+          "tooltip": "Specify the number associated with the type. \n0: Boolean\n1: Integer\n2: String\n3: Single Select\n4: Date\n5: JSON\n6: Float",
+          "description": "Specify the number associated with the type. \n0: Boolean\n1: Integer\n2: String\n3: Single Select\n4: Date\n5: JSON\n6: Float",
           "options": [
             "Boolean",
             "Integer",
@@ -2253,7 +2397,8 @@
           "visible": true,
           "editable": true,
           "value": null,
-          "tooltip": "Pass the list of choices for a single-select attribute."
+          "tooltip": "Specify the list of choices for a single-select attribute.",
+          "description": "Specify the list of choices for a single-select attribute."
         },
         {
           "title": "Is Actionable",
@@ -2263,7 +2408,8 @@
           "visible": true,
           "editable": true,
           "value": false,
-          "tooltip": "Pass true to enable the custom attribute to be modified in threat data objects. Default value: false"
+          "tooltip": "Specify true to enable the custom attribute to be modified in threat data objects. Default value: false",
+          "description": "Specify true to enable the custom attribute to be modified in threat data objects. Default value: false"
         },
         {
           "title": "Status",
@@ -2273,7 +2419,8 @@
           "visible": true,
           "editable": true,
           "value": "1",
-          "tooltip": "Pass 1 to activate the attribute. Pass 0 to deactivate the attribute."
+          "tooltip": "Specify 1 to activate the attribute. Pass 0 to deactivate the attribute.",
+          "description": "Specify 1 to activate the attribute. Pass 0 to deactivate the attribute."
         },
         {
           "title": "Sdo Objects",
@@ -2283,7 +2430,8 @@
           "visible": true,
           "editable": true,
           "value": null,
-          "tooltip": "Pass the list of SDOs on which you want to list this attribute as actionable."
+          "tooltip": "Specify the list of SDOs on which you want to list this attribute as actionable.",
+          "description": "Specify the list of SDOs on which you want to list this attribute as actionable."
         }
       ],
       "output_schema": {
