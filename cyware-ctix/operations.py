@@ -78,7 +78,7 @@ class CywareCTIX:
 
 def _check_health(config):
     cyware = CywareCTIX(config)
-    resp = cyware.make_rest_call(endpoint='/ctixapi/openapi/source')
+    resp = cyware.make_rest_call(endpoint='/ctixapi/ping/')
     if resp:
         logger.info('connector available')
         return True
