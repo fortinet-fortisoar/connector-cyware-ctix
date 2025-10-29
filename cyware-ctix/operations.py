@@ -370,10 +370,10 @@ def delete_allowed_indicator(config, params):
 
 def bulk_deprecate_undeprecate_objects(config, params):
     cyware = CywareCTIX(config)
-    action_type = params.get('action_type')
+    action_type = params.get('action_type','').replace(' ', '_').lower()
     endpoint = f'/ctixapi/ingestion/threat-data/bulk-action/{action_type}/'
     body_req_params = {
-        'object_ids': params.get('object_ids').split(','),
+        'object_ids': str(params.get('object_ids','')).split(','),
         'object_type': params.get('object_type')
     }
     body_req_params = filter_params(body_req_params)
@@ -382,10 +382,10 @@ def bulk_deprecate_undeprecate_objects(config, params):
 
 def bulk_mark_unmark_false_positive(config, params):
     cyware = CywareCTIX(config)
-    action_type = params.get('action_type')
+    action_type = params.get('action_type', '').replace(' ', '_').lower()
     endpoint = f'/ctixapi/ingestion/threat-data/bulk-action/{action_type}/'
     body_req_params = {
-        'object_ids': params.get('object_ids').split(','),
+        'object_ids': str(params.get('object_ids')).split(','),
         'object_type': params.get('object_type')
     }
     body_req_params = filter_params(body_req_params)

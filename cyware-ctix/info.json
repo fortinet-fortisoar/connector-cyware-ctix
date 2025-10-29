@@ -685,14 +685,18 @@
         },
         {
           "title": "Action Type",
-          "type": "text",
+          "type": "select",
           "name": "action_type",
           "required": true,
           "visible": true,
           "editable": true,
           "value": "deprecate",
           "description": "Specify deprecate objects. Pass un_deprecate to undeprecate objects.",
-          "tooltip": "Specify deprecate objects. Pass un_deprecate to undeprecate objects."
+          "tooltip": "Specify deprecate objects. Pass un_deprecate to undeprecate objects.",
+          "options": [
+            "Deprecate",
+            "Un Deprecate"
+          ]
         }
       ],
       "output_schema": {
@@ -731,14 +735,18 @@
         },
         {
           "title": "Action Type",
-          "type": "text",
+          "type": "select",
           "name": "action_type",
           "required": true,
           "visible": true,
           "editable": true,
           "value": "false_positive",
           "description": "Specify false_positive to mark IOCs as false positives. Pass un_false_positive to unmark an IOCs as false positives.",
-          "tooltip": "Specify false_positive to mark IOCs as false positives. Pass un_false_positive to unmark an IOCs as false positives."
+          "tooltip": "Specify false_positive to mark IOCs as false positives. Pass un_false_positive to unmark an IOCs as false positives.",
+          "options": [
+            "Deprecate",
+            "Un Deprecate"
+          ]
         }
       ],
       "output_schema": {
@@ -1874,7 +1882,6 @@
           "value": "",
           "tooltip": "Specify the created from time in EPOCH format to filter records based on the created time",
           "description": "Specify the created from time in EPOCH format to filter records based on the created time"
-
         },
         {
           "title": "Created To",
