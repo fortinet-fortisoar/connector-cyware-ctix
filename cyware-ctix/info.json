@@ -373,6 +373,34 @@
       "enabled": true
     },
     {
+      "operation": "get_supported_allowed_indicator_types_list",
+      "title": "Get Supported Allowed Indicator Types List",
+      "description": "Retrieves the supported types of IOCs that can be added to the allowed indicators list.",
+      "category": "investigation",
+      "annotation": "get_supported_allowed_indicator_types_list",
+      "parameters": [
+        {
+          "title": "Query String",
+          "name": "q",
+          "type": "text",
+          "description": "Specify the query string to search indicator types.",
+          "tooltip": "Specify the query string to search indicator types.",
+          "required": false,
+          "editable": true,
+          "visible": true,
+          "placeholder": "email"
+        }
+      ],
+      "output_schema": {
+        "results": [
+          {
+            "value": "",
+            "label": ""
+          }
+        ]
+      }
+    },
+    {
       "operation": "bulk_lookup_and_create",
       "title": "Bulk Lookup and Create (Deprecated)",
       "description": "Performs a bulk IOC lookup by fetching a list of threat data objects present in the CTIX application. If some IOCs are not present in the application, then you can choose to ingest the missing IOCs and create new records. NOTE: You can perform the lookup and further ingest a maximum of 1000 IOCs in the application at any moment.",
