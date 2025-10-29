@@ -7,6 +7,7 @@
     - Bulk Mark/Unmark False Positive
     - Bulk IOC Lookup and Create Intel
     - Bulk IOC Lookup (Advanced)
+    - Get Supported Allowed Indicator Types List
     - Get Threat Data Object Details List
     - Get Threat Data Object Additional Details
     - Get Relations List of Threat Data Object

@@ -368,12 +368,19 @@ def delete_allowed_indicator(config, params):
     return cyware.make_rest_call(endpoint=endpoint, method='DELETE')
 
 
+def get_supported_allowed_indicator_types_list(config, params):
+    cyware = CywareCTIX(config)
+    query_params = {k: v for k, v in params.items() if v is not None and v != ''}
+    endpoint = f'/ctixapi/conversion/allowed_indicators/getoptions/'
+    return cyware.make_rest_call(endpoint=endpoint, method='GET', query_params=query_params)
+
+
 def bulk_deprecate_undeprecate_objects(config, params):
     cyware = CywareCTIX(config)
-    action_type = params.get('action_type')
+    action_type = params.get('action_type','').replace(' ', '_').lower()
     endpoint = f'/ctixapi/ingestion/threat-data/bulk-action/{action_type}/'
     body_req_params = {
-        'object_ids': params.get('object_ids').split(','),
+        'object_ids': str(params.get('object_ids','')).split(','),
         'object_type': params.get('object_type')
     }
     body_req_params = filter_params(body_req_params)
@@ -382,10 +389,10 @@ def bulk_deprecate_undeprecate_objects(config, params):
 
 def bulk_mark_unmark_false_positive(config, params):
     cyware = CywareCTIX(config)
-    action_type = params.get('action_type')
+    action_type = params.get('action_type', '').replace(' ', '_').lower()
     endpoint = f'/ctixapi/ingestion/threat-data/bulk-action/{action_type}/'
     body_req_params = {
-        'object_ids': params.get('object_ids').split(','),
+        'object_ids': str(params.get('object_ids')).split(','),
         'object_type': params.get('object_type')
     }
     body_req_params = filter_params(body_req_params)
@@ -577,6 +584,7 @@ operations = {
     'add_indicators_to_allowed_list': add_indicators_to_allowed_list,
     'delete_allowed_indicator': delete_allowed_indicator,
     'bulk_deprecate_undeprecate_objects': bulk_deprecate_undeprecate_objects,
+    'get_supported_allowed_indicator_types_list': get_supported_allowed_indicator_types_list,
     'bulk_mark_unmark_false_positive': bulk_mark_unmark_false_positive,
     'list_reports': list_reports,
     'create_report': create_report,

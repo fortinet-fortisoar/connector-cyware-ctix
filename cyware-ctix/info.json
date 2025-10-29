@@ -373,6 +373,34 @@
       "enabled": true
     },
     {
+      "operation": "get_supported_allowed_indicator_types_list",
+      "title": "Get Supported Allowed Indicator Types List",
+      "description": "Retrieves the supported types of IOCs that can be added to the allowed indicators list.",
+      "category": "investigation",
+      "annotation": "get_supported_allowed_indicator_types_list",
+      "parameters": [
+        {
+          "title": "Query String",
+          "name": "q",
+          "type": "text",
+          "description": "Specify the query string to search indicator types.",
+          "tooltip": "Specify the query string to search indicator types.",
+          "required": false,
+          "editable": true,
+          "visible": true,
+          "placeholder": "email"
+        }
+      ],
+      "output_schema": {
+        "results": [
+          {
+            "value": "",
+            "label": ""
+          }
+        ]
+      }
+    },
+    {
       "operation": "bulk_lookup_and_create",
       "title": "Bulk Lookup and Create (Deprecated)",
       "description": "Performs a bulk IOC lookup by fetching a list of threat data objects present in the CTIX application. If some IOCs are not present in the application, then you can choose to ingest the missing IOCs and create new records. NOTE: You can perform the lookup and further ingest a maximum of 1000 IOCs in the application at any moment.",
@@ -685,14 +713,18 @@
         },
         {
           "title": "Action Type",
-          "type": "text",
+          "type": "select",
           "name": "action_type",
           "required": true,
           "visible": true,
           "editable": true,
           "value": "deprecate",
           "description": "Specify deprecate objects. Pass un_deprecate to undeprecate objects.",
-          "tooltip": "Specify deprecate objects. Pass un_deprecate to undeprecate objects."
+          "tooltip": "Specify deprecate objects. Pass un_deprecate to undeprecate objects.",
+          "options": [
+            "Deprecate",
+            "Un Deprecate"
+          ]
         }
       ],
       "output_schema": {
@@ -731,14 +763,18 @@
         },
         {
           "title": "Action Type",
-          "type": "text",
+          "type": "select",
           "name": "action_type",
           "required": true,
           "visible": true,
           "editable": true,
           "value": "false_positive",
           "description": "Specify false_positive to mark IOCs as false positives. Pass un_false_positive to unmark an IOCs as false positives.",
-          "tooltip": "Specify false_positive to mark IOCs as false positives. Pass un_false_positive to unmark an IOCs as false positives."
+          "tooltip": "Specify false_positive to mark IOCs as false positives. Pass un_false_positive to unmark an IOCs as false positives.",
+          "options": [
+            "Deprecate",
+            "Un Deprecate"
+          ]
         }
       ],
       "output_schema": {
@@ -1874,7 +1910,6 @@
           "value": "",
           "tooltip": "Specify the created from time in EPOCH format to filter records based on the created time",
           "description": "Specify the created from time in EPOCH format to filter records based on the created time"
-
         },
         {
           "title": "Created To",
