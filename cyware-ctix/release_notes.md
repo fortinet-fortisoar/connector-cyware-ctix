@@ -1,4 +1,5 @@
 #### What's Improved
+### Following enhancements have been made to the Cyware CTIX connector in version 2.0.0: 
 - Added the following new operations and playbooks:
     - Create Intel via Open API
     - Get Threat Data
